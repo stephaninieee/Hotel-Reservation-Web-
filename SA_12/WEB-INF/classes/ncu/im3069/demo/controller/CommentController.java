@@ -29,20 +29,29 @@ public class CommentController extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+		 /** 透過 JsonReader 類別將 Request 之 JSON 格式資料解析並取回 */
         JsonReader jsr = new JsonReader(request);
-        /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
+        
+        /** 取出經解析到 JsonReader 之 Request 參數 */
         String Room_id = jsr.getParameter("Room_id");
-
+        
+        /** 新建一個 JSONObject 用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
-        /** 判斷該字串是否存在，若存在代表要取回購物車內產品之資料，否則代表要取回全部資料庫內產品之資料 */
+
+        /** 判斷該字串是否存在，若存在代表要取回個別訂單之資料，否則代表要取回全部資料庫內訂單之資料 */
+        if (!Room_id.isEmpty()) {
+          
+          /** 透過 orderHelper 物件的 getByID() 方法自資料庫取回該筆訂單之資料，回傳之資料為 JSONObject 物件 */
+          JSONObject query = cmh.getAllByRoom_id(Integer.parseInt(Room_id));
+       
+          resp.put("status", "200");
+          resp.put("message", "單筆訂單資料取得成功");
+          resp.put("response", query);
+        } else {System.out.print("empty");};
         
-        JSONObject query = cmh.getAllByRoom_id(Integer.parseInt(Room_id));
-        resp.put("status", "200");
-        resp.put("message", "所有評論資料取得成功");
-        resp.put("response", query);
         
 
+        /** 透過 JsonReader 物件回傳到前端（以 JSONObject 方式） */
         jsr.response(resp, response);
 	}
 

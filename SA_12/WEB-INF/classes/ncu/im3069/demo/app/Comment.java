@@ -44,14 +44,14 @@ public class Comment {
      * @param password 會員密碼
      * @param name 會員姓名
      */
-    public Comment(int Member_id, int Room_id, int star, String comment) {
+    public Comment(int Room_id, int Member_id, int star, String comment) {
         this.Member_id = Member_id;
         this.Room_id = Room_id;
         this.star = star;
         this.comment = comment;
     }
     
-    public Comment(int id, int Member_id, int Room_id, int star, String comment) {
+    public Comment(int id, int Room_id, int Member_id, int star, String comment) {
     	this.id = id;
         this.Member_id = Member_id;
         this.Room_id = Room_id;
@@ -117,9 +117,9 @@ public class Comment {
     public JSONObject getData() {
         /** 透過JSONObject將該名會員所需之資料全部進行封裝*/ 
         JSONObject jso = new JSONObject();
-        jso.put("id", getID());
-        jso.put("Member_id", getMember_id());
+        jso.put("id", getID());        
         jso.put("Room_id", getRoom_id());
+        jso.put("Member_id", getMember_id());
         jso.put("star", getstar());
         jso.put("comment", getcomment());
         

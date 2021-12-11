@@ -25,6 +25,7 @@ public class CommentHelper {
     }
     
     public JSONObject getAllByRoom_id(int Room_id) {
+    	
         /** 新建一個 Product 物件之 m 變數，用於紀錄每一位查詢回之商品資料 */
     	Comment c = null;
         /** 用於儲存所有檢索回之商品，以JSONArray方式儲存 */
@@ -61,7 +62,8 @@ public class CommentHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
-                int Member_id = rs.getInt("Member)id");
+                //int Room_id = rs.getInt("Room_id");
+                int Member_id = rs.getInt("Member_id");
                 int star = rs.getInt("star");
                 String comment = rs.getString("comment");
                 
@@ -93,7 +95,7 @@ public class CommentHelper {
         response.put("row", row);
         response.put("time", duration);
         response.put("data", jsa);
-
+        //System.out.print(jsa);
         return response;
     }
     

@@ -3,4 +3,9 @@
 /ProductController.class
 /Test.class
 /CommentController.class
+<<<<<<< HEAD
 /ManagerController.class
+=======
+/Coupon.class
+/CouponController.class
+>>>>>>> 141d75782a02144bed5aac79ec64edc39b896672

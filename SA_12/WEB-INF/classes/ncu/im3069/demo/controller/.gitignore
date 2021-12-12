@@ -4,8 +4,12 @@
 /Test.class
 /CommentController.class
 <<<<<<< HEAD
+/payInfoController.class
+=======
+<<<<<<< HEAD
 /ManagerController.class
 =======
 /Coupon.class
 /CouponController.class
 >>>>>>> 141d75782a02144bed5aac79ec64edc39b896672
+>>>>>>> dfb0d242e99a49c735f277ce82e96581b3900672

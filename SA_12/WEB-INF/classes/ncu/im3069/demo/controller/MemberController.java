@@ -46,12 +46,12 @@ public class MemberController extends HttpServlet {
             String email = jso.getString("email");
             String password = jso.getString("password");
             String name = jso.getString("name");
-            
+            int phone=jso.getInt("phone");
             /** 建立一個新的會員物件 */
-            Member m = new Member(email, password, name);
+            Member m = new Member(name,email, password,phone);
             
             /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
-            if(email.isEmpty() || password.isEmpty() || name.isEmpty()) {
+            if(email.isEmpty() || password.isEmpty() || name.isEmpty()|| phone==0) {
                 /** 以字串組出JSON格式之資料 */
                 String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
                 /** 透過JsonReader物件回傳到前端（以字串方式） */
@@ -171,9 +171,10 @@ public class MemberController extends HttpServlet {
         String email = jso.getString("email");
         String password = jso.getString("password");
         String name = jso.getString("name");
+        int phone=jso.getInt("phone");
 
         /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-        Member m = new Member(id, email, password, name);
+        Member m = new Member(id,name, email, password,phone);
         
         /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
         JSONObject data = m.update();

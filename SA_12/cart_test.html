@@ -120,15 +120,73 @@
 		    <form name="form1" method="post" action="">  
 	        <div class="row">
 	        	<div class="col-md-3 mb-2">
-	          	<label for="address">線上付款</label>
-	          	<input type="radio" name="pay" value="">
+	          		<label for="address">線上付款</label>
+	          		<input type="radio" id="a1" name="pay" value="onlinepay" >
 	        	</div>
 	        	<div class="col-md-3 mb-4">
-	          	<label for="address">到場付款</label>
-	          	<input type="radio" name="pay" value="">
+	          		<label for="address">到場付款</label>
+	          		<input type="radio" id="a2" name="pay" value="scenepay">
 	          	</div>
-	        </div>
-	        </form>
+	          	
+	          	<div id='onlinepay' style="display: none;" class="form">
+  					<div class="text-center">
+    					<h4>線上付款</h4>
+  					</div>
+  					<div class="input-group mb-3">
+    					<div class="input-group-prepend">
+      						<span class="input-group-text">信用卡卡號</span>
+    					</div>
+    						<input type="text" class="form-control" id="card_no" >
+  					</div>
+  					<div class="input-group mb-3">
+    					<div class="input-group-prepend">
+      						<span class="input-group-text">月</span>
+    					</div>
+    					<input type="text" class="form-control" id="card_month" placeholder="輸入月份" >
+    					<div class="input-group-prepend">
+      						<span class="input-group-text">年</span>
+    					</div>
+    					<input type="text" class="form-control" id="card_year" placeholder="輸入年" >
+    					<div class="input-group-prepend">
+      						<label class="input-group-text">末三碼</label>
+    					</div>
+    					<input type="text" class="form-control" id="csv" placeholder="輸入末三碼" >
+  					</div>
+  					<div class="form-group">
+    					<span style="color: #fc3762;" id="domestic-card-error"></span>
+  					</div>
+  				</div>
+  
+  				<div id='scenepay' style="display: none;" class="form">
+  					<div class="text-center">
+    					<h4>到場付款</h4>
+  					</div>
+  					<div class="input-group mb-3">
+    					<div class="input-group-prepend">
+      						<span class="input-group-text">國外信用卡卡號</span>
+    					</div>
+    					<input type="text" class="form-control" id="card_no" >
+  					</div>
+  					<div class="input-group mb-3">
+    					<div class="input-group-prepend">
+      						<span class="input-group-text">月</span>
+    					</div>
+    					<input type="text" class="form-control" id="card_month" placeholder="輸入月份" >
+    					<div class="input-group-prepend">
+      						<span class="input-group-text">年</span>
+    					</div>
+    					<input type="text" class="form-control" id="card_year" placeholder="輸入年" >
+    					<div class="input-group-prepend">
+      						<label class="input-group-text">末三碼</label>
+    					</div>
+    					<input type="text" class="form-control" id="csv" placeholder="輸入末三碼" >
+  					</div>
+  					<div class="form-group">
+    					<span style="color: #fc3762;" id="aboard-card-error"></span>
+  					</div>
+	        	</div>
+	     </form>
+
 
 	        <h4 class="mb-3">商品資訊</h4>
 	        <hr class="mb-4">
@@ -157,6 +215,19 @@
   </div>
 
   <script>
+  $('input[type=radio][name="pay"]').on('change', function() {
+	  switch($(this).val()) {
+	    case 'onlinepay':
+	      $("#onlinepay").show();
+	      $("#scenepay").hide();
+	      break;
+	    case 'scenepay':
+	      $("#onlinepay").hide();
+	      $("#scenepay").show();
+	      break;
+	  }      
+	});//點選付款方式事件切換
+  
     var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
 
     if (client_cart_obj.length == 0) {
@@ -176,6 +247,12 @@
     			"address": $("#address").val(),
     			"item": client_cart_obj,
     			"quantity": client_cart_amount
+    	}
+    	var pay_data = {
+    			"card_no": $("#card_no").val(),
+    			"card_month": $("#card_month").val(),
+    			"card_year": $("#card_year").val(),
+    			"csv": $("#csv").val()
     	}
 
     	// 驗證輸入的資料
@@ -232,7 +309,25 @@
 
     	if (data["first_name"] == "" || data["last_name"] == "" || data['phone'] == "" || data['address'] == "")  alert("必填寫欄位不得有空值！");
     	else if (data['email'] != "" && !email_rule.test(data['email'])) alert("Email格式不符！");
+    	else if (!phone_rule.test(data['phone'])) alert("手機格式不符（應為09XX-XXX-XXX）！");
     	else return true;
+
+    	return false;
+    }
+    
+    function vaild_payData(pay_data) {
+    	
+    	var card_no_rule = /^\d{16}$/;
+    	var card_month_rule = /^\d{1,2}$/;
+    	var card_year_rule = /^\d{4}$/;
+    	var csv_rule = /^\d{3}$/;
+    	
+    	if (pay_data["card_no"] == "" || pay_data["card_month"] == "" || pay_data['card_year'] == "" || pay_data['csv'] == "")  alert("必填寫欄位不得有空值！");
+    	else if (pay_data["card_no"] != "" && !card_no_rule.test(pay_data["card_no"])) alert("卡號格式不符！");
+    	else if (pay_data['card_month'] != "" && !card_month_rule.test(pay_data['card_month'])) alert("月格式不符！");
+    	else if (pay_data['card_year'] != "" && !card_year_rule.test(pay_data['card_year'])) alert("年格式不符！");
+    	else if (!csv_rule.test(pay_data['csv'])) alert("安全碼格式不符！");
+    	else    return true;
 
     	return false;
     }
@@ -409,6 +504,15 @@
         $('#' + id).html('結帳');
       }
     }
+    
+    $("#a1").click(function(){
+    	
+            $('#' + id).prop('disabled', true);
+            $('#' + id).addClass('disabled');
+            $('#' + id).html('請先新增商品');
+        
+    });
+    
     
   </script>
 

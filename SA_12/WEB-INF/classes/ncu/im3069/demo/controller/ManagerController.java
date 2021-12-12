@@ -30,7 +30,7 @@ public class ManagerController {
             String name = jso.getString("name");
             String phone = jso.getString("phone");
             /** 建立一個新的會員物件 */
-            Manager m = new Manager(name,email,password,phone);
+            Manager m = new Manager(name,email,password,phone,0);
             
             /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
             if(email.isEmpty() || password.isEmpty() || name.isEmpty()) {
@@ -47,7 +47,7 @@ public class ManagerController {
                 /** 新建一個JSONObject用於將回傳之資料進行封裝 */
                 JSONObject resp = new JSONObject();
                 resp.put("status", "200");
-                resp.put("message", "成功! 註冊會員資料...");
+                resp.put("message", "成功! 註冊房東資料...");
                 resp.put("response", data);
                 
                 /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -133,7 +133,7 @@ public class ManagerController {
 	        String phone = jso.getString("phone");
 
 	        /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-	        Manager m = new Manager(name, email, password,phone);
+	        Manager m = new Manager(id,email,password,name,phone);
 	        
 	        /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
 	        JSONObject data = m.update();
@@ -147,4 +147,35 @@ public class ManagerController {
 	        /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
 	        jsr.response(resp, response);
 	    }
+	
+	public void doLogin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+			JsonReader jsr = new JsonReader(request);
+			JSONObject jso = jsr.getObject();
+			
+			String email = jso.getString("email");
+			String password = jso.getString("password");
+			
+			JSONObject data = mnh.getByEmail(email,password);
+			
+			JSONObject resp = new JSONObject();
+	        
+			if(data.getJSONObject("data").getString("error1")=="email not found") {
+				resp.put("status","400");
+				resp.put("message","此信箱沒有註冊");
+				resp.put("response",data);
+			}
+			else if(data.getJSONObject("data").getString("error2")=="password is uncorrect") {
+				resp.put("status", "400");
+				resp.put("message", "密碼錯誤! ");
+				resp.put("response", data);
+			}
+			else {
+				resp.put("status", "200");
+				resp.put("message", "成功登入! ");
+				resp.put("response", data);
+				
+			}
+	        jsr.response(resp,response);
+	}
 }

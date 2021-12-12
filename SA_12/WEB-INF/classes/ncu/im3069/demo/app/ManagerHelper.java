@@ -2,6 +2,7 @@ package ncu.im3069.demo.app;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -69,7 +70,7 @@ public class ManagerHelper {
                 String password = rs.getString("password");
                 int login_times = rs.getInt("login_times");
                 String phone = rs.getString("phone");
-                
+                int root = rs.getInt("root");
                 /** 將每一筆會員資料產生一名新Member物件 */
                 m = new Manager(manager_id, email, password, name,phone, login_times);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
@@ -439,7 +440,8 @@ public class ManagerHelper {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String phone = rs.getString("phone");
-                int login_times = rs.getInt("login_times");             
+                int login_times = rs.getInt("login_times"); 
+                int root = rs.getInt("root");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
                 m = new Manager(Manager_id, email, password, name,phone, login_times);
@@ -472,4 +474,74 @@ public class ManagerHelper {
 
         return response;
     }	
+
+	public JSONObject getByEmail(String email,String password) {
+		JSONObject jso = null;
+		String exexcute_sql = "";
+		long start_time = System.nanoTime();
+		int row = 0;
+		ResultSet rs = null;
+		JSONObject response = new JSONObject();
+		
+		try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT * FROM `missa`.`managers` WHERE `email` = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, email);
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+            if(rs.getString("password")==password) {
+            	int id = rs.getInt("id");           	
+            	String name = rs.getString("name");
+            	String phone = rs.getString("phone");
+            	int login_times = rs.getInt("login_times");
+            	int root = rs.getInt("root");
+            	
+            	if(root==1) {
+            		systemManager sym = new systemManager(id,email,password,name,phone,login_times,root);
+            		jso.put("data", sym.getData());
+            	}
+            	else {
+            		landlord l = new landlord(id,email,password,name,phone,login_times,root);
+            		jso.put("data", l.getData());
+            	}
+            	
+            	           	
+            }
+            else if(rs.getString("name")==null){
+            	jso.put("error1","email not found");
+            }
+            else {
+            	jso.put("error2","password is uncorrect");
+            }
+            
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+	
+		
+		response.put("sql",exexcute_sql);
+		response.put("row",row);
+		response.put("time",row);
+		response.put("data",jso);
+		
+		return response;
+	}
 }

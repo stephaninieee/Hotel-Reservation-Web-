@@ -14,7 +14,9 @@ public class Manager {
 	private int login_times;
 	private ManagerHelper mnh =  ManagerHelper.getHelper();
 	
-	public Manager(String name,String email,String password,String phone){
+	
+	
+	public Manager(String name,String email,String password,String phone,int root){
 		this.name = name;
 		this.email = email;
 		this.password = password;
@@ -22,11 +24,12 @@ public class Manager {
 		update();
 	}
 	
-	public Manager(int id, String email, String password, String name) {
+	public Manager(int id, String email, String password, String name,String phone) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
+        this.phone= phone;
         /** 取回原有資料庫內該名會員之更新時間分鐘數與組別 */
         getLoginTimesStatus();
         
@@ -38,7 +41,7 @@ public class Manager {
         this.password = password;
         this.name = name;
         this.phone = phone;
-        this.login_times = login_times;   
+        this.login_times = login_times;  
     }
 	
 	public int getId() {
@@ -68,8 +71,7 @@ public class Manager {
         jso.put("name", getName());
         jso.put("email", getEmail());
         jso.put("password", getPassword());
-        jso.put("login_times", getLogin_times());
-        
+        jso.put("login_times", getLogin_times());        
         
         return jso;
     }

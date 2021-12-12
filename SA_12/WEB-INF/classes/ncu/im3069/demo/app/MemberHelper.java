@@ -22,7 +22,7 @@ public class MemberHelper {
     }
     
     /*透過會員編號（ID）刪除會員*/
-    public JSONObject deleteById(int id) {
+    public JSONObject deleteByID(int id) {
        
         String exexcute_sql = "";
         long start_time = System.nanoTime();

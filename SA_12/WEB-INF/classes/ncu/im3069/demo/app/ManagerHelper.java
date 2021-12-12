@@ -1,6 +1,7 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,10 +68,10 @@ public class ManagerHelper {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 int login_times = rs.getInt("login_times");
-                String status = rs.getString("status");
+                String phone = rs.getString("phone");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Manager(manager_id, email, password, name, login_times, status);
+                m = new Manager(manager_id, email, password, name,phone, login_times);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
@@ -101,5 +102,374 @@ public class ManagerHelper {
         return response;
     }
 
+	public JSONObject getLoginTimesStatus(Manager m) {
+        /** 用於儲存該名會員所檢索之更新時間分鐘數與會員組別之資料 */
+        JSONObject jso = new JSONObject();
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT * FROM `missa`.`managers` WHERE `id` = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, m.getId());
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
+            
+            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
+            /** 正確來說資料庫只會有一筆該電子郵件之資料，因此其實可以不用使用 while迴圈 */
+            while(rs.next()) {
+                /** 將 ResultSet 之資料取出 */
+                int login_times = rs.getInt("login_times");
+                String status = rs.getString("status");
+                /** 將其封裝至JSONObject資料 */
+                jso.put("login_times", login_times);
+                jso.put("status", status);
+            }
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+
+        return jso;
+    }
 	
+	public JSONObject update(Manager m) {
+        /** 紀錄回傳之資料 */
+        JSONArray jsa = new JSONArray();
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "Update `missa`.`managers` SET `name` = ? ,`password` = ? ,`phone` = ?, `modified` = ? WHERE `email` = ?";
+            /** 取得所需之參數 */
+            String name = m.getName();
+            String email = m.getEmail();
+            String password = m.getPassword();
+            String phone = m.getPhone();
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, name);
+            pres.setString(2, password);
+            pres.setString(3, phone);
+            pres.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setString(5, email);
+            /** 執行更新之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+        
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
+    }
+	
+	public boolean checkDuplicate(Manager m){
+        /** 紀錄SQL總行數，若為「-1」代表資料庫檢索尚未完成 */
+        int row = -1;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT count(*) FROM `missa`.`managers` WHERE `email` = ?";
+            
+            /** 取得所需之參數 */
+            String email = m.getEmail();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, email);
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
+
+            /** 讓指標移往最後一列，取得目前有幾行在資料庫內 */
+            rs.next();
+            row = rs.getInt("count(*)");
+            System.out.print(row);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+        
+        /** 
+         * 判斷是否已經有一筆該電子郵件信箱之資料
+         * 若無一筆則回傳False，否則回傳True 
+         */
+        return (row == 0) ? false : true;
+    }
+	
+	public void updateLoginTimes(Manager m) {
+        /** 更新時間之分鐘數 */
+        int new_times = m.getLogin_times();
+        
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "Update `missa`.`managers` SET `login_times` = ? WHERE `id` = ?";
+            /** 取得會員編號 */
+            int id = m.getId();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, new_times);
+            pres.setInt(2, id);
+            /** 執行更新之SQL指令 */
+            pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+    }
+
+	public JSONObject create(Manager m) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "INSERT INTO `missa`.`managers`(`name`, `email`, `password`, `modified`, `created`, `login_times` )"
+                    + " VALUES(?, ?, ?, ?, ?, ?)";
+            
+            /** 取得所需之參數 */
+            String name = m.getName();
+            String email = m.getEmail();
+            String password = m.getPassword();
+            int login_times = m.getLogin_times();
+            
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, name);
+            pres.setString(2, email);
+            pres.setString(3, password);
+            pres.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setInt(6, login_times);
+            
+            
+            /** 執行新增之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+            
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("time", duration);
+        response.put("row", row);
+
+        return response;
+    }
+
+	public JSONObject deleteByID(int id) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            
+            /** SQL指令 */
+            String sql = "DELETE FROM `missa`.`managers` WHERE `id` = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, id);
+            /** 執行刪除之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+
+        return response;
+    }
+
+	public JSONObject getById(String id) {
+		Manager m = null;
+		JSONArray jsa = new JSONArray();
+		String exexcute_sql = "";
+		long start_time = System.nanoTime();
+		int row = 0;
+		ResultSet rs = null;
+		
+		try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT * FROM `missa`.`managers` WHERE `id` = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, id);
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
+            /** 正確來說資料庫只會有一筆該會員編號之資料，因此其實可以不用使用 while 迴圈 */
+            while(rs.next()) {
+                /** 每執行一次迴圈表示有一筆資料 */
+                row += 1;
+                
+                /** 將 ResultSet 之資料取出 */
+                int Manager_id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String phone = rs.getString("phone");
+                int login_times = rs.getInt("login_times");             
+                
+                /** 將每一筆會員資料產生一名新Member物件 */
+                m = new Manager(Manager_id, email, password, name,phone, login_times);
+                /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
+                jsa.put(m.getData());
+            }
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+        
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
+    }	
 }

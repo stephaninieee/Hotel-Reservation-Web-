@@ -13,5 +13,10 @@
 /Manager.class
 /ManagerHelper.class
 >>>>>>> 61ed19f2f5ea32cea2d228d3314c4145b345c350
+<<<<<<< HEAD
 /payInfo.class
 /payInfoHelper.class
+=======
+/Coupon.class
+/CouponHelper.class
+>>>>>>> dfb0d242e99a49c735f277ce82e96581b3900672

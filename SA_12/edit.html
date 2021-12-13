@@ -38,13 +38,14 @@
                     <input name="password" type="password" id="member_password" required="required">
                 </div>
                 <div class="input text">
+                    <label for="member_phone">手機</label>
+                    <input name="phone" type="text" id="member_phone" required="required">
+                </div>
+                <div class="input text">
                     <label for="member_login_times">更新時間</label>
                     <input name="login_times" type="text" id="member_login_times" disabled>
                 </div>
-                <div class="input text">
-                    <label for="member_status">會員組別</label>
-                    <input name="status" type="text" id="member_status" disabled>
-                </div>
+               
                 <div class="submit"><input type="button" value="更新" id="submit"></div>
             </form>
 
@@ -59,6 +60,7 @@
                     var name = $('#member_name').val();
                     var email = $('#member_email').val();
                     var password = $('#member_password').val();
+                    var phone = $('#member_phone').val();
 
                     var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
@@ -71,7 +73,8 @@
                             "id": id,
                             "name": name,
                             "email": email,
-                            "password": password
+                            "password": password,
+                            "phone":phone
                         };
 
                         // 將JSON格式轉換成字串
@@ -135,8 +138,9 @@
                             	document.getElementById('member_name').value = response['response']['data'][0]['name'];
                             	document.getElementById('member_email').value = response['response']['data'][0]['email'];
                             	document.getElementById('member_password').value = response['response']['data'][0]['password'];
+                            	document.getElementById('member_phone').value = response['response']['data'][0]['phone'];
                             	document.getElementById('member_login_times').value = response['response']['data'][0]['login_times'];
-                            	document.getElementById('member_status').value = response['response']['data'][0]['status'];
+                            	
                             }
                             console.log(response);
                         },

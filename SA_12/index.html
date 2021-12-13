@@ -18,7 +18,7 @@
         </div>
         <div id="content">
             <h2>會員清單</h2>
-            <a href="register.html">新增會員</a>
+            <a href="register_test.html">新增會員</a>
             <a href="product.html">購物車模組</a>
 
             <div id="flashMessage" class="message" style="display: none;"></div>
@@ -29,6 +29,7 @@
                         <th>編號</th>
                         <th>姓名</th>
                         <th>電郵</th>
+                        <th>手機</th>
                         <th>更新時間</th>
                         <th>會員組別</th>
                         <th>功能</th>
@@ -102,8 +103,9 @@
                         table_html += '<tr><td scope="row">' + value['id'] + '</td>';
                         table_html += '<td>' + value['name'] + '</td>';
                         table_html += '<td>' + value['email'] + '</td>';
+                        table_html += '<td>' + value['phone'] + '</td>';
                         table_html += '<td>' + value['login_times'] + '</td>';
-                        table_html += '<td>' + value['status'] + '</td>';
+                        
                         table_html += '<td>' + '<a href="edit.html?id=' + value['id'] + '">編輯</a> | ';
                         table_html += '<a href="javascript: deleteMember(' + value['id'] + ');">刪除</a></td></tr>';
                     })

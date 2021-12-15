@@ -24,7 +24,7 @@
 /* -----------------------------------------
 	General
 ----------------------------------------- */
-h1, h2, h3, h4, h5, h6 {
+h1, h4, h5, h6 {
   line-height: normal;
   margin: 0 0 15px 0;
   font-family: Montserrat, sans-serif;
@@ -38,8 +38,8 @@ h1 {
 h2 {
   font-size: 20px; }
 
-h3 {
-  font-size: 18px; }
+/*h3 {
+  font-size: 18px; }*/
 
 h4 {
   font-size: 16px; }
@@ -416,9 +416,9 @@ body {
   color: #FFF; }
 
 .slide-subtitle {
-  font-family: Montserrat, sans-serif; }
+  font-family: Montserrat, sans-serif; color: #FFFFFF;}
 
-#slider a.btn.slide-more {
+#slider a.btnew.slide-more {
   display: inline-block;
   margin-top: 70px;
   color: #FFF;
@@ -1451,8 +1451,8 @@ input.highlight {
 
 /* Buttons
 =================================== */
-a.btn,
-a.btn:visited,
+a.btnew,
+a.btnew:visited,
 input[type=submit],
 button[type=submit] {
   line-height: normal;

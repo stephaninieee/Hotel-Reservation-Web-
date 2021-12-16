@@ -13,26 +13,25 @@
 
 <body>
     <div id="container">
-        <div id="header">
-            <h1><a href="http://cakephp.org/">CakePHP: the rapid development php framework</a></h1>
-        </div>
+    <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-registration/img3.jpg" class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
+        
         <div id="content">
-            <h2>會員清單</h2>
-            <a href="register_test.html">新增會員</a>
-            <a href="product.html">購物車模組</a>
+            <h2>Member List</h2>
+            <a href="register_test.html">Register</a>
+            <a href="product.html">Shopping list</a>
 
             <div id="flashMessage" class="message" style="display: none;"></div>
 
             <table id="table">
                 <thead>
                     <tr>
-                        <th>編號</th>
-                        <th>姓名</th>
-                        <th>電郵</th>
-                        <th>手機</th>
-                        <th>更新時間</th>
-                        <th>會員組別</th>
-                        <th>功能</th>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Update time</th>
+                        
+                        <th>function</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,8 +105,8 @@
                         table_html += '<td>' + value['phone'] + '</td>';
                         table_html += '<td>' + value['login_times'] + '</td>';
                         
-                        table_html += '<td>' + '<a href="edit.html?id=' + value['id'] + '">編輯</a> | ';
-                        table_html += '<a href="javascript: deleteMember(' + value['id'] + ');">刪除</a></td></tr>';
+                        table_html += '<td>' + '<a href="edit.html?id=' + value['id'] + '">Edit</a> | ';
+                        table_html += '<a href="javascript: deleteMember(' + value['id'] + ');">Delete</a></td></tr>';
                     })
 
                     $("#table > tbody").append(table_html);
@@ -143,21 +142,7 @@
             <p>CakePHP 2.6.10</p>
         </div>
     </div>
-    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
-        <caption id="sql_summary">(default) 0 query took 0 ms</caption>
-        <thead>
-            <tr>
-                <th>Nr</th>
-                <th>Query</th>
-                <th>Error</th>
-                <th>Affected</th>
-                <th>Num. rows</th>
-                <th>Took (ms)</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+   
 </body>
 
 </html>

@@ -22,8 +22,15 @@
             <a href="product.html">購物車模組</a>
 
             <div id="flashMessage" class="message" style="display: none;"></div>
-
-            <form id="form" accept-charset="utf-8">
+	
+			<form id="uploadForm" action="upload" method="post" enctype="multipart/form-data">
+				<div class="input password required">
+                    <label for="product_image">圖片</label>
+                     <input id="ajaxfile" type="file" name="file"/>
+                </div>
+			
+			
+            
                 <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
                 <div class="input text required">
                     <label for="member_name">商品名</label>
@@ -35,10 +42,10 @@
                 </div>
                 
       
-                <div class="input password required">
+                <!--  <div class="input password required">
                     <label for="product_image">圖片</label>
                     <input name="password" type="text" id="product_image" required="required">
-                </div>
+                </div>-->
                 <div class="input text">
                     <label for="product_description">描述</label>
                     <input name="login_times" type="text" id="product_description" required="required">
@@ -54,23 +61,21 @@
                 var sql_num = 0;
 				
                 function updateMember(id) {
+                   
+                    var selectedFile=new FormData();
+                    //var img = $('#ajaxfile')[0];
                     var name = $('#member_name').val();
                     var price = $('#product_price').val();
-                    var image = $('#product_image').val();
                     var describe = $('#product_description').val();
                                                    
-                    // 將資料組成JSON格式
-                    var data_object = {
-                   		"id": 2,
-                        "name": name,
-                        "price": price,                    
-                        "image": image,
-                        'describe': describe
-                    };
+                    selectedFile.append("file", ajaxfile.files[0]);
+                    selectedFile.append("name", name);
+                  
+                    selectedFile.append("price", price);
+                    selectedFile.append("describe", describe);
+                    
 
-                        // 將JSON格式轉換成字串
-                    var data_string = JSON.stringify(data_object);
-
+                       
                         // 發出POST的PUT請求
                     $.ajax({
                     	/*type: "DELETE",
@@ -80,13 +85,14 @@
                         cache: false,
                         dataType: 'json',
                         timeout: 5000,*/
-                        type: "PUT",
+                        type: "POST",
                         url: "api/product.do",
-                        data: data_string,
-                        crossDomain: true,
                         cache: false,
-                        dataType: 'json',
-                        timeout: 5000,
+                        
+                        data: selectedFile,
+                        dtatype: "json",
+                        processData:false,
+                        contentType:false,
                         success: function (response) {
                             $('#flashMessage').html(response.message);
                             $('#flashMessage').show();

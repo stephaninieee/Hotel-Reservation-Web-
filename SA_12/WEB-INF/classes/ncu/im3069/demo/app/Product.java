@@ -41,10 +41,11 @@ public class Product {
      * @param price 產品價格
      * @param image 產品圖片
      */
-	public Product(String name, double price, String image) {
+	public Product(String name, double price, String image, String describe) {
 		this.name = name;
 		this.price = price;
 		this.image = image;
+		this.describe = describe;
 	}
 
     /**

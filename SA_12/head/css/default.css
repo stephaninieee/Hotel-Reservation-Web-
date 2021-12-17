@@ -4,7 +4,7 @@ a.btn,
 a.btn:visited,
 input[type=submit],
 button[type=submit] {
-  color: #1289d5; }
+  color: #FFFFFF; }
 
 a:hover {
   color: #0e6eab; }
@@ -35,7 +35,7 @@ button:hover,
 .room-slider .flex-direction-nav a,
 .sidebar .testimonial-wrap blockquote,
 .col-sm-4 .testimonial-wrap blockquote,
-.item:hover a.btn, a.btn:hover,
+.item:hover a.btn, a.btnew:hover,
 input[type=submit]:hover,
 button:hover,
 .dk_theme_ci .dk_options a:hover,
@@ -45,7 +45,9 @@ button:hover,
 .room-nav a:hover,
 .item .offer,
 .book-widget-inner {
-  background-color: #1289d5; }
+  color:#FFFFFF;
+  border: none;
+  background-color: #3d80ac; }
 
 .room-nav a.current-room:before,
 .room-nav a.current-room:visited:before,

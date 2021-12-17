@@ -7362,6 +7362,10 @@ a:hover {
   text-decoration: none !important;
   color: #FF5722 !important;
 }
+a.btnew:hover {
+  text-decoration: none !important;
+  color: #FFFFFF !important;
+}
 
 p, ul, ol {
   margin-bottom: 1.5em;

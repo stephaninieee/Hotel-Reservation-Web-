@@ -52,8 +52,8 @@
   	</div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center bg-light">
-    	<h1 class="display-4">購物車</h1>
-    	<p class="lead">以下是目前存在於購物車之商品，請輸入訂單相關資訊後即可送出訂單！</p>
+    	<h1 class="display-4">付款資訊</h1>
+    	<p class="lead">需要會員您的信用卡資訊以將訂金付清</p>
     </div>
     
 	<div class="container">
@@ -86,65 +86,24 @@
 		      </ul>
 		      <button id="check" class="btn btn-primary btn-lg btn-block" type="button" >結帳</button>
 		      <button id="clean" class="btn btn-dark btn-lg btn-block" type="button">清空購物車</button>
-		      <button id="next" class="btn btn-primary btn-lg btn-block" type="button" >下一步</button>
+		      
 		      </div>
 		      
 		      <div class="col-md-8 order-md-1">
-		      <h4 class="mt-3 mb-3">付款方式</h4>
+		      <h4 class="mb-3">線上付款</h4>
 		      <hr class="mb-4">
 		      
-		    <form name="form1" method="post" action="">  
-	        <div class="row">
-	        	<div class="col-md-3 mb-2">
-	          		<label for="address">線上付款</label>
-	          		<input type="radio" id="a1" name="pay" value="onlinepay" >
-	        	</div>
-	        	<div class="col-md-3 mb-2">
-	          		<label for="address">到場付款</label>
-	          		<input type="radio" id="a2" name="pay" value="scenepay">
-	          	</div>
-	          	
-	          	<div id='onlinepay' style="display: none;" class="form">
-  					<div class="text-center">
-    					<h4>線上付款</h4>
-  					</div>
-  					<div class="input-group mb-3">
-    					<div class="input-group-prepend">
-      						<span class="input-group-text">信用卡卡號</span>
-    					</div>
-    						<input type="text" class="form-control" id="card_no" maxlength="16" >
-  					</div>
-  					<div class="input-group mb-3">
-    					<div class="input-group-prepend">
-      						<span class="input-group-text">有效月</span>
-    					</div>
-    					<input type="text" class="form-control" id="card_month" maxlength="2" placeholder="輸入月份" >
-    					<div class="input-group-prepend">
-      						<span class="input-group-text">有效年</span>
-    					</div>
-    					<input type="text" class="form-control" id="card_year" maxlength="2" placeholder="輸入年" >
-    					<div class="input-group-prepend">
-      						<label class="input-group-text">末三碼</label>
-    					</div>
-    					<input type="text" class="form-control" id="csv" maxlength="3" placeholder="輸入末三碼" >
-  					</div>
-  					<div class="form-group">
-    					<span style="color: #fc3762;" id="domestic-card-error"></span>
-  					</div>
-  				</div>
-  				</div>
+		      <form name="form1" method="post" action="">  
+	        
   
-  				<div id='scenepay' style="display: none;" class="form">
-  					<div class="text-center">
-    					<h4>到場付款</h4>
-  					</div>
-  					<div class="input-group mb-3">
+  				<div id='scenepay'  class="form">
+  					<div class="input-group mb-4">
     					<div class="input-group-prepend">
       						<span class="input-group-text">信用卡卡號</span>
     					</div>
     					<input type="text" class="form-control" id="card_no" maxlength="16" >
   					</div>
-  					<div class="input-group mb-3">
+  					<div class="input-group mb-5">
     					<div class="input-group-prepend">
       						<span class="input-group-text">月</span>
     					</div>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	 <link rel="stylesheet" type="text/css" href="css/vediobackground.css">	 
+	 <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="header" class="cf">
+  	<div class="page-width">
+    		<h1 id="site-title">
+      			<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+				        <span class="title">NCU訂房網</span>
+				        <span class="subtitle">你最佳的旅遊好夥伴</span>
+			      </a>
+		    </h1>
+	  </div>
+</div>
+
+<!-- Start video hero -->
+<div class="video-hero jquery-background-video-wrapper demo-video-wrapper">/**/
+  <video class="jquery-background-video" autoplay muted loop poster="https://d2ezlykacdqcnj.cloudfront.net/_assets/home-video/beach-waves-loop.jpg">
+    <source src="https://d2ezlykacdqcnj.cloudfront.net/_assets/home-video/beach-waves-loop.mp4" type="video/mp4">
+    <source src="https://d2ezlykacdqcnj.cloudfront.net/_assets/home-video/beach-waves-loop.webm" type="video/webm">
+    <source src="https://d2ezlykacdqcnj.cloudfront.net/_assets/home-video/beach-waves-loop.ogv" type="video/ogg">
+  </video>
+	<form id="form" accept-charset="utf-8">
+	<div class="video-overlay"></div>
+  	<div class="page-width">
+		    <div class="video-hero--content">
+			      <h2>管理者登入</h2>
+			      <br>			      
+			      <input type="text" name="欄位名稱" value="email" id="email" required>			      			      	
+			      <input type="text" name="欄位名稱" value="password" id="password" required>
+			      <br>
+			      <br>
+			      <input type="button" id="login" value="login">
+    		</div>   		
+  	</div>
+  	</form>>
+</div>
+<!-- End video hero -->
+
+<div id="content">
+	  <div class="page-width">
+    		<h3>Easy Background Videos</h3>
+		    <p>This page uses the <a href="https://github.com/BGStock/jquery-background-video" target="_blank">jQuery Background Video</a> plugin along with some simple html and css to generate this background video.</p>
+		    <p>The video overlay pattern is available at <a href="http://html5backgroundvideos.com/pattern-overlays/" target="_blank">http://html5backgroundvideos.com/pattern-overlays/</a></p>
+	  </div>
+</div>	
+	
+<script>			
+	$(document).ready(function() {   
+    	var $form = $('#login');
+    	$form.click(function() {
+    		login();
+    	});
+	
+		function login(){					
+			var email = $('#email').val();
+			var password = $('#password').val();
+			var data = {"email": email};
+			var data_object = {           		
+        		"email": email,
+        		"password": password,
+        		"login_mode": 1
+    		};
+
+			var data_string = JSON.stringify(data_object);	
+			var data_f = JSON.stringify(data);			
+			$.ajax({
+				type:"GET",
+				url:"api/ManagerController.do",
+				data:{"email":$('#email').val()},
+				crossDomain:true,
+				cache:false,
+				dataType:'json',
+				timeout:5000,
+				success:function(response){
+					alert("fuck");				
+					var a = response.response.data.password;
+					alert(a);
+					if(a==password){alert("登入成功");}   
+                 	else{alert("登入失敗");}
+										
+				},
+				error:function(){
+					alert("伺服器連接失敗");
+				}
+			});
+		}
+	});
+	/*$(document).ready(function(){	
+		$("#login").click(
+			function login(){
+				alert("登入中");
+				var email = $('#email').val();
+				var password = $('#password').val();
+		
+				var data_object = {           		
+                	"email": email,
+                	"password": password,
+                	"login_mode": 1
+            	};
+		
+				var data_string = JSON.stringify(data_object);	
+		
+				$.ajax({
+					type:"GET",
+					url:"api/manager.do",
+					data:data_string,
+					crossDomain:true,
+					cache:false,
+					dataType:'json',
+					timeout:5000,
+					success:function(response){
+						alert("登入成功");
+					},
+					error:function(){
+						alert("登入失敗");
+					}
+				});
+			}
+		)
+	);*/
+	
+</script>
+</body>
+</html>

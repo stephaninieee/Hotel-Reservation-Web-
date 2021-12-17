@@ -9,7 +9,7 @@ public class Member {
     private String email;
     private String name;
     private String password;
-    private int phone;
+    private String phone;
     private int login_times;
     private MemberHelper mh =  MemberHelper.getHelper();
     
@@ -21,7 +21,7 @@ public class Member {
      * @param password 會員密碼
      * @param name 會員姓名
      */
-    public Member(String name, String email, String password,int phone) {
+    public Member(String name, String email, String password,String phone) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -37,7 +37,7 @@ public class Member {
      * @param password 會員密碼
      * @param name 會員姓名
      */
-    public Member(int id, String name,String email, String password, int phone) {
+    public Member(int id, String name,String email, String password, String phone) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -48,7 +48,7 @@ public class Member {
 
     }
     
-    public Member(int id, String name, String email, String password, int phone, int login_times) {
+    public Member(int id, String name, String email, String password, String phone, int login_times) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -73,7 +73,7 @@ public class Member {
     public String getPassword() {
         return this.password;
     }
-    public int getPhone() {
+    public String getPhone() {
     	return this.phone;
     }
     

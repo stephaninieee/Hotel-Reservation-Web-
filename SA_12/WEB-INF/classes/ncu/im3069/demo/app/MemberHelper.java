@@ -99,7 +99,7 @@ public class MemberHelper {
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
-                int phone=rs.getInt("phone");
+                String phone=rs.getString("phone");
                 int login_times = rs.getInt("login_times");
                
                 m = new Member(member_id, name,email, password, phone, login_times);
@@ -167,7 +167,7 @@ public class MemberHelper {
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
-                int phone=rs.getInt("phone");
+                String phone=rs.getString("phone");
                 int login_times = rs.getInt("login_times");
                
                 /** 將每一筆會員資料產生一名新Member物件 */
@@ -324,7 +324,7 @@ public class MemberHelper {
             String name = m.getName();
             String email = m.getEmail();
             String password = m.getPassword();
-            int phone=m.getPhone();
+            String phone=m.getPhone();
             int login_times = m.getLoginTimes();
             
             /** 將參數回填至SQL指令當中 */
@@ -332,7 +332,7 @@ public class MemberHelper {
             pres.setString(1, name);
             pres.setString(2, email);
             pres.setString(3, password);
-            pres.setInt(4,phone);
+            pres.setString(4,phone);
             pres.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             pres.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             pres.setInt(7, login_times);
@@ -394,13 +394,13 @@ public class MemberHelper {
             String name = m.getName();
             String email = m.getEmail();
             String password = m.getPassword();
-            int phone=m.getPhone();
+            String phone=m.getPhone();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setString(1, name);
             pres.setString(2, password);
-            pres.setInt(3, phone);
+            pres.setString(3, phone);
             pres.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             pres.setString(5, email);
             /** 執行更新之SQL指令並記錄影響之行數 */

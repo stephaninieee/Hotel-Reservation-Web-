@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>CakePHP: the rapid development php framework: Members</title>
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            <h1><a href="http://cakephp.org/">CakePHP: the rapid development php framework</a></h1>
+        </div>
+        <div id="content">
+            <h2>更新會員資料</h2>
+            <a href="index.html">會員清單</a>
+            <a href="product.html">購物車模組</a>
+
+            <div id="flashMessage" class="message" style="display: none;"></div>
+	
+			<form id="uploadForm" action="upload" method="post" enctype="multipart/form-data">
+				<div class="input password required">
+                    <label for="product_image">圖片</label>
+                     <input id="ajaxfile" type="file" name="file"/>
+                </div>
+			
+			
+            
+                <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+                <div class="input text required">
+                    <label for="member_name">商品名</label>
+                    <input name="name" maxlength="30" type="text" id="member_name" required="required" >
+                </div>
+                <div class="input email required">
+                    <label for="product_price">價格</label>
+                    <input name="email" maxlength="50" type="email" id="product_price" required="required">
+                </div>
+                
+      
+                <!--  <div class="input password required">
+                    <label for="product_image">圖片</label>
+                    <input name="password" type="text" id="product_image" required="required">
+                </div>-->
+                <div class="input text">
+                    <label for="product_description">描述</label>
+                    <input name="login_times" type="text" id="product_description" required="required">
+                </div>
+                <div class="submit"><input type="button" value="更新" id="submit"></div>
+            </form>
+
+            <script type="text/javascript">
+                // 取得網址參數
+               // var url_string = window.location.href;
+               // var url = new URL(url_string);
+                var id = 1;
+                var sql_num = 0;
+				
+                function updateMember(id) {
+                   
+                    var selectedFile=new FormData();
+                    //var img = $('#ajaxfile')[0];
+                    var name = $('#member_name').val();
+                    var price = $('#product_price').val();
+                    var describe = $('#product_description').val();
+                                                   
+                    selectedFile.append("file", ajaxfile.files[0]);
+                    selectedFile.append("name", name);
+                  
+                    selectedFile.append("price", price);
+                    selectedFile.append("describe", describe);
+                    
+
+                       
+                        // 發出POST的PUT請求
+                    $.ajax({
+                    	/*type: "DELETE",
+                        url: "api/product.do",
+                        data: data_string,
+                        crossDomain: true,
+                        cache: false,
+                        dataType: 'json',
+                        timeout: 5000,*/
+                        type: "POST",
+                        url: "api/product.do",
+                        cache: false,
+                        
+                        data: selectedFile,
+                        dtatype: "json",
+                        processData:false,
+                        contentType:false,
+                        success: function (response) {
+                            $('#flashMessage').html(response.message);
+                            $('#flashMessage').show();
+                            if(response.status == 200){
+                            	updateSQLTable(response.response);
+                                //getMember();
+                            }
+                        },
+                        error: function () {
+                            alert("無法連線到伺服器！");
+                        }
+                });
+     
+            }
+            
+             // 更新SQL指令歷史表格
+            function updateSQLTable(data) {
+                var time = (data.time / 1000000).toFixed(2);
+                var table_html = "";
+                
+                sql_num += 1
+
+                table_html += '<tr>';
+                table_html += '<td>' + sql_num + '</td>';
+                table_html += '<td>' + data.sql + '</td>';
+                table_html += '<td style="text-align: right">' + '0' + '</td>';
+                table_html += '<td style="text-align: right">' + data.row + '</td>';
+                table_html += '<td style="text-align: right">' + data.row + '</td>';
+                table_html += '<td style="text-align: right">' + time + '</td>';
+                table_html += '</tr>';
+                $("#sql_log > tbody").append(table_html);
+                $("#sql_summary").html("(default) " + data.row + " queries took " + time + " ms");
+            }
+
+                                 
+            $('#submit').click(function() {
+            	updateMember(id)
+            });
+               
+             
+            </script>
+        </div>
+        <div id="footer">
+            <a href="http://www.cakephp.org/" target="_blank" id="cake-powered"><img src="statics/img/cake.power.gif" alt="CakePHP: the rapid development php framework" border="0"></a>
+            <p>CakePHP 2.6.10</p>
+        </div>
+    </div>
+
+    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
+        <caption id="sql_summary">(default) 0 query took 0 ms</caption>
+        <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Query</th>
+                <th>Error</th>
+                <th>Affected</th>
+                <th>Num. rows</th>
+                <th>Took (ms)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+
+</html>

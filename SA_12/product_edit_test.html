@@ -27,12 +27,14 @@
                 <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
                 <div class="input text required">
                     <label for="member_name">商品名</label>
-                    <input name="name" maxlength="30" type="text" id="member_name" required="required" disabled>
+                    <input name="name" maxlength="30" type="text" id="member_name" required="required" >
                 </div>
                 <div class="input email required">
                     <label for="product_price">價格</label>
                     <input name="email" maxlength="50" type="email" id="product_price" required="required">
                 </div>
+                
+      
                 <div class="input password required">
                     <label for="product_image">圖片</label>
                     <input name="password" type="text" id="product_image" required="required">
@@ -52,18 +54,18 @@
                 var sql_num = 0;
 				
                 function updateMember(id) {
-                    var name = 'iPhone 5C';
+                    var name = $('#member_name').val();
                     var price = $('#product_price').val();
                     var image = $('#product_image').val();
                     var describe = $('#product_description').val();
                                                    
                     // 將資料組成JSON格式
                     var data_object = {
-                   		"id": 1,
+                   		"id": 8,
                         "name": name,
-                        "price": price,
+                        "price": price,                    
                         "image": image,
-                        'describe': describe
+                        "describe": describe
                     };
 
                         // 將JSON格式轉換成字串
@@ -71,6 +73,13 @@
 
                         // 發出POST的PUT請求
                     $.ajax({
+                    	/*type: "DELETE",
+                        url: "api/product.do",
+                        data: data_string,
+                        crossDomain: true,
+                        cache: false,
+                        dataType: 'json',
+                        timeout: 5000,*/
                         type: "PUT",
                         url: "api/product.do",
                         data: data_string,

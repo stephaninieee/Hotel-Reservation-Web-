@@ -49,12 +49,12 @@
       <a class="p-2 text-dark" href="product.html">商品列表</a>
       <a class="p-2 text-dark" href="order.html">訂單列表</a>
     </nav>
-    <a class="btn btn-outline-primary" href="cart.html">購物車</a>
+    <a class="btn btn-outline-primary" href="cart.html">欲訂房間</a>
   </div>
 
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center bg-light">
-    <h1 class="display-4">購物車</h1>
-    <p class="lead">以下是目前存在於購物車之商品，請輸入訂單相關資訊後即可送出訂單！</p>
+    <h1 class="display-4">欲訂房間</h1>
+    <p class="lead">以下是您目前將下訂的房間價格，請輸入訂單相關資訊後即可送出訂單！</p>
   </div>
 
   <div class="container">
@@ -85,7 +85,7 @@
 		          <strong>$ <span id="summary">0.00</span></strong>
 		        </li>
 		      </ul>
-		      <button id="check" class="btn btn-primary btn-lg btn-block" type="button">結帳</button>
+		      <button id="next" class="btn btn-primary btn-lg btn-block" type="button">下一步</button>
 		      <button id="clean" class="btn btn-dark btn-lg btn-block" type="button">清空購物車</button>
 		    </div>
 
@@ -111,7 +111,7 @@
 
 	        <div class="mb-4">
 	          <label for="address">確認Email</label>
-	          <input type="text" class="form-control" id="address" maxlength="255" placeholder="再次輸入Email" required>
+	          <input type="text" class="form-control" id="emailconfirm" maxlength="255" placeholder="再次輸入Email" required>
 	        </div>
 	        
 	        <h4 class="mt-3 mb-3">付款方式</h4>
@@ -121,11 +121,11 @@
 	        <div class="row">
 	        	<div class="col-md-3 mb-2">
 	          	<label for="address">線上付款</label>
-	          	<input type="radio" name="pay" value="">
+	          	<input type="radio" name="pay" value="onlinepay">
 	        	</div>
 	        	<div class="col-md-3 mb-4">
 	          	<label for="address">到場付款</label>
-	          	<input type="radio" name="pay" value="">
+	          	<input type="radio" name="pay" value="scenepay">
 	          	</div>
 	        </div>
 	        </form>
@@ -166,12 +166,44 @@
     }
     else
     	getCartProduct();
+    
+    //根據選擇付款方式跳轉頁面
+    $("#next").click(function () {
+    	jump();
+    	});
+
+	function jump(){
+		var data = {
+    			"first_name": $("#first_name").val(),
+    			"last_name": $("#last_name").val(),
+    			"email": $("#email").val(),
+    			"emailconfirm": $("#emailconfirm").val()
+    			
+    		}
+	
+		pass_vaild = vaildData(data);
+    	if (pass_vaild) {
+    		var data_string = JSON.stringify(data);
+    		
+		
+			if ($('input[name="pay"]:checked').val()=='onlinepay'){
+				window.location.href='card.html';
+			}
+			else if($('input[name="pay"]:checked').val()=='scenepay'){
+				window.location.href='scenepay.html';
+			}
+			else{
+				alert("請選擇付款方式");
+			}
+    	}
+}
 
     $("#check").click(function () {
     	var data = {
     			"first_name": $("#first_name").val(),
     			"last_name": $("#last_name").val(),
     			"email": $("#email").val(),
+    			"emailconfirm": $("#emailconfirm").val(),
     			"phone": $("#phone").val(),
     			"address": $("#address").val(),
     			"item": client_cart_obj,
@@ -230,8 +262,11 @@
     	var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     	var phone_rule = /^09\d{2}-\d{3}-\d{3}$/;
 
-    	if (data["first_name"] == "" || data["last_name"] == "" || data['phone'] == "" || data['address'] == "")  alert("必填寫欄位不得有空值！");
+    	if (data["first_name"] == "" || data["last_name"] == "" || data['email'] == "" || data['emailconfirm'] == "")  alert("必填寫欄位不得有空值！");
     	else if (data['email'] != "" && !email_rule.test(data['email'])) alert("Email格式不符！");
+    	else if (data['email']!= data['emailconfirm']){
+    		alert("email確認錯誤");
+    	}
     	else return true;
 
     	return false;

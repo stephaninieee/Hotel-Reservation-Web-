@@ -17,6 +17,8 @@ public class Product {
 
     /** id，會員編號 */
     private String image;
+    
+    private String address;
 
     /** id，會員編號 */
 	private String describe;
@@ -41,10 +43,19 @@ public class Product {
      * @param price 產品價格
      * @param image 產品圖片
      */
+	public Product(String name, double price, String image, String address, String describe) {
+		this.name = name;
+		this.price = price;
+		this.image = image;
+		this.address = address;
+		this.describe = describe;
+	}
+	
 	public Product(String name, double price, String image, String describe) {
 		this.name = name;
 		this.price = price;
 		this.image = image;
+		
 		this.describe = describe;
 	}
 
@@ -58,11 +69,21 @@ public class Product {
      * @param image 產品圖片
      * @param describe 產品敘述
      */
+	public Product(int id, String name, double price, String image, String address, String describe) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.image = image;
+		this.address = address;
+		this.describe = describe;
+	}
+	
 	public Product(int id, String name, double price, String image, String describe) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
+	
 		this.describe = describe;
 	}
 
@@ -101,6 +122,10 @@ public class Product {
 	public String getImage() {
 		return this.image;
 	}
+	
+	public String getAddress() {
+		return this.address;
+	}
 
     /**
      * 取得產品敘述
@@ -123,6 +148,7 @@ public class Product {
         jso.put("name", getName());
         jso.put("price", getPrice());
         jso.put("image", getImage());
+        jso.put("address", getAddress());
         jso.put("describe", getDescribe());
 
         return jso;

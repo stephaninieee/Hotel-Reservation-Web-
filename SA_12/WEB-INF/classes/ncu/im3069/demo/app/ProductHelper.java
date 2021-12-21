@@ -2,6 +2,7 @@ package ncu.im3069.demo.app;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.json.*;
 
@@ -38,6 +39,7 @@ public class ProductHelper {
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
         ResultSet rs = null;
         
+        
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
@@ -57,18 +59,66 @@ public class ProductHelper {
             while(rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
-                
+                ArrayList<Boolean> hashtag = new ArrayList<Boolean>(); 
                 /** 將 ResultSet 之資料取出 */
                 int product_id = rs.getInt("id");
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
                 String image = rs.getString("image");
+                String address = rs.getString("address");
+                
+                boolean baby =  rs.getBoolean("baby");
+                hashtag.add(baby);             
+                boolean breakfast =  rs.getBoolean("breakfast");
+                hashtag.add(breakfast);  
+                boolean wifi =  rs.getBoolean("wifi");
+                hashtag.add(wifi);  
+                boolean smoking =  rs.getBoolean("smoking");
+                hashtag.add(smoking);  
+                boolean shower =  rs.getBoolean("shower");
+                hashtag.add(shower);  
+                boolean KTV =  rs.getBoolean("KTV");
+                hashtag.add(KTV);  
+                boolean van =  rs.getBoolean("van");
+                hashtag.add(van);  
+                boolean parking =  rs.getBoolean("parking");
+                hashtag.add(parking);  
+                boolean bath =  rs.getBoolean("bath");
+                hashtag.add(bath);  
+                boolean swimming =  rs.getBoolean("swimming");
+                hashtag.add(swimming);  
+                boolean beach =  rs.getBoolean("beach");
+                hashtag.add(beach);  
+                boolean TV =  rs.getBoolean("TV");
+                hashtag.add(TV);  
+                boolean air =  rs.getBoolean("air");
+                hashtag.add(air); 
+                boolean laundry =  rs.getBoolean("laundry");
+                hashtag.add(laundry);
+                boolean bar =  rs.getBoolean("bar");
+                hashtag.add(bar); 
+                boolean business =  rs.getBoolean("business");
+                hashtag.add(business); 
+                boolean game =  rs.getBoolean("game");
+                hashtag.add(game);
+                boolean SPA =  rs.getBoolean("SPA");
+                hashtag.add(SPA);
                 String describe = rs.getString("describe");
+                JSONObject product_tag = new JSONObject();
+                
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                p = new Product(product_id, name, price, image, describe);
+                p = new Product(product_id, name, price, image, address, describe);
+                product_tag = p.getData();
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
-                jsa.put(p.getData());
+                for (int i = 0; i < hashtag.size(); i++) {
+                	
+                	product_tag.put("tag"+i, hashtag.get(i));
+            	
+                }
+                
+                
+                jsa.put(product_tag);
             }
 
         } catch (SQLException e) {
@@ -144,10 +194,11 @@ public class ProductHelper {
               String name = rs.getString("name");
               double price = rs.getDouble("price");
               String image = rs.getString("image");
+              String address = rs.getString("address");
               String describe = rs.getString("describe");
               
               /** 將每一筆商品資料產生一名新Product物件 */
-              p = new Product(product_id, name, price, image, describe);
+              p = new Product(product_id, name, price, image, address, describe);
               /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
               jsa.put(p.getData());
           }
@@ -209,10 +260,11 @@ public class ProductHelper {
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
                 String image = rs.getString("image");
+                String address = rs.getString("address");
                 String describe = rs.getString("describe");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                p = new Product(product_id, name, price, image, describe);
+                p = new Product(product_id, name, price, image, address, describe);
             }
 
         } catch (SQLException e) {

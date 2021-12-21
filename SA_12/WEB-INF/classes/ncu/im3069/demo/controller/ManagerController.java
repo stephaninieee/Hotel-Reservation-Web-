@@ -1,8 +1,9 @@
 package ncu.im3069.demo.controller;
 
-import java.io.*;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,94 +11,105 @@ import org.json.JSONObject;
 
 import ncu.im3069.demo.app.Manager;
 import ncu.im3069.demo.app.ManagerHelper;
-import ncu.im3069.demo.app.Member;
-import ncu.im3069.demo.app.MemberHelper;
 import ncu.im3069.tools.JsonReader;
 
-public class ManagerController {
+/**
+ * Servlet implementation class ManagerController1
+ */
+@WebServlet("/api/ManagerController.do")
+public class ManagerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ManagerHelper mnh =  ManagerHelper.getHelper();
-	
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-            /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
-            JsonReader jsr = new JsonReader(request);
-            JSONObject jso = jsr.getObject();
-            
-            /** 取出經解析到JSONObject之Request參數 */
-            String email = jso.getString("email");
-            String password = jso.getString("password");
-            String name = jso.getString("name");
-            String phone = jso.getString("phone");
-            /** 建立一個新的會員物件 */
-            Manager m = new Manager(name,email,password,phone,0);
-            
-            /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
-            if(email.isEmpty() || password.isEmpty() || name.isEmpty()) {
-                /** 以字串組出JSON格式之資料 */
-                String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
-                /** 透過JsonReader物件回傳到前端（以字串方式） */
-                jsr.response(resp, response);
-            }
-            /** 透過MemberHelper物件的checkDuplicate()檢查該會員電子郵件信箱是否有重複 */
-            else if (!mnh.checkDuplicate(m)) {
-                /** 透過MemberHelper物件的create()方法新建一個會員至資料庫 */
-                JSONObject data = mnh.create(m);
-                
-                /** 新建一個JSONObject用於將回傳之資料進行封裝 */
-                JSONObject resp = new JSONObject();
-                resp.put("status", "200");
-                resp.put("message", "成功! 註冊房東資料...");
-                resp.put("response", data);
-                
-                /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
-                jsr.response(resp, response);
-            }
-            else {
-                /** 以字串組出JSON格式之資料 */
-                String resp = "{\"status\": \'400\', \"message\": \'新增帳號失敗，此E-Mail帳號重複！\', \'response\': \'\'}";
-                /** 透過JsonReader物件回傳到前端（以字串方式） */
-                jsr.response(resp, response);
-            }
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ManagerController() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		JsonReader jsr = new JsonReader(request);	        
+		String email = jsr.getParameter("email");
+		System.out.printf("%s???",email);
+        	/** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
+        	if (email.isEmpty()) {
+            	/** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
+            	JSONObject query = mnh.getAll();         
+            	/** 新建一個JSONObject用於將回傳之資料進行封裝 */ 
+            	JSONObject resp = new JSONObject();
+            	resp.put("status", "200");
+            	resp.put("message", "所有房東資料取得成功");
+            	resp.put("response", query);
+    
+            	/** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+            	jsr.response(resp, response);
+        	}
+        	else {                     	
+        		JSONObject data = mnh.getByEmail(email);
+            	/** 新建一個JSONObject用於將回傳之資料進行封裝 */
+            	JSONObject resp = new JSONObject();            	            	            		
+            	resp.put("status", "200");
+            	resp.put("message", "房東資料取得成功");
+            	resp.put("response", data);   
+            	/** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+            	jsr.response(resp, response);
+        	
+        	}
+            	
         }
+        
+        
+	
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-		        throws ServletException, IOException {
-		        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
-		        JsonReader jsr = new JsonReader(request);
-		        /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
-		        String id = jsr.getParameter("id");
-		        
-		        /** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
-		        if (id.isEmpty()) {
-		            /** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
-		            JSONObject query = mnh.getAll();
-		            
-		            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
-		            JSONObject resp = new JSONObject();
-		            resp.put("status", "200");
-		            resp.put("message", "所有房東資料取得成功");
-		            resp.put("response", query);
-		    
-		            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
-		            jsr.response(resp, response);
-		        }
-		        else {
-		          
-		            JSONObject query = mnh.getById(id);
-		            
-		            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
-		            JSONObject resp = new JSONObject();
-		            resp.put("status", "200");
-		            resp.put("message", "房東資料取得成功");
-		            resp.put("response", query);
-		    
-		            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
-		            jsr.response(resp, response);
-		        }
-		    }
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		JsonReader jsr = new JsonReader(request);
+        JSONObject jso = jsr.getObject();
+        
+        /** 取出經解析到JSONObject之Request參數 */
+        String email = jso.getString("email");
+        String password = jso.getString("password");
+        String name = jso.getString("name");
+        String phone = jso.getString("phone");
+        /** 建立一個新的會員物件 */
+        Manager m = new Manager(name,email,password,phone,0);
+        
+        /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
+        if(email.isEmpty() || password.isEmpty() || name.isEmpty()) {
+            /** 以字串組出JSON格式之資料 */
+            String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
+            /** 透過JsonReader物件回傳到前端（以字串方式） */
+            jsr.response(resp, response);
+        }
+        /** 透過MemberHelper物件的checkDuplicate()檢查該會員電子郵件信箱是否有重複 */
+        else if (!mnh.checkDuplicate(m)) {
+            /** 透過MemberHelper物件的create()方法新建一個會員至資料庫 */
+            JSONObject data = mnh.create(m);
+            
+            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+            JSONObject resp = new JSONObject();
+            resp.put("status", "200");
+            resp.put("message", "成功! 註冊房東資料...");
+            resp.put("response", data);
+            
+            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+            jsr.response(resp, response);
+        }
+        else {
+            /** 以字串組出JSON格式之資料 */
+            String resp = "{\"status\": \'400\', \"message\": \'新增帳號失敗，此E-Mail帳號重複！\', \'response\': \'\'}";
+            /** 透過JsonReader物件回傳到前端（以字串方式） */
+            jsr.response(resp, response);
+        }
+	}
 
-	public void doDelete(HttpServletRequest request, HttpServletResponse response)
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 	        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
 	        JsonReader jsr = new JsonReader(request);
@@ -119,7 +131,7 @@ public class ManagerController {
 	        jsr.response(resp, response);
 	    }
 
-	public void doPut(HttpServletRequest request, HttpServletResponse response)
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 	        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
 	        JsonReader jsr = new JsonReader(request);
@@ -147,35 +159,4 @@ public class ManagerController {
 	        /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
 	        jsr.response(resp, response);
 	    }
-	
-	public void doLogin(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-			JsonReader jsr = new JsonReader(request);
-			JSONObject jso = jsr.getObject();
-			
-			String email = jso.getString("email");
-			String password = jso.getString("password");
-			
-			JSONObject data = mnh.getByEmail(email,password);
-			
-			JSONObject resp = new JSONObject();
-	        
-			if(data.getJSONObject("data").getString("error1")=="email not found") {
-				resp.put("status","400");
-				resp.put("message","此信箱沒有註冊");
-				resp.put("response",data);
-			}
-			else if(data.getJSONObject("data").getString("error2")=="password is uncorrect") {
-				resp.put("status", "400");
-				resp.put("message", "密碼錯誤! ");
-				resp.put("response", data);
-			}
-			else {
-				resp.put("status", "200");
-				resp.put("message", "成功登入! ");
-				resp.put("response", data);
-				
-			}
-	        jsr.response(resp,response);
-	}
 }

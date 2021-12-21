@@ -475,8 +475,8 @@ public class ManagerHelper {
         return response;
     }	
 
-	public JSONObject getByEmail(String email,String password) {
-		JSONObject jso = null;
+	public JSONObject getByEmail(String email) {
+		JSONObject jso = new JSONObject();
 		String exexcute_sql = "";
 		long start_time = System.nanoTime();
 		int row = 0;
@@ -487,7 +487,7 @@ public class ManagerHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`managers` WHERE `email` = ? LIMIT 1";
+            String sql = "SELECT * FROM `missa`.`manager` WHERE `email` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -497,33 +497,14 @@ public class ManagerHelper {
 
             /** 紀錄真實執行的SQL指令，並印出 **/
             exexcute_sql = pres.toString();
-            System.out.println(exexcute_sql);
-            
-            if(rs.getString("password")==password) {
-            	int id = rs.getInt("id");           	
-            	String name = rs.getString("name");
-            	String phone = rs.getString("phone");
-            	int login_times = rs.getInt("login_times");
-            	int root = rs.getInt("root");
-            	
-            	if(root==1) {
-            		systemManager sym = new systemManager(id,email,password,name,phone,login_times,root);
-            		jso.put("data", sym.getData());
-            	}
-            	else {
-            		landlord l = new landlord(id,email,password,name,phone,login_times,root);
-            		jso.put("data", l.getData());
-            	}
-            	
-            	           	
+            System.out.println("pussy");
+            System.out.println(exexcute_sql);           
+            System.out.println("pussy2");            
+                       
+            while(rs.next()) {	            	                       	
+            		jso.put("email",email);
+            		jso.put("password",rs.getString("password"));          	
             }
-            else if(rs.getString("name")==null){
-            	jso.put("error1","email not found");
-            }
-            else {
-            	jso.put("error2","password is uncorrect");
-            }
-            
             
         } catch (SQLException e) {
             /** 印出JDBC SQL指令錯誤 **/

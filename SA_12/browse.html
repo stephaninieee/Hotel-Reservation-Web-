@@ -1429,21 +1429,23 @@
            
            	// 列出符合篩選的商品
             function searching(){
-            	$.ajax({
+            	var date1 = $("#datepicker").datepicker();
+            	alert(date1);
+           		$.ajax({
                     type: "GET",
                     url: "api/product.do",
                     crossDomain: true,
                     cache: false,
                     dataType: 'json',
                     timeout: 5000,
-                    success: function (response) {
-                      if (response.status == 200) {
+                    success: function (response) {                   	
+                    	if (response.status == 200) {
                     	var product_panel = '';
                     	$("#product_panel").empty();
                     	
                     	$.each(response.response.data, function (){
                     		console.log(location_input(this));
-                    		if(filter(this) && location_input(this)){
+                    		if(filter(this) && location_input(this)&& dateSelect(this)){
                     			product_panel += addProduct(this);
                     		}
                     		
@@ -1487,7 +1489,13 @@
             	return false;           	
             }
             
-            
+            //選擇入住時段
+            function dateSelect(data){
+            	var date1 = $("input[name='check_in']").datepicker();
+            	var date2 = $("input[name='check_out']").datepicker();
+            	System.out.println(date1);
+            	return true;
+            }
             
             function getAllProduct() {
                 $.ajax({

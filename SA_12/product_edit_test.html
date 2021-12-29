@@ -61,11 +61,11 @@
                                                    
                     // 將資料組成JSON格式
                     var data_object = {
-                   		"id": 8,
-                        "name": name,
+                   		"id": 10,
+                        /*"name": name,
                         "price": price,                    
                         "image": image,
-                        "describe": describe
+                        "describe": describe*/
                     };
 
                         // 將JSON格式轉換成字串
@@ -73,20 +73,20 @@
 
                         // 發出POST的PUT請求
                     $.ajax({
-                    	/*type: "DELETE",
-                        url: "api/product.do",
-                        data: data_string,
-                        crossDomain: true,
-                        cache: false,
-                        dataType: 'json',
-                        timeout: 5000,*/
-                        type: "PUT",
+                    	type: "DELETE",
                         url: "api/product.do",
                         data: data_string,
                         crossDomain: true,
                         cache: false,
                         dataType: 'json',
                         timeout: 5000,
+                        /*type: "PUT",
+                        url: "api/product.do",
+                        data: data_string,
+                        crossDomain: true,
+                        cache: false,
+                        dataType: 'json',
+                        timeout: 5000,*/
                         success: function (response) {
                             $('#flashMessage').html(response.message);
                             $('#flashMessage').show();

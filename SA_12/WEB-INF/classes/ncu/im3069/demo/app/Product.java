@@ -19,9 +19,15 @@ public class Product {
     private String image;
     
     private String address;
+    
+    private String avgrate;
 
     /** id，會員編號 */
 	private String describe;
+	
+	private double lng;
+	
+	private double lat;
 	
 	private ProductHelper ph =  ProductHelper.getHelper();
 
@@ -43,12 +49,15 @@ public class Product {
      * @param price 產品價格
      * @param image 產品圖片
      */
-	public Product(String name, double price, String image, String address, String describe) {
+	public Product(String name, double price, String image, String address,String avgrate, String describe, double lng, double lat) {
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.address = address;
+		this.avgrate = avgrate;		
 		this.describe = describe;
+		this.lng = lng;
+		this.lat = lat;
 	}
 	
 	public Product(String name, double price, String image, String describe) {
@@ -69,13 +78,16 @@ public class Product {
      * @param image 產品圖片
      * @param describe 產品敘述
      */
-	public Product(int id, String name, double price, String image, String address, String describe) {
+	public Product(int id, String name, double price, String image, String address,String avgrate, String describe, double lng, double lat) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.address = address;
+		this.avgrate = avgrate;
 		this.describe = describe;
+		this.lng = lng;
+		this.lat = lat;
 	}
 	
 	public Product(int id, String name, double price, String image, String describe) {
@@ -127,6 +139,9 @@ public class Product {
 		return this.address;
 	}
 
+	public String getAvgrate() {
+		return this.avgrate;
+	}
     /**
      * 取得產品敘述
      *
@@ -136,6 +151,13 @@ public class Product {
 		return this.describe;
 	}
 
+	public double getLng() {
+		return this.lng;
+	}
+	
+	public double getLat() {
+		return this.lat;
+	}
     /**
      * 取得產品資訊
      *
@@ -149,7 +171,10 @@ public class Product {
         jso.put("price", getPrice());
         jso.put("image", getImage());
         jso.put("address", getAddress());
+        jso.put("avgrate", getAvgrate());
         jso.put("describe", getDescribe());
+        jso.put("lng", getLng());
+        jso.put("lat", getLat());
 
         return jso;
     }

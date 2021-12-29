@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刊登房屋</title>
+    <style>
+        #map-container {
+            position: relative;
+            height: 650px;
+            width: 100%;
+        }
+
+        #map {
+            position: relative;
+            height: inherit;
+            width: inherit;
+        }
+    </style>
+    <!--map css-->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v0.10.0/mapbox-gl-language.js"></script>
+    <!--bootstrap5-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgba(77,78,84,1);">
+        <div class="container" style="height:62px; width: 1170px; margin-right: auto;margin-left: auto;"> 
+          <a class="navbar-brand" href="#" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
+
+
+            <ul class="navbar-nav    ms-auto">
+              <li class="nav-item" style="padding-right:15px;">
+                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px; " href="#">刊登家中空房</a>
+              </li>
+              <li class="nav-item" style="padding-right:20px;" >
+                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="#">加入會員</a>
+              </li>
+              <li class="nav-item" style="padding-right:15px;">
+                <button  style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255);    border-width: 1px;
+                border-style: solid;font-size: 14px;
+                border-color: rgb(0, 216, 255);border-radius: 5px;height: 40px;" >登入</button>
+              </li>
+            </ul>
+        
+
+        </div>
+      </nav>
+    <div class="container" >
+   
+        <form id="form" style=" padding-top:90px; padding-left: 90px; padding-right: 90px; color:#2a2a2e;">
+            <div class="" style="padding-top: 40px; border: 2px; border-color:#dddfe2; padding-left:60px; padding-right: 60px; background-color: #fcfcfc;">
+                
+                <div class="card-page-header row">
+                    <div class="col-sm-8" style="padding-top: 15px;">
+                        <h1 class="m-t-0" style="font-size: 24px;font-weight: 700;">你的房子有什麼特色呢？</h1>
+                        <p>每間房子，每個房間都是獨特的。說說你的有什麼不一樣吧！</p>
+                    </div><div class="hidden-xs col-sm-4">
+                        <img class="page-header-icon" width="400" src="//img.agoda.net/images/header/ec-description@2x.png" alt="description page">
+                    </div>
+                </div>
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">為住宿命名</h2>
+                        <p class="m-b-4">住宿名稱要有吸引力，讓人印象深刻，一秒就抓住別人的眼球。中文或英文都可以喔!</p>
+                            <div class="form-group">
+                                <div>
+                                    <input placeholder="例如：板橋凱撒大飯店 (Caesar Park Hotel Banqiao)" type="text" id="name" class="form-control" value>
+                                    <small class="m-t-1 p-l-3" style="float:right;">16</small>
+                                </div>
+                            </div>
+                       
+                </div>
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">介紹一下你的地方</h2>
+                    <p class="m-b-4">讓旅人們知道為什麼你的好房非訂不可！</p>
+                        <div class="form-group">
+                            <div>
+                                <textarea id="description" rows="5" placeholder="範例：
+             在這裡，您能真切的感受最極致的舒適住宿體驗，部分客房提供平面電視, 浴室話機, 地毯, 清潔用品, 開放式衣櫥，給住客更完整的                      
+             服務。 不管您是健身愛好者還是只想在疲憊的一天後放鬆一下自己，住宿的頂級娛樂設施都是不二選擇，例如：健身房, 室外游泳
+             池, Spa, 按摩服務。 專業的服務與豐富的特色活動盡在Caesar Park Hotel Banqiao。" type="text" id="describeYourPlace" class="form-control"></textarea>
+                            <small class="m-t-1 p-l-3" style="float:right;">250</small>
+                        </div>
+                    </div>  
+                </div>
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">提供地址</h2>
+                        <p class="m-b-4">讓旅客準確的知道住宿位置</p>   
+                            <div class="form-group">
+                                <div>
+                                    <input placeholder="例如：新北市板橋區縣民大道2段8號" type="text" id="address" class="form-control" value>
+                                    <small class="m-t-1 p-l-3" style="float:right;">40</small>
+                                </div>
+                            </div> 
+                </div>
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">家裡大大小小的設施</h2>
+                        <p class="m-b-4">你家有哪一些呢？</p>   
+                            <div class="row px-2 py-3 bg-white border ">
+                                <div class="col-2">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox"  id="baby">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            嬰兒用品
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="breakfast">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        早餐
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="wifi">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        免費 Wifi
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="smoking">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            禁菸
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="shower">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        淋浴
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="ktv">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        KTV
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="van">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            接送服務
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="parking">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        停車場
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="bath">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        浴缸
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="swimming">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            泳池
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="beach">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        海灘
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="tv">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        電視
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="air">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        冷氣
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="landuary">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        洗衣機
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="bar">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        酒吧
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="business">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        會議室
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="play">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        遊戲區
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="spa">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        SPA
+                                        </label>
+                                    </div>
+                                </div>
+                        </div>
+                </div>
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">每晚價格</h2>
+                        <p class="m-b-4">請輸入此住宿的每晚房價。TWD</p>
+                            
+                            <div class="form-group">
+                                <div>
+                                    <input style="height:55px; width: 200px;" placeholder="例如：1200" type="text" id="price" class="form-control" value>
+                                    
+                                </div>
+                            </div>
+                    
+                </div>
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">向房客們展示物業的特色</h2>
+                        <p class="m-b-4">對於旅客來說，現場實景照片往往成為影響是否訂房的重要參考。因此，建議你上傳完整的高畫質實景照片，吸引旅客下訂</p>
+                       <!--   <div class="px-4 py-4 border bg-white">
+                            <form  action="/somewhere/to/upload" enctype="multipart/form-data">
+
+                                <input  type="file" id="progressbarTWInput" accept="image/gif, image/jpeg, image/png" >
+                            
+                                <img  width="360" id="preview_progressbarTW_img" src="#" />
+                            
+                            </form> 
+                        </div> -->
+                        <div class="form-group">
+                                <div>
+                                    <input placeholder="例如：板橋凱撒大飯店 (Caesar Park Hotel Banqiao)" type="text" id="image" class="form-control" value>
+                                    <small class="m-t-1 p-l-3" style="float:right;">40</small>
+                                </div>
+                        </div>      
+                    
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <h2 style="font-size:20px; font-weight: 700;">星級評等</h2>
+                        <p class="m-b-4">旅客對不同星等的住宿有不同的期待，為住宿提供一個適合的星級評等吧！
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                需要幫助 ?
+                            </button>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" style="font-weight: 700;" id="exampleModalLabel">星級評等規範</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body px-4">
+                                        <span style="font-weight: 700;">1星級</span>
+                                        <p>提供基本住宿功能，價格通常吸引預算有限的旅人。大多數的旅人可能會覺得不夠舒適或是缺少某些服務，但對於不想花太多錢在住宿上的旅人會是超值的選擇。
+                                        </p>
+                                        <span style="font-weight: 700;">2星級</span>
+                                        <p>除了基本的住宿設施外，還提供部份額外設施，也可能位於較好的地段。提供預算有限的旅人一個更舒適的住宿體驗。
+                                        </p>
+                                        <span style="font-weight: 700;">3星級</span>
+                                        <p>住宿設施位於中間值，外加一、兩個主要賣點，包含便利的地點，不錯的景觀或高檔的衛浴設備等等令人感到舒適的設施或服務，不過並非全部都有。
+                                        </p>
+                                        <span style="font-weight: 700;">4星級</span>
+                                        <p>住宿設施高於中間值，外加許多主要賣點，包含便利的地點，設施服務，高質感的家具，美景和寬敞的空間。旅客在探索城市和周邊景點之餘，也可以擁有良好的住宿經驗。
+                                        </p>
+                                        <span style="font-weight: 700;">5星級</span>
+                                        <p>住宿非常高級和專業，對細節的要求相當極致，並有許多特別的服務和特點，包含完美的地點和有如明信片般的美景，旅客所有的需求，幾乎都能獲得滿足。
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>       
+                        </p>
+                            
+                            <div class="form-group">
+                                <div>
+                                    <input style="height:55px; width: 200px;" placeholder="例如：5" type="text" id="star" class="form-control" value>
+                                    <small class="" style="padding-left: 170px;">0~5</small>
+                                </div>
+                            </div>
+                    
+                </div>
+                <div style="margin-bottom: 70px;">
+                    <h2 style="font-size:20px; font-weight: 700;">地圖位置</h2>
+                    <p class="m-b-4">在地圖中找到房子的位置並點擊滑鼠，分別複製貼上經緯度</p>
+                    <div class="px-3 py-3 border bg-white">
+                    <input placeholder="例如：120.99411045453763" type="text" style="width: 400px;"id="lng" class="mb-2 form-control" value>
+                    <input placeholder="例如：23.799132456586676" type="text" style="width: 400px;"id="lat" class="mb-3 form-control" value>
+                    
+                        <div id="map-container" style=" width:100%; height: 400px;">
+                            <div id="map">
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="pb-5" style="padding-left: 400px;">
+                    <button id="submit" style=" height:50px; width: 200px; border:none; background-color: #1174A6; color:#fff"><span class="fw-bold">確認新增</span></button>      
+                </div>      
+            </div>
+        </form>        
+    </div>
+ </body>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script>
+ $(document).ready(function() {
+     // 處理表單點擊事件
+     
+     
+     
+  	 $( "#submit" ).click(function() {
+  		submit();
+  	});
+    
+
+     function submit() {
+     	 var name = $('#name').val();
+         var description = $('#description').val();
+         var address = $('#address').val();
+         var baby = $('#baby').is(':checked');
+         var breakfast = $('#breakfast').is(':checked');
+         var wifi = $('#wifi').is(':checked');
+         var smoking = $('#smoking').is(':checked');
+         var shower = $('#shower').is(':checked');
+         var ktv = $('#ktv').is(':checked');
+         var van = $('#van').is(':checked');
+         var parking = $('#parking').is(':checked');
+         var bath = $('#bath').is(':checked');
+         var swimming = $('#swimming').is(':checked');
+         var beach = $('#beach').is(':checked');
+         var tv = $('#tv').is(':checked');
+         var air = $('#air').is(':checked');
+         var landuary = $('#landuary').is(':checked');
+         var bar = $('#bar').is(':checked');
+         var business = $('#business').is(':checked');
+         var play = $('#play').is(':checked');
+         var spa = $('#spa').is(':checked');
+         var price = $('#price').val();
+         var image = $('#image').val();
+         var star = $('#star').val();
+         var lng = $('#lng').val();
+         var lat = $('#lat').val();
+         
+
+                                  
+         // 將資料組成JSON格式
+         var data_object = {
+         	
+         	"name": name,
+         	"description": description,
+         	"address": address,
+         	"baby": baby,
+         	"breakfast": breakfast,
+         	"wifi": wifi,
+         	"smoking": smoking,
+         	"shower": shower,
+         	"ktv": ktv,
+         	"van": van,
+         	"parking": parking,
+         	"bath": bath,
+         	"swimming": swimming,
+         	"beach": beach,
+         	"tv": tv,
+         	"air": air,
+         	"landuary": landuary,
+         	"bar": bar,
+         	"business": business,
+         	"play": play,
+         	"spa": spa,
+         	"price": price,
+         	"image": image,
+         	"star": star,
+         	"lng": lng,
+         	"lat": lat,
+            
+         };
+
+         // 將JSON格式轉換成字串
+         var data_string = JSON.stringify(data_object);
+
+         // 發出POST的AJAX請求
+         $.ajax({
+         	  
+                 type: "POST",
+                 url: "api/product.do",
+                 data: data_string,
+                 crossDomain: true,
+                 cache: false,
+                 dataType: 'json',
+                 timeout: 5000,
+                 success: function (response) {
+                     /*$('#flashMessage').html(response.message);
+                     $('#flashMessage').show();*/
+                     if(response.status == 200){
+                         alert("wowow");
+                     }
+                 },
+                 error: function () {
+                     alert("無法連線到伺服器！");
+                 }
+         });
+         
+     }
+ });
+ 
+ </script>
+ 
+<script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoieWFza2xvcHAiLCJhIjoiY2t4aGZvNzB2MDAzMDJucDBqdXpxcDRmMiJ9.qi0ewZdnrEIGRUEIcG6r8g';
+            const map = new mapboxgl.Map({
+                container: 'map', // container ID
+                style: 'mapbox://styles/mapbox/streets-v11', // style URL
+                center: [120.99411045453763, 23.799132456586676], // starting position [lng, lat]
+                zoom: 8 // starting zoom
+            });
+            //map.flyTo({center:[lat, lng]});
+            map.on('style.load', function() {
+                map.on('click', function(e) {
+                    var coordinates = e.lngLat;
+                    new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML('you clicked here: <br/>' + coordinates)
+                    .addTo(map);
+                });
+            });
+           
+ </script>  
+ 
+ <script>
+
+    $("#progressbarTWInput").change(function(){
+      readURL(this);   
+    });
+    
+     
+    
+    function readURL(input){
+      if(input.files && input.files[0]){    
+        var reader = new FileReader();    
+        reader.onload = function (e) {    
+           $("#preview_progressbarTW_img").attr('src', e.target.result);   
+        }    
+        reader.readAsDataURL(input.files[0]);    
+      }
+    
+    }
+    
+</script> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</html>
+

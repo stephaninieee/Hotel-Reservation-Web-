@@ -81,7 +81,9 @@ public class Order {
         this.modify = modify;
         getOrderProductFromDB();
     }
-
+    public Order() {
+    
+    }
     /**
      * 新增一個訂單產品及其數量
      */

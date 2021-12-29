@@ -28,10 +28,12 @@
 	<div class="video-overlay"></div>
   	<div class="page-width">
 		    <div class="video-hero--content">
-			      <h2>管理者登入</h2>
-			      <br>			      
-			      <input type="text" name="欄位名稱" value="email" id="email" required>			      			      	
-			      <input type="text" name="欄位名稱" value="password" id="password" required>
+			      <h2>Member Login</h2>
+			      <br>		
+			      <td> Email</td>	      
+			      <input type="text" name="欄位名稱"  id="email" required>
+			      <td> Password </td>			      			      	
+			      <input type="text" name="欄位名稱"  id="password" required>
 			      <br>
 			      <br>
 			      <input type="button" id="login" value="login">
@@ -55,22 +57,23 @@
     	$form.click(function() {
     		login();
     	});
-	
-		function login(){					
+    	
+		function login(){	
 			var email = $('#email').val();
-			var password = $('#password').val();
+            var password = $('#password').val();
+          
 			var data = {"email": email};
 			var data_object = {           		
         		"email": email,
         		"password": password,
         		"login_mode": 1
     		};
-
-			var data_string = JSON.stringify(data_object);	
+			
+			var data_string= JSON.stringify(data_object);
 			var data_f = JSON.stringify(data);			
 			$.ajax({
 				type:"GET",
-				url:"api/ManagerController.do",
+				url:"api/MemberController.do",
 				data:{"email":$('#email').val()},
 				crossDomain:true,
 				cache:false,
@@ -89,6 +92,8 @@
 			});
 		}
 	});
+	
+	
 	/*$(document).ready(function(){	
 		$("#login").click(
 			function login(){

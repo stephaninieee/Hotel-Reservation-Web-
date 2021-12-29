@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
+<<<<<<< HEAD
 -- 產生時間： 2021-12-29 15:00:19
+=======
+-- 產生時間： 2021-12-21 10:01:12
+>>>>>>> 696aa956b9a6be4b2e923896b827416f004bddae
 -- 伺服器版本： 10.4.14-MariaDB
 -- PHP 版本： 7.4.10
 
@@ -33,7 +37,10 @@ CREATE TABLE `products` (
   `price` double DEFAULT NULL,
   `image` varchar(250) DEFAULT NULL,
   `address` varchar(100) NOT NULL,
+<<<<<<< HEAD
   `avgrate` int(3) NOT NULL,
+=======
+>>>>>>> 696aa956b9a6be4b2e923896b827416f004bddae
   `baby` tinyint(1) NOT NULL,
   `breakfast` tinyint(1) NOT NULL,
   `wifi` tinyint(1) NOT NULL,
@@ -52,15 +59,20 @@ CREATE TABLE `products` (
   `business` tinyint(1) NOT NULL,
   `game` tinyint(1) NOT NULL,
   `SPA` tinyint(1) NOT NULL,
+<<<<<<< HEAD
   `describe` varchar(255) NOT NULL,
   `lng` double NOT NULL,
   `lat` double NOT NULL
+=======
+  `describe` varchar(255) NOT NULL
+>>>>>>> 696aa956b9a6be4b2e923896b827416f004bddae
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 傾印資料表的資料 `products`
 --
 
+<<<<<<< HEAD
 INSERT INTO `products` (`id`, `name`, `price`, `image`, `address`, `avgrate`, `baby`, `breakfast`, `wifi`, `smoking`, `shower`, `KTV`, `van`, `parking`, `bath`, `swimming`, `beach`, `TV`, `air`, `laundry`, `bar`, `business`, `game`, `SPA`, `describe`, `lng`, `lat`) VALUES
 (1, 'Rob Cond', 2800, 'https://pix8.agoda.net/hotelImages/5347424/-1/d0978cc3ac584168e16d2833502c57bc.jpg?ca=13&ce=1&s=1024x768', '台北', 3, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, '苅田北九州機場Vessel飯店開幕於2006，不僅為福岡增添風采，也是旅客們的最佳選擇。 在這裡，旅客可輕鬆前往市區內各大旅遊、購物、餐飲地點。 住宿位置優越讓旅客前往市區內的熱門景點變得方便快捷。此外，這裡的所有客房皆配有各種舒適的房內設施。 許多房間甚至還提供了平面電視, 免費WiFi, 禁菸房, 空調, 暖氣以滿足客人的需求。 住宿配備了按摩服務等娛樂設施，必定能讓您流連忘返。', 121.19499969482422, 24.968399047851562),
 (2, 'Cancun Cumbres', 3000, 'https://pix8.agoda.net/hotelImages/4888272/0/087ec6fc9a01f72417b884721b974330.jpg?ca=23&ce=0&s=1024x768', '台北', 4, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, '位於北九州的小倉皇冠山飯店是您旅遊探索福岡和其周邊地區的最佳選擇。 在這裡，旅客可輕鬆前往市區內各大旅遊、購物、餐飲地點。 住宿位置優越讓旅客前往市區內的熱門景點變得方便快捷。  小倉皇冠山飯店提供多種多樣的設施，令您在福岡期間的旅程更豐富。 這間住宿提供多樣設施，再講究的客人也能在此得到滿意的服務。', 130.8844757080078, 33.8809700012207),
@@ -73,6 +85,13 @@ INSERT INTO `products` (`id`, `name`, `price`, `image`, `address`, `avgrate`, `b
 (9, '板橋凱撒大飯店', 5628, 'https://pix8.agoda.net/hotelImages/2089511/-1/b41c3693fd6b6b55f9e77d63b910d06e.jpg?s=1024x768', '新北市板橋區縣民大道2段8號', 3, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, '在這裡，您能真切的感受最極致的舒適住宿體驗，部分客房提供平面電視, 浴室話機, 地毯, 清潔用品, 開放式衣櫥，給住客更完整的服務。 不管您是健身愛好者還是只想在疲憊的一天後放鬆一下自己，住宿的頂級娛樂設施都是不二選擇，例如：健身房, 室外游泳池, Spa, 按摩服務。 專業的服務與豐富的特色活動盡在Caesar Park Hotel Banqiao。', 121.46237182617188, 25.010908126831055),
 (12, '台中博客創意旅店', 500, 'https://pix8.agoda.net/hotelImages/928918/-1/24f754e486caa2494ab0dfd67e186f12.jpg?s=1024x768', '台中市北區錦新街40號', 2, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, '台中博客創意旅店座落於台中市的北區，是帶給您歡樂假期與放鬆身心的完美住宿選擇。 離市中心僅0 km的路程，能確保旅客快捷地前往當地的旅遊景點。 住宿位置優越讓旅客前往市區內的熱門景點變得方便快捷。', 120.54989624023438, 24.07819938659668),
 (13, '台中旭日文旅 ', 1749, 'https://pix8.agoda.net/hotelImages/6428111/-1/f4e9c21ef564ff56cd4f4ba092d0f6ec.jpg?s=1024x768', '五權路276號, 北區, 台中市', 3, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 'Raise Hotel Taichung提供優質住宿，位於台中市的觀光, 購物, 餐飲，是商務和休閒旅行的熱門之選。 離市中心僅的路程，能確保旅客快捷地前往當地的旅遊景點。 住宿位置優越讓旅客前往市區內的熱門景點變得方便快捷。\nRaise Hotel Taichung提供多種多樣的設施，令您在台中市期間的旅程更豐富。 這間住宿提供多樣設施，再講究的客人也能在此得到滿意的服務。', 120.676485, 24.1507092);
+=======
+INSERT INTO `products` (`id`, `name`, `price`, `image`, `address`, `baby`, `breakfast`, `wifi`, `smoking`, `shower`, `KTV`, `van`, `parking`, `bath`, `swimming`, `beach`, `TV`, `air`, `laundry`, `bar`, `business`, `game`, `SPA`, `describe`) VALUES
+(1, 'Rob Cond', 10000, 'p1.jpg', '台北', 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, ''),
+(2, 'Cancun Cumbres', 13000, 'p2.jpg', '台北', 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, ''),
+(3, 'Oriental Hotel Tokyo Bay', 800, 'p6.jpg', '桃園', 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, ''),
+(4, 'APA度假飯店', 12000, 'p5.jpg', '新竹', 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, '');
+>>>>>>> 696aa956b9a6be4b2e923896b827416f004bddae
 
 --
 -- 已傾印資料表的索引
@@ -92,7 +111,11 @@ ALTER TABLE `products`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `products`
 --
 ALTER TABLE `products`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+>>>>>>> 696aa956b9a6be4b2e923896b827416f004bddae
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

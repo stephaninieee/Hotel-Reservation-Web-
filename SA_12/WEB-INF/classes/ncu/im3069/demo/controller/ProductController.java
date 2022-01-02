@@ -65,7 +65,7 @@ public class ProductController extends HttpServlet {
         //String image = "p5.jpg";
         String image = filePart.getSubmittedFileName();
         //System.out.print(image);
-        filePart.write("D:\\github\\SA_12\\SA_12\\images\\" + image);
+        filePart.write("D:\\github\\SA\\SA_12\\SA_12\\images" + image);
         
 		
         //JSONObject jso = jsr.getObject();

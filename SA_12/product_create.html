@@ -3,21 +3,110 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>CakePHP: the rapid development php framework: Members</title>
-    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
-    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
-    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+    <title>Travel 刊登新房間</title>
+    <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+    
+    
+
+    <!--font-family-->
+		<link href="https://fonts.googleapis.com/css?family=Rufina:400,700" rel="stylesheet" />
+
+		<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+
+		<!-- favicon img -->
+		<link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+
+		<!--font-awesome.min.css-->
+		<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+		<!--animate.css-->
+		<link rel="stylesheet" href="assets/css/animate.css" />
+
+		<!--hover.css-->
+		<link rel="stylesheet" href="assets/css/hover-min.css">
+
+		<!--datepicker.css-->
+		<link rel="stylesheet"  href="assets/css/datepicker.css" >
+
+		<!--owl.carousel.css-->
+        <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+		<link rel="stylesheet" href="assets/css/owl.theme.default.min.css"/>
+
+		<!-- range css-->
+        <link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
+
+		<!--bootstrap.min.css-->
+        <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+
+		<!-- bootsnav -->
+		<link rel="stylesheet" href="assets/css/bootsnav.css"/>
+
+		<!--style.css-->
+		<link rel="stylesheet" href="assets/css/style.css" />
+
+		<!--responsive.css-->
+		<link rel="stylesheet" href="assets/css/responsive.css" />
+
+        <!--original.css-->
+        <link rel="stylesheet" href="assets/css/original.css" />
+
+
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+        <style>
+            .navfont{
+                padding-top: 10px; background-color:transparent; border: none;color: #FFFFFF;
+            }
+            
+            .fa:hover{
+                color: rgb(0, 0, 0);
+            }
+        </style>
 
     <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    
     <div id="container">
+        <!--
         <div id="header">
             <h1><a href="http://cakephp.org/">CakePHP: the rapid development php framework</a></h1>
         </div>
+        -->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgba(77,78,84,1);">
+            <div class="container" style="height:78px; width: 1170px; margin-right: auto;margin-left: auto;"> 
+              <a class="navbar-brand" href="#" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
+    
+    
+                <ul class="navbar-nav  navbar-right  ms-auto">
+                  <li class="nav-item" style="padding-right:15px;">
+                    <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px; " href="#">刊登家中空房</a>
+                  </li>
+                  <li class="nav-item" style="padding-right:20px;" >
+                    <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="#">加入會員</a>
+                  </li>
+                  <li class="nav-item" style="padding-right:15px;">
+                    <button  style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255);    border-width: 1px;
+                    border-style: solid;font-size: 14px;
+                    border-color: rgb(0, 216, 255);border-radius: 5px;height: 40px;" >登入</button>
+                  </li>
+                </ul>
+    
+    
+            </div>
+        </nav>
+        
         <div id="content">
-            <h2>更新會員資料</h2>
+            <!--
+            <h2>註冊會員資料</h2>
             <a href="index.html">會員清單</a>
             <a href="product.html">購物車模組</a>
 
@@ -42,16 +131,51 @@
                 </div>
                 
       
-                <!--  <div class="input password required">
+                *****  <div class="input password required">
                     <label for="product_image">圖片</label>
                     <input name="password" type="text" id="product_image" required="required">
-                </div>-->
+                </div>******
                 <div class="input text">
                     <label for="product_description">描述</label>
                     <input name="login_times" type="text" id="product_description" required="required">
                 </div>
                 <div class="submit"><input type="button" value="更新" id="submit"></div>
             </form>
+            -->
+            <section class="about-us">
+            <div id="login_frame">
+                <h3 class=" mt-3 mb-3" style="margin-inline-start:-350px;">刊登新房間</h3>
+                <hr>
+                <!--<p id="image_logo"><img src=""></p>-->
+                <form method="post" action="login.js">
+                    <p>
+                        <label for="product_image" class="col-lg-3 col-md-3 col-sm-3">圖片</label>
+                        <input id="ajaxfile" type="file" name="file"/>
+                    </p>
+                     <div class="space"></div>
+                    <p> 
+                        <label for="member_name" class=" col-lg-3 col-md-3 col-sm-3">商品名</label>
+                        <input name="name" class="form-control" maxlength="30" size="30" type="text" id="member_name" required="required" >    
+                    </p>
+                    <div class="space"></div>
+                    <p>
+                        <label for="product_price" class="col-lg-3 col-md-3 col-sm-3">價格</label>
+                        <input name="email" class="form-control" maxlength="50" type="email" id="product_price" required="required">
+                    </p>
+                    <div class="space"></div>
+                    <p>
+                        <label for="product_description" class="col-lg-3 col-md-3 col-sm-3">描述</label>
+                        <!--<input name="login_times" class="form-control" type="text" id="product_description" style="height: 90px;"required="required">-->
+                        <textarea class="form-control" id="product_description" style="resize:none" rows="3" name="S1" cols="20"></textarea>
+                    </p>
+                    <div class="space"></div>
+                    <div id="login_control">
+                        <input type="button" class="btn_login" id="submit"  value="新增" />
+                        
+                    </div>
+                </form>
+            </div>
+            </section>
 
             <script type="text/javascript">
                 // 取得網址參數
@@ -135,27 +259,15 @@
              
             </script>
         </div>
+        <!--
         <div id="footer">
             <a href="http://www.cakephp.org/" target="_blank" id="cake-powered"><img src="statics/img/cake.power.gif" alt="CakePHP: the rapid development php framework" border="0"></a>
             <p>CakePHP 2.6.10</p>
         </div>
+        -->
     </div>
 
-    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
-        <caption id="sql_summary">(default) 0 query took 0 ms</caption>
-        <thead>
-            <tr>
-                <th>Nr</th>
-                <th>Query</th>
-                <th>Error</th>
-                <th>Affected</th>
-                <th>Num. rows</th>
-                <th>Took (ms)</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    
 </body>
 
 </html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v0.10.0/mapbox-gl-language.js"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        #map-container {
+            position: relative;
+            height: 650px;
+            width: 100%;
+        }
+
+        #map {
+            position: relative;
+            height: inherit;
+            width: inherit;
+        }
+    </style>
+</head>
+<body style="background-color: #f8f5f4;">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgba(77,78,84,1);">
+        <div class="container" style="height:62px; width: 1170px; margin-right: auto;margin-left: auto;"> 
+          <a class="navbar-brand" href="#" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
+
+
+            <ul class="navbar-nav    ms-auto">
+              <li class="nav-item" style="padding-right:15px;">
+                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px; " href="#">刊登家中空房</a>
+              </li>
+              <li class="nav-item" style="padding-right:20px;" >
+                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="#">加入會員</a>
+              </li>
+              <li class="nav-item" style="padding-right:15px;">
+                <button  style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255);    border-width: 1px;
+                border-style: solid;font-size: 14px;
+                border-color: rgb(0, 216, 255);border-radius: 5px;height: 40px;" >登入</button>
+              </li>
+            </ul>
+        
+
+        </div>
+      </nav>
+    <div class="container" style="padding-right: 150px; padding-left: 150px;">
+        <br><br><br><br><br>
+        
+        
+
+        <div class="bg-white pt-1" id="image_panel">
+                <div class="mx-2 mt-2 mb-4  rounded-3" style="color: white; background-color:#343b53;">
+                    <div class=" py-4 px-4" style="font-weight: 500; font-size: 18px;">
+                        <li class="fas fa-exclamation-triangle me-3"></li>
+                        <span class="me-3">查看國際旅遊疫情等級</span>  
+                        <a style="font-size: 14px; color:white;" href="https://www.cdc.gov.tw/CountryEpidLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09">了解詳情。</a>
+                    </div>
+                    
+                </div>
+                
+                
+            
+        </div>
+  
+  
+  
+  <!-- Modal -->
+  <div class="modal fade" style="width:100%;" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <img class="modal_img" style="width:100%;" src=""  alt="image">
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+        <div class="bg-white mt-5" >  
+            <div class="row pt-4">
+                <div class="col-7 pt-4" style="padding-left: 45px;">
+                    <p  id="name_panel" style="line-height: 2px; font-size: 2rem; font-weight:900; color :#141D38"></p>
+                    <p id="star_panel">
+                        
+                    </p>
+                    <div class="pt-3" style=" line-height: 1rem;">
+                        <p id="star_text_panel" style="color: #141D38;font-size: 1.25rem; font-weight: 900;"></p>
+                        <p id="avgrate_panel_1" class=""></p>
+                    </div>
+                    <div class="pt-5">
+                        <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">受歡迎的設施服務</p>
+                        <div class="row" id="facility_panel">
+                            <div class="col-4" style="font-size:17px;">
+                                <p ><i class="fa fa-tv" style="color:#343B53"></i>  電視</p>  
+                            </div>
+                            
+                            
+                           
+                        </div>
+                        
+                    </div>
+                    <div class="pt-5">
+                        <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">住宿介紹</p>
+                        <p id="describe_panel">
+                        </p>
+                    </div>
+                    <div class="pt-5">
+                        
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-4 ps-1">
+                    
+                    <div id="map_image_panel">
+                    
+                    </div>
+                    <div class="pt-5">
+                        <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">地址</p>
+                        <p id="address_panel"></p>
+                    </div>
+                    <div class="pt-5">
+                        <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">聯絡我們</p>
+                        <p><li class="fas fa-phone me-2" style="font-size: large;"></li>0921999999</p>
+                        <p><li class="fas fa-envelope-open me-2" style="font-size: large;"></li>12345678@gmail.com</p>
+                    </div>  
+                    <div class="pt-4">
+                        <button type="button" class="btn btn-outline-secondary">我要訂房</button>
+                    </div>  
+                    <div class="pt-5">
+                        
+                    </div>
+                </div> 
+            </div>
+        </div>
+        
+        
+
+        <div class="bg-white mt-5 mb-5"> 
+            <div class="row pt-3">
+                <div class="col-4" style="padding-left: 45px;">
+                    <p id="avgrate_panel_2"></p>
+                    <div>
+                        <p style="line-height: 5px;">5--超讚</p>
+                        <div class="progress mb-3" style="height: 15px;">
+                            <div id="bar_1"class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 55%;  background-color: #343b53;"></div>
+                          </div>
+                          <p style="line-height: 5px;">4--非常好</p>
+                          <div class="progress mb-3" style="height: 15px;">
+                            <div id="bar_2" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p style="line-height: 5px;">3--普通</p>
+                          <div class="progress mb-3" style="height: 15px;">
+                            <div id="bar_3" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p style="line-height: 5px;">2--不太好</p>
+                          <div class="progress mb-3" style="height: 15px;">
+                            <div id="bar_4" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 30%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p style="line-height: 5px;">1--很糟糕</p>
+                          <div class="progress mb-3" style="height: 15px;">
+                            <div id="bar_5" class="progress-bar" role="progressbar" style=" background-color: #343b53; width: 10%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                    </div>
+                </div>
+                
+                <div class="col-7 pt-3" id="comment_panel">
+                    <div class="ps-5">
+                        <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">4/5 非常好</p>
+                        <p>接客、お部屋の掃除などは満足しております。ほぼ満室だったと思いますが、他のお客さんの声や音など全くしなかったので夜も快適に過ごせました。 ただ一つ残念だったのが朝食が遅めだったこともありますが、まだ食事をしているのにどんどん片付けが進んでしまい最後のデザートが全然食べれませんでした。 最後のお客が退席するまで片付けないでほしかったです。 朝食はとても美味しかったです！</p>
+                        <p><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li></p>
+                        <hr>
+                    </div>
+                    <div class="ps-5">
+                        <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">4/5 非常好</p>
+                        <p>接客、お部屋の掃除などは満足しております。ほぼ満室だったと思いますが、他のお客さんの声や音など全くしなかったので夜も快適に過ごせました。 ただ一つ残念だったのが朝食が遅めだったこともありますが、まだ食事をしているのにどんどん片付けが進んでしまい最後のデザートが全然食べれませんでした。 最後のお客が退席するまで片付けないでほしかったです。 朝食はとても美味しかったです！</p>
+                        <p><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li></p>
+                        <hr>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div> 
+
+        
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" style="width:100%;" id="mapModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+            
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                <div id="map-container" class="">
+                            <div id="map"   width="100%" class="rounded-3">
+                            </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+   
+        
+</script>
+<script>
+    
+	
+    
+</script>
+<script type="text/javascript">
+
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var id = url.searchParams.get("id");
+	
+	
+	
+	function getProductData() {
+		
+		$.ajax({
+	        type: "GET",
+	        url: "api/product.do",
+	        data: "id=" + id,
+	        crossDomain: true,
+	        cache: false,
+	        dataType: 'json',
+	        timeout: 5000,
+	        success: function (response) {
+	            if(response.status == 200){
+	            	$.each(response.response.data, function (){
+	                	
+	                  	$("#image_panel").append(addImage(this));
+	                  	$("#name_panel").append(addName(this));
+	                  	$("#facility_panel").append(addFacility(this));
+	                  	$("#describe_panel").append(addDescribe(this));
+	                  	$("#map_image_panel").append(addMapImage(this));	                  	
+	                  	mapbox(this);
+	                  	
+	                  	$("#address_panel").append(addAddress(this));
+	                  	$("#star_panel").append(addStar(this));
+	                  	$("#star_text_panel").append(addStarText(this));
+	                  
+	                  	
+	            	})	            	
+	            }
+	            
+	        },
+	        error: function () {
+	            alert("無法連線到伺服器！");
+	        }
+	  });
+		
+	}
+	
+	function getComment(){
+		$.ajax({
+	 	   type: "GET",
+	         url: "api/CommentController.do",
+	         crossDomain: true,
+	         cache: false,
+	         data: "Room_id=" + id,
+	         dataType: 'json',
+	         timeout: 5000,
+	         success: function (response) {
+	        	var comment_panel = '';
+	           	var all_stars = 0 ;
+	           	var avg_star = '';
+	           	var star_number = [0, 0, 0, 0, 0];
+	           	
+	           	$.each(response.response.data, function (){
+	           		comment_panel += addComment(this); 
+	           		all_stars += this.star;
+	           		switch(this.star) {
+		           	  case 1:
+		           		star_number[0] = star_number[0] + 1;
+		           	    break;
+		           	  case 2:
+		           		star_number[1] = star_number[1] + 1;
+		           	    break;
+		           	  case 3:
+		           		star_number[2] = star_number[2] + 1;
+		           	    break;
+		           	  case 4:
+		           		star_number[3] = star_number[3] + 1;
+		           	    break;
+		           	  case 5:
+		           		star_number[4] = star_number[4] + 1;
+		           	    break;
+		           	  default:
+		           		star_number[0] = star_number[0] + 1;
+	           		}
+	           	})
+	           	
+	           	avg_rate = (all_stars/response.response.row).toFixed(1);
+	           	$("#comment_panel").append(comment_panel);
+	           	$("#avgrate_panel_1").append(addAvgrate_1(avg_rate));
+	           	$("#avgrate_panel_2").append(addAvgrate_2(avg_rate));
+	           	$("#bar_5").width(star_number[0]/response.response.row*100 + '%');
+	           	$("#bar_4").width(star_number[1]/response.response.row*100 + '%');
+	           	$("#bar_3").width(star_number[2]/response.response.row*100 + '%');
+	           	$("#bar_2").width(star_number[3]/response.response.row*100 + '%');
+	           	$("#bar_1").width(star_number[4]/response.response.row*100 + '%');
+	         },
+	         error: function () {
+	             alert("無法連線到伺服器！");
+	         }
+	 });
+	}
+	
+	
+	getProductData();
+	getComment();
+	
+	function addImage(data){
+		let inner_html = '';
+		inner_html += '<div class="bg_image mb-2" src="'+ data.image+'" style="height:341px;  background-position: center; background-size: cover;  background-image: url(' + data.image + ');"></div>'
+		return inner_html;
+	}
+	
+	function addName(data){
+		return data.name;
+	}
+	
+	function addFacility(data){
+		const all_tags = []
+		all_tags[0] = '<i class="fa fa-baby-carriage" style="color:#343B53"></i>  酒吧';
+		all_tags[1] = '<i class="fa fa-utensils" style="color:#343B53"></i>  早餐';
+		all_tags[2] = '<i class="fa fa-wifi" style="color:#343B53"></i>  免費上網';
+		all_tags[3] = '<i class="fa fa-smoking-ban" style="color:#343B53"></i>  禁止吸菸';
+		all_tags[4] = '<i class="fa fa-shower" style="color:#343B53"></i>  淋浴';
+		all_tags[5] = '<i class="fa fa-microphone" style="color:#343B53"></i>  卡拉OK';
+		all_tags[6] = '<i class="fa fa-shuttle-van" style="color:#343B53"></i>  免費接送';
+		all_tags[7] = '<i class="fa fa-parking" style="color:#343B53"></i>  停車場';
+		all_tags[8] = '<i class="fa fa-bath" style="color:#343B53"></i>  浴缸';
+		all_tags[9] = '<i class="fa fa-swimmer" style="color:#343B53"></i> 游泳池';
+		all_tags[10] = '<i class="fa fa-umbrella-beach" style="color:#343B53"></i>  海灘';
+		all_tags[11] = '<i class="fa fa-tv" style="color:#343B53"></i>  電視';
+		all_tags[12] = '<i class="fa fa-snowflake" style="color:#343B53"></i>  冷氣機';
+		all_tags[13] = '<i class="fa fa-tshirt" style="color:#343B53"></i>  洗衣機';
+		all_tags[14] = '<i class="fa fa-glass-martini-alt" style="color:#343B53"></i>  酒吧';
+		all_tags[15] = '<i class="fa fa-briefcase" style="color:#343B53"></i>  會議室';
+		all_tags[16] = '<i class="fa fa-gamepad" style="color:#343B53"></i>  遊戲區';
+		all_tags[17] = '<i class="fa fa-spa" style="color:#343B53"></i>  SPA';
+		
+		let inner_html = '';
+		
+		for (let i = 0; i < all_tags.length; i++){
+				
+				var s = "tag" + i;
+				if (data[s]){
+					inner_html += '<div class="col-4" style="font-size:17px;">'
+					inner_html += '<p class="">'+ all_tags[i] + '</p>'
+					inner_html += '</div>'
+				}
+		}
+		
+		return inner_html;
+	}
+	
+	function addDescribe(data){
+		return data.describe;
+	}
+	
+	function addMapImage(data){
+		let inner_html = '';
+		inner_html += '<img class="map-img" alt="static Mapbox map of the San Francisco bay area" src="https://api.mapbox.com/styles/v1/mapbox/streets-v8/static/'+ data.lng+ ','+ data.lat +',13.5,0.00,0.00/150x110@2x?access_token=pk.eyJ1IjoieWFza2xvcHAiLCJhIjoiY2t4aGZvNzB2MDAzMDJucDBqdXpxcDRmMiJ9.qi0ewZdnrEIGRUEIcG6r8g">'
+		return inner_html;
+	}
+	
+	
+	
+	function mapbox(data){
+		
+		
+		document.addEventListener("click",function(e){
+	        if (e.target.classList.contains("bg_image")) {
+	            const src = e.target.getAttribute("src");
+	            document.querySelector(".modal_img").src = src;
+	            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+	            myModal.show();
+	        }
+	        if (e.target.classList.contains("map-img")) {
+	            
+	            
+	            const myModal = new bootstrap.Modal(document.getElementById('mapModal'))
+	            
+	            myModal.show();
+	      
+	        }
+
+	    })
+		
+		 mapboxgl.accessToken = 'pk.eyJ1IjoieWFza2xvcHAiLCJhIjoiY2t4aGZvNzB2MDAzMDJucDBqdXpxcDRmMiJ9.qi0ewZdnrEIGRUEIcG6r8g';
+         const map = new mapboxgl.Map({
+             container: 'map', // container ID
+             style: 'mapbox://styles/mapbox/streets-v11', // style URL
+             center: [data.lng, data.lat], // starting position [lng, lat]
+             zoom: 16 // starting zoom
+             
+         });
+         //map.flyTo({center:[lat, lng]});
+         
+         const marker1 = new mapboxgl.Marker()
+								.setLngLat([data.lng, data.lat])
+								.addTo(map);
+         
+         $('#mapModal').on('shown.bs.modal', function () { 
+             map.resize();
+         });
+	}
+	
+	function addAddress(data){
+		let inner_html = '';
+		inner_html += '<li class="fas fa-map-marker-alt" style="font-size: large;"></li>  '+ data.address;
+		return inner_html;
+	}
+	
+	function addStar(data){
+		let inner_html = '';
+		for(let i = 0; i < data.avgrate; i++){
+			inner_html += '<li class="fa fa-star" style="color:#727483"></li>';
+		}
+		return inner_html;
+	}
+	
+	function addStarText(data){
+		return data.avgrate + '.0/5 ' + avg_comment(data.avgrate);
+	}
+	
+	function addComment(data){
+		let inner_html = '';
+		inner_html += '<div class="ps-5">'
+		inner_html += '<p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">'+ data.star + '/5 '+ avg_comment(data.star) + '</p>'
+		inner_html += '<p>'+ data.comment + '</p>'
+		inner_html += '<p>'
+		for(let i = 0; i < data.star; i++){
+			inner_html += '<li class="fa fa-star"></li>'
+		}
+		inner_html += '</p>'
+		inner_html += '<hr>'
+		inner_html += '</div>'
+		return inner_html;
+	}
+	
+	function addAvgrate_1(avgrate){
+		return '旅客給住宿平均 ' + avg_rate + '/5 的評分。'
+	}
+	
+	function addAvgrate_2(avgrate){
+		return '<span style="font-size: 56px; color:#343B53;">' + avgrate + '</span>' + avg_comment(avgrate)
+	}
+	
+	function avg_comment(avgrate){
+		
+		if (avgrate >= 1 && avgrate < 2){
+			return '很糟糕'
+		}
+		if (avgrate >= 2 && avgrate < 3){
+			return '不太好'
+		}
+		if (avgrate >= 3 && avgrate < 4){
+			return '普通'
+		}
+		if (avgrate >= 4 && avgrate < 5){
+			return '非常好'
+		}
+		if (avgrate = 5){
+			return '超讚'
+		}
+		
+	}
+	
+	
+	
+</script>
+ 
+</html>

@@ -1,14 +1,31 @@
 #login_frame {
-    width: 600px;
-    height: 450px;
+    width: 30%;
+    height: 40%;
     padding: 13px;
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-left: -300px;
-    margin-top: -300px;
+    margin-left: -15%;
+    margin-top: -15%;
     background-color: #fff;
-    border-radius: 10px;
+    border:1px black solid;
+    border-radius: 20px;
+    
+    text-align: center;
+    line-height: 1.42857143;
+    }
+#post_frame {
+    width: 500px;
+    height: 400px;
+    padding: 13px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -250px;
+    background-color: #fff;
+    border-radius: 20px;
+    border-color: #555;
     text-align: center;
     line-height: 1.42857143;
     }
@@ -67,7 +84,7 @@
 
     .form-control {
         display: block;
-        width: 400px;
+        width: 65%;
         height: 34px;
         padding: 6px 12px;
         font-size: 14px;

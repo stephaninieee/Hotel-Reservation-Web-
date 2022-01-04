@@ -4,9 +4,25 @@
 	 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	 <link rel="stylesheet" type="text/css" href="css/vediobackground.css">	 
 	 <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+	 <title>管理者登入</title>
+	 <link href="https://fonts.googleapis.com/css?family=Rufina:400,700" rel="stylesheet" />
+
+	 <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+
+	 <!--bootstrap.min.css-->
+	 <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+	 <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+
+	 <!--style.css-->
+	 <link rel="stylesheet" href="assets/css/style.css" />
+
+	 <!--bootstrap5-->
+	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	 <!--original.css-->
+	 <link rel="stylesheet" href="assets/css/original.css" />
 </head>
 <body>
-<div id="header" class="cf">
+<!--<div id="header" class="cf">
   	<div class="page-width">
     		<h1 id="site-title">
       			<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
@@ -15,10 +31,31 @@
 			      </a>
 		    </h1>
 	  </div>
-</div>
+</div>-->
+	<div class="container">
+		<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgba(77,78,84,1);">
+			<div class="container" style="height:62px; width: 1170px; margin-right: auto;margin-left: auto;"> 
+				<a class="navbar-brand" href="#" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
 
+
+				<ul class="navbar-nav    ms-auto">
+				<li class="nav-item" style="padding-right:15px;">
+					<a class="nav-link" style="color:#FFFFFF; font-size: 16.5px; " href="#">刊登家中空房</a>
+				</li>
+				<li class="nav-item" style="padding-right:20px;" >
+					<a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="#">加入會員</a>
+				</li>
+				<li class="nav-item" style="padding-right:15px;">
+					<button  style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255);    border-width: 1px;
+					border-style: solid;font-size: 14px;
+					border-color: rgb(0, 216, 255);border-radius: 5px;height: 40px;" >登入</button>
+				</li>
+				</ul>
+			</div>
+		</nav>
+	
 <!-- Start video hero -->
-<div class="video-hero jquery-background-video-wrapper demo-video-wrapper">/**/
+<!--<div class="video-hero jquery-background-video-wrapper demo-video-wrapper">/**/
   <video class="jquery-background-video" autoplay muted loop poster="https://d2ezlykacdqcnj.cloudfront.net/_assets/home-video/beach-waves-loop.jpg">
     <source src="https://d2ezlykacdqcnj.cloudfront.net/_assets/home-video/beach-waves-loop.mp4" type="video/mp4">
     <source src="https://d2ezlykacdqcnj.cloudfront.net/_assets/home-video/beach-waves-loop.webm" type="video/webm">
@@ -38,91 +75,123 @@
     		</div>   		
   	</div>
   	</form>>
-</div>
+</div>-->
 <!-- End video hero -->
 
-<div id="content">
+	<section style="background-color: #3BD9FF;">
+		<div id="login_frame" style=" background-color: #fcfcfc;">
+			<h2 class=" mt-3 mb-3" style=" font-size: 24px;">管理者登入</h2>
+			<hr>
+			<!--<p id="image_logo"><img src=""></p>-->
+			<form method="post" action="login.js">
+				
+				<div class="space"></div>
+				<p> 
+					<label for="member_name" class=" col-lg-3 col-md-3 col-sm-3">電子郵件</label>
+					<input name="email" class="form-control" maxlength="30" size="20" type="text" id="email" required="required" >    
+				</p>
+				<div class="space"></div>
+				<p style="margin-bottom: 20px;">
+					<label for="product_price" class="col-lg-3 col-md-3 col-sm-3">密碼</label>
+					<input name="password" class="form-control " maxlength="50" type="password" id="password" required="required">
+				</p>
+				
+				<div class="" style="margin-bottom: 20px;">
+					<a href="">註冊會員</a>
+				</div>
+				
+				<div id="login_control">
+					<input type="button" class="btn_login" id="login"  value="登入" />	
+				</div>
+				
+			</form>
+		</div>
+	</section>
+</div>
+
+
+<!--<div id="content">
 	  <div class="page-width">
     		<h3>Easy Background Videos</h3>
 		    <p>This page uses the <a href="https://github.com/BGStock/jquery-background-video" target="_blank">jQuery Background Video</a> plugin along with some simple html and css to generate this background video.</p>
 		    <p>The video overlay pattern is available at <a href="http://html5backgroundvideos.com/pattern-overlays/" target="_blank">http://html5backgroundvideos.com/pattern-overlays/</a></p>
 	  </div>
-</div>	
+</div>	-->
 	
-<script>			
-	$(document).ready(function() {   
-    	var $form = $('#login');
-    	$form.click(function() {
-    		login();
-    	});
-	
-		function login(){					
-			var email = $('#email').val();
-			var password = $('#password').val();
-			var data = {"email": email};
-			var data_object = {           		
-        		"email": email,
-        		"password": password,
-        		"login_mode": 1
-    		};
-
-			var data_string = JSON.stringify(data_object);	
-			var data_f = JSON.stringify(data);			
-			$.ajax({
-				type:"GET",
-				url:"api/ManagerController.do",
-				data:{"email":$('#email').val()},
-				crossDomain:true,
-				cache:false,
-				dataType:'json',
-				timeout:5000,
-				success:function(response){				
-					var a = response.response.data.password;
-					alert(a);
-					if(a==password){alert("登入成功");}   
-                 	else{alert("登入失敗");}
-										
-				},
-				error:function(){
-					alert("伺服器連接失敗");
-				}
+	<script>			
+		$(document).ready(function() {   
+			var $form = $('#login');
+			$form.click(function() {
+				login();
 			});
-		}
-	});
-	/*$(document).ready(function(){	
-		$("#login").click(
-			function login(){
-				alert("登入中");
+		
+			function login(){					
 				var email = $('#email').val();
 				var password = $('#password').val();
-		
+				var data = {"email": email};
 				var data_object = {           		
-                	"email": email,
-                	"password": password,
-                	"login_mode": 1
-            	};
-		
+					"email": email,
+					"password": password,
+					"login_mode": 1
+				};
+
 				var data_string = JSON.stringify(data_object);	
-		
+				var data_f = JSON.stringify(data);			
 				$.ajax({
 					type:"GET",
-					url:"api/manager.do",
-					data:data_string,
+					url:"api/ManagerController.do",
+					data:{"email":$('#email').val()},
 					crossDomain:true,
 					cache:false,
 					dataType:'json',
 					timeout:5000,
-					success:function(response){
-						alert("登入成功");
+					success:function(response){				
+						var a = response.response.data.password;
+						alert(a);
+						if(a==password){alert("登入成功");}   
+						else{alert("登入失敗");}
+											
 					},
 					error:function(){
-						alert("登入失敗");
+						alert("伺服器連接失敗");
 					}
 				});
 			}
-		)
-	);*/
-	
-</script>
+		});
+		/*$(document).ready(function(){	
+			$("#login").click(
+				function login(){
+					alert("登入中");
+					var email = $('#email').val();
+					var password = $('#password').val();
+			
+					var data_object = {           		
+						"email": email,
+						"password": password,
+						"login_mode": 1
+					};
+			
+					var data_string = JSON.stringify(data_object);	
+			
+					$.ajax({
+						type:"GET",
+						url:"api/manager.do",
+						data:data_string,
+						crossDomain:true,
+						cache:false,
+						dataType:'json',
+						timeout:5000,
+						success:function(response){
+							alert("登入成功");
+						},
+						error:function(){
+							alert("登入失敗");
+						}
+					});
+				}
+			)
+		);*/
+		
+	</script>
 </body>
 </html>

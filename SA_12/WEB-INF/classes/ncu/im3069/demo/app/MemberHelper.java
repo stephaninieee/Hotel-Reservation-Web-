@@ -6,6 +6,7 @@ import org.json.*;
 
 import ncu.im3069.demo.util.DBMgr;
 
+
 public class MemberHelper {
     
     private MemberHelper() {
@@ -478,6 +479,7 @@ public class MemberHelper {
             DBMgr.close(pres, conn);
         }
     }
+    
     public JSONObject getByEmail(String email) {
 		JSONObject jso = new JSONObject();
 		String exexcute_sql = "";
@@ -490,7 +492,7 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`member` WHERE `email` = ? LIMIT 1";
+            String sql = "SELECT * FROM `missa`.`members` WHERE `email` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);

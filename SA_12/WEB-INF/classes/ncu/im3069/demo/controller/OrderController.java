@@ -100,7 +100,7 @@ public class OrderController extends HttpServlet {
             int amount = quantity.getInt(i);
 
             /** 透過 ProductHelper 物件之 getById()，取得產品的資料並加進訂單物件裡 */
-            Product pd = ph.getById(product_id);
+            Product pd = ph.getById(Integer.parseInt(product_id));
             od.addOrderProduct(pd, amount);
         }
 

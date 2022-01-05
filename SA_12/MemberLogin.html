@@ -134,8 +134,8 @@
 			var data_f = JSON.stringify(data);			
 			$.ajax({
 				type:"GET",
-				url:"api/MemberController.do",
-				data:{"email":$('#email').val()},
+				url:"api/member.do",
+				data:"email="+$('#email').val(),
 				crossDomain:true,
 				cache:false,
 				dataType:'json',

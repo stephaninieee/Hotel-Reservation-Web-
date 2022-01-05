@@ -63,11 +63,16 @@ public class ProductController extends HttpServlet {
 		/*Part filePart = request.getPart("file");
         System.out.print(filePart);        
         String image = filePart.getSubmittedFileName();
+<<<<<<< HEAD
+        //System.out.print(image);
+        filePart.write("D:\\github\\SA\\SA_12\\SA_12\\images" + image);
+=======
         filePart.write("D:\\github\\SA_12\\SA_12\\images\\" + image);*/
 		
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
 		
+//>>>>>>> 
         
 		
         //JSONObject jso = jsr.getObject();

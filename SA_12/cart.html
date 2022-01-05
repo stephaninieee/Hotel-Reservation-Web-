@@ -85,7 +85,7 @@
 		          <strong>$ <span id="summary">0.00</span></strong>
 		        </li>
 		      </ul>
-		      <button id="next" class="btn btn-primary btn-lg btn-block" type="button">下一步</button>
+		      <button id="next" class="btn btn-primary btn-lg btn-block" type="submit">下一步</button>
 		      <button id="clean" class="btn btn-dark btn-lg btn-block" type="button">清空購物車</button>
 		    </div>
 
@@ -123,10 +123,28 @@
 	          	<label for="address">線上付款</label>
 	          	<input type="radio" name="pay" value="onlinepay">
 	        	</div>
-	        	<div class="col-md-3 mb-4">
+	        	<div class="col-md-3 mb-2">
 	          	<label for="address">到場付款</label>
 	          	<input type="radio" name="pay" value="scenepay">
 	          	</div>
+	        </div>
+	        </form>
+	        <h4 class="mt-1 mb-3">優惠券</h4>
+		      <hr class="mb-4">
+		    
+		    <form name="form2" method="post" action="">  
+	        <div class="row">
+	        	<div class="col-md-3 mb-2">
+	          	<label for="coupon">優惠碼</label>
+	          	<div class="row">
+	          		<div class="col-md-6 mb-2">
+			          	<input type="text" class="form-control" id="coupon" size="50" value="">
+		          	</div>
+	          		<div class="col-md-6 mb-4">
+			          	<button id="coupon_check" class="btn btn-dark btn-sm btn-block " style="width:100px;";" type="button">確認優惠碼</button>
+	          		</div>
+	          	</div>
+	        	</div>
 	        </div>
 	        </form>
 
@@ -164,8 +182,9 @@
     	calcSummaryInformation();
     	setButtonState("check", false);
     }
-    else
+    else{
     	getCartProduct();
+    }
     
     //根據選擇付款方式跳轉頁面
     $("#next").click(function () {
@@ -204,8 +223,6 @@
     			"last_name": $("#last_name").val(),
     			"email": $("#email").val(),
     			"emailconfirm": $("#emailconfirm").val(),
-    			"phone": $("#phone").val(),
-    			"address": $("#address").val(),
     			"item": client_cart_obj,
     			"quantity": client_cart_amount
     	}
@@ -305,6 +322,77 @@
         }
       });
     }
+    
+    $("#coupon_check").click(function () {
+    	console.log("ya");
+    	var data = {
+    			"coupon": $("#coupon").val()
+    	}
+    	if(data["coupon"] == ""){alert("請填寫優惠碼!");}
+    	else {
+    		coupon_check();
+    	}
+    	
+    });
+    
+    function coupon_check() {
+        $.ajax({
+          type: "GET",
+          url: "api/CouponController.do",
+          crossDomain: true,
+          cache: false,
+          data: "coupon=" + $("#coupon").val(),
+          dataType: 'json',
+          timeout: 5000,
+          success: function (response) {
+            if (response.status == 200) {
+            	if(response.response.data != null){
+	          	  updateCartTable(response.response.data);
+	          	  updateAllQuantitySubtotal();
+	          	  keyEventListen();
+	          	  
+	          	  calcSummaryInformation();
+	          	  calDiscount(0.9);
+	          	  console.log($("#coupon").val());//檢測用
+	          	  console.log(response.message);//檢測用
+	          	  console.log(response.response.data);
+	          	  console.log(response.response.data["discount"]);
+	          	  alert("成功使用優惠碼");
+            	}
+            }
+          },
+          error: function () {
+            alert("無法連線到伺服器！");
+          }
+        });
+      }
+    function calDiscount(discount){
+    	var total_item = client_cart_obj.length;
+    	var total_price = 0.00;
+    	var total_quantity = 0;
+    	var temp_price = 200;
+
+    	for(var i=0 ; i < total_item ; i++) {
+    		var id = client_cart_obj[i];
+    		var price = $('#price_' + id).html();
+    		var quantity = $('#quantity_' + id).val()
+    		calc = parseFloat(price) * parseInt(quantity);
+    		total_price += isNaN(calc) ? 0.0 : calc;
+    		total_quantity += (isNaN(quantity) || (quantity == "")) ? 0 : parseInt(quantity);
+    	}
+
+    	// Client端日期
+    	var date = new Date();
+    	var iso_date = date.toISOString();
+
+    	$("#date").html(iso_date.substring(0, 10));
+    	$("#total_item").html(total_item);
+    	$("#total_quantity").html(total_quantity);
+    	//$("#summary").html(total_price.toFixed(2));
+    	total = parseFloat(temp_price)*discount;
+    	$("#summary").html(total.toFixed(2));
+    }
+    
 
     function updateAllQuantitySubtotal() {
     	for (var i=0 ; i < client_cart_obj.length ; i++) {
@@ -412,6 +500,7 @@
     	var total_item = client_cart_obj.length;
     	var total_price = 0.00;
     	var total_quantity = 0;
+    	var temp_price = 200;
 
     	for(var i=0 ; i < total_item ; i++) {
     		var id = client_cart_obj[i];
@@ -429,7 +518,8 @@
     	$("#date").html(iso_date.substring(0, 10));
     	$("#total_item").html(total_item);
     	$("#total_quantity").html(total_quantity);
-    	$("#summary").html(total_price.toFixed(2));
+    	//$("#summary").html(total_price.toFixed(2));
+    	$("#summary").html(temp_price.toFixed(2));
     }
 
     function setButtonState(id, action) {

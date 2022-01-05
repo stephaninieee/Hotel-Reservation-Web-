@@ -72,7 +72,7 @@ public class ProductController extends HttpServlet {
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
 		
->>>>>>> 4cdaea5d87cf16d5f2736fa263922b8fe21e6e6d
+//>>>>>>> 
         
 		
         //JSONObject jso = jsr.getObject();

@@ -39,6 +39,7 @@ public class CouponController extends HttpServlet {
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         String id = jsr.getParameter("id");
+        String coupon = jsr.getParameter("coupon");
 
         JSONObject resp = new JSONObject();
         /** 判斷該字串是否存在，若存在代表要取回購物車內產品之資料，否則代表要取回全部資料庫內產品之資料 */
@@ -47,6 +48,12 @@ public class CouponController extends HttpServlet {
           resp.put("status", "200");
           resp.put("message", "所有購物車之商品資料取得成功");
           resp.put("response", query);
+        }
+        else if(!coupon.isEmpty()) {
+	      JSONObject query = ch.getByName(coupon);
+	      resp.put("status", "200");
+	      resp.put("message", "Ya");
+	      resp.put("response", query);
         }
         else {
           JSONObject query = ch.getAll();

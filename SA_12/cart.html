@@ -324,9 +324,9 @@
     }
     
     $("#coupon_check").click(function () {
-    	console.log("ya");
+    	
     	var data = {
-    			"coupon": $("#coupon").val()
+    			"coupon": $("#coupon").val(),
     	}
     	if(data["coupon"] == ""){alert("請填寫優惠碼!");}
     	else {
@@ -346,18 +346,31 @@
           timeout: 5000,
           success: function (response) {
             if (response.status == 200) {
-            	if(response.response.data != null){
+            	if(response.response.data!=""){ 
 	          	  updateCartTable(response.response.data);
 	          	  updateAllQuantitySubtotal();
 	          	  keyEventListen();
-	          	  
-	          	  calcSummaryInformation();
-	          	  calDiscount(0.9);
-	          	  console.log($("#coupon").val());//檢測用
-	          	  console.log(response.message);//檢測用
+				  
 	          	  console.log(response.response.data);
-	          	  console.log(response.response.data["discount"]);
-	          	  alert("成功使用優惠碼");
+	          	  $.each(response.response.data,function (index,value){
+	          		  var now=new Date();
+	          		  var start = new Date(value.start_time);
+	          		  var end = new Date(value.end_time);
+	          		  if(start<=now && now<=end){
+	          			  console.log("ya");
+	          			  console.log(now);
+	          			  
+		          		  //calcSummaryInformation();
+			          	  calDiscount(value.discount);
+			          	  alert("成功使用優惠碼");
+	          		  }
+	          		  else{
+	          			  alert("優惠碼已過期");
+	          		  }
+	          	  });
+            	}
+            	else{
+            		alert("優惠碼無效");
             	}
             }
           },

@@ -211,6 +211,7 @@ private CouponHelper() {
             exexcute_sql = pres.toString();
             System.out.println(exexcute_sql);
             
+            
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
             /** 正確來說資料庫只會有一筆該會員編號之資料，因此其實可以不用使用 while 迴圈 */
             while(rs.next()) {

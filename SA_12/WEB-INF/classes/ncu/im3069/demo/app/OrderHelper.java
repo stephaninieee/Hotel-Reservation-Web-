@@ -1,6 +1,7 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.*;
 
 import org.json.*;
@@ -33,27 +34,28 @@ public class OrderHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`orders`(`last_name`, `first_name`, `email`, `address`, `phone`, `create`, `modify`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `missa`.`orders`(`id`, `room_id`, `coupon_id`, `price`, `status`, `check_in`, `check_out`,`create`)"
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?,?)";
             
             /** 取得所需之參數 */
-            String first_name = order.getFirstName();
-            String last_name = order.getLastName();
-            String email = order.getEmail();
-            String address = order.getAddress();
-            String phone = order.getPhone();
-            Timestamp create = order.getCreateTime();
-            Timestamp modify = order.getModifyTime();
-            
+            int id1 = order.getId();
+            int room_id = order.getRoomId();
+            int coupon_id = order.getCouponId();
+            float price = order.getPrice();
+            String status = order.getStatus();
+            Date check_in = order.getCheckIn();
+            Date check_out = order.getCheckOut();
+            Timestamp create = order.getCreate();
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pres.setString(1, last_name);
-            pres.setString(2, first_name);
-            pres.setString(3, email);
-            pres.setString(4, address);
-            pres.setString(5, phone);
-            pres.setTimestamp(6, create);
-            pres.setTimestamp(7, modify);
+            pres.setInt(1, id1);
+            pres.setInt(2, room_id);
+            pres.setInt(3, coupon_id);
+            pres.setFloat(4, price);
+            pres.setString(5, status);
+            pres.setDate(6, (java.sql.Date) check_in);
+            pres.setDate(7, (java.sql.Date) check_out);
+            pres.setTimestamp(8, create);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             pres.executeUpdate();
@@ -64,11 +66,7 @@ public class OrderHelper {
             
             ResultSet rs = pres.getGeneratedKeys();
 
-            if (rs.next()) {
-                id = rs.getLong(1);
-                ArrayList<OrderItem> opd = order.getOrderProduct();
-                opa = oph.createByList(id, opd);
-            }
+            
         } catch (SQLException e) {
             /** 印出JDBC SQL指令錯誤 **/
             System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
@@ -122,16 +120,16 @@ public class OrderHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
-                String first_name = rs.getString("first_name");
-                String last_name = rs.getString("last_name");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
-                String phone = rs.getString("phone");
+                int room_id = rs.getInt("room_id");
+                int coupon_id = rs.getInt("coupon_id");
+                float price = rs.getFloat("price");
+                String status = rs.getString("status");
+                Date check_in = (Date)rs.getTimestamp("check_in");
+                Date check_out =(Date)rs.getTimestamp("check_out");
                 Timestamp create = rs.getTimestamp("create");
-                Timestamp modify = rs.getTimestamp("modify");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id, first_name, last_name, email, address, phone, create, modify);
+                o = new Order(id,room_id,coupon_id,price,status,check_in,check_out);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(o.getOrderAllInfo());
             }
@@ -197,16 +195,16 @@ public class OrderHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
-                String first_name = rs.getString("first_name");
-                String last_name = rs.getString("last_name");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
-                String phone = rs.getString("phone");
-                Timestamp create = rs.getTimestamp("create");
-                Timestamp modify = rs.getTimestamp("modify");
+                int room_id = rs.getInt("room_id");
+                int coupon_id = rs.getInt("coupon_id");
+                float price = rs.getFloat("price");
+                String status = rs.getString("status");
+                Date check_in = (Date)rs.getTimestamp("check_in");
+                Date check_out =(Date)rs.getTimestamp("check_out");
+                Timestamp create = rs.getTimestamp("create_time");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id, first_name, last_name, email, address, phone, create, modify);
+                o = new Order(id,room_id,coupon_id,price,status,check_in,check_out);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 data = o.getOrderAllInfo();
             }
@@ -234,6 +232,58 @@ public class OrderHelper {
         response.put("row", row);
         response.put("time", duration);
         response.put("data", data);
+
+        return response;
+    }
+
+    public JSONObject deleteByID(int id) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            
+            /** SQL指令 */
+            String sql = "DELETE FROM `missa`.`orders` WHERE `id` = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, id);
+            /** 執行刪除之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
 
         return response;
     }

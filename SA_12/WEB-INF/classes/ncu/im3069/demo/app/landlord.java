@@ -5,7 +5,7 @@ import java.sql.Array;
 import org.json.JSONObject;
 
 public class landlord extends Manager{	
-	int root;
+	int root;	
 	public landlord(int id, String email, String password, String name,String phone, int login_times,int root) {		
 		super(id, email, password, name, phone, login_times);
 		this.root = root;

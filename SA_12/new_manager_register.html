@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>註冊房東</title>
+    
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgba(77,78,84,1);">
+        <div class="container" style="height:62px; width: 1170px; margin-right: auto;margin-left: auto;"> 
+          <a class="navbar-brand" href="#" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
+
+
+            <ul class="navbar-nav    ms-auto">
+              <li class="nav-item" style="padding-right:15px;">
+                <button type="button" style="color:#FFFFFF; font-size: 16.5px; " class="btn " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    刊登家中空房
+                  </button>
+              </li>
+              <li class="nav-item" style="padding-right:20px;" >
+                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="#">加入會員</a>
+              </li>
+              <li class="nav-item" style="padding-right:15px;">
+                <button  style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255);    border-width: 1px;
+                border-style: solid;font-size: 14px;
+                border-color: rgb(0, 216, 255);border-radius: 5px;height: 40px;" >登入</button>
+              </li>
+            </ul>
+        
+
+        </div>
+      </nav>
+    <div class="container" >
+   
+        <form class="" style=" padding-top:90px; padding-left: 300px; padding-right: 300px; color:#2a2a2e;">
+            <div class="" style="padding-top: 40px; border: 2px; border-color:#dddfe2; padding-left:60px; padding-right: 60px; background-color: #fcfcfc;">
+                
+                <div class="card-page-header row">
+                    <div class="col-sm-6" style="padding-top: 15px;">
+                        <h1 class="m-t-0" style="font-size: 24px;font-weight: 700;">想要成為房東嗎?</h1>
+                        <p>完成底下的表單，讓我們更了解你吧！</p>
+                    </div><div class="hidden-xs col-sm-4">
+                        <img class="page-header-icon" width="400" src="//img.agoda.net/images/header/ec-description@2x.png" alt="description page">
+                    </div>
+                </div>
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">你的名字</h2>
+                        <p class="m-b-4">您的姓名將顯示在管理員的頁面，訪客並不會知道喔!</p>
+                            <div class="form-group">
+                                <div>
+                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                </div>
+                            </div>
+                       
+                </div>
+
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">你的信箱</h2>
+                        <p class="m-b-4">輸入自己最常使用的信箱，以免錯過我們重要的信息喔!</p>
+                            <div class="form-group">
+                                <div>
+                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                </div>
+                            </div>
+                       
+                </div>
+
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">你的密碼</h2>
+                        <p class="m-b-4">記好自己的密碼，千萬別忘記囉!</p>
+                            <div class="form-group">
+                                <div>
+                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                </div>
+                            </div>
+                       
+                </div>
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">確認密碼</h2>
+                    
+                            <div class="form-group">
+                                <div>
+                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                </div>
+                            </div>
+                       
+                </div>
+
+                <div style="margin-bottom: 42px;">
+                    <h2 style="font-size:20px; font-weight: 700;">你的電話</h2>
+                        <p class="m-b-4">你的電話將顯示在訂房的頁面，讓訪客方便聯絡你喔!</p>
+                            <div class="form-group">
+                                <div>
+                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                </div>
+                            </div>
+                       
+                </div>
+                <button type="button" class="mb-5 btn btn-secondary">成為房東</button>
+            </div>
+        </form> 
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title fw-bold" id="staticBackdropLabel">房東登入</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+        
+                <div class="tex-center">
+                    <form>
+                        
+                    
+                        <div class="form-floating">
+                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">輸入電子信箱</label>
+                        </div>
+                        <div class="form-floating mb-5">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                        <label for="floatingPassword">輸入密碼</label>
+                        <p id="alert_panel" style="float:left; font-size:small; color:red;">帳號或密碼錯誤!</p>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="w-100 btn   btn-outline-danger">成為房東</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="w-100 btn  btn-secondary " type="submit">登入</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        
+          
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        
+              
+    </div>
+            
+    
+
+
+
+
+ </body>
+  
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</html>

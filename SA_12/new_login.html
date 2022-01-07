@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgba(77,78,84,1);">
         <div class="container" style="height:62px; width: 1170px; margin-right: auto;margin-left: auto;"> 
-          <a class="navbar-brand" href="#" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
+          <a class="navbar-brand" href="browse.html" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
 
 
             <ul class="navbar-nav    ms-auto">
@@ -20,7 +20,7 @@
                   </button>
               </li>
               <li class="nav-item" style="padding-right:20px;" >
-                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="#">加入會員</a>
+                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="new_member_register.html">加入會員</a>
               </li>
               
             </ul>
@@ -63,7 +63,7 @@
         <div class="modal-body">
 
         <div class="tex-center">
-            <form>
+           
                 
             
                 <div class="form-floating">
@@ -81,10 +81,10 @@
                         <button class="w-100 btn   btn-outline-danger">成為房東</button>
                     </div>
                     <div class="col-6">
-                        <button class="w-100 btn  btn-secondary " type="submit">登入</button>
+                        <button class=" btn  btn-secondary " type="submit">登入</button>
                     </div>
                 </div>
-            </form>
+         
         </div>
 
   
@@ -97,50 +97,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script>
-$(document).ready(function() {
-    var $form = $('#login');
 
-    $form.click(function() {
-        login();
-    });
-
-    function login(){
-        var email = $('#floatingInput').val();
-        var password = $('#floatingPassword').val();
-        var data = {"email": email};
-        var data_object = {
-            "email": email,
-            "password": password,
-            "login_mode": 1
-        };
-        console.log("hi");
-        var data_string = JSON.stringify(data_object);
-        var data_f = JSON.stringify(data);
-        $.ajax({
-            type:"GET",
-            url:"api/ManagerController.do",
-            data:{"email":$('#floatingInput').val()},
-            crossDomain:true,
-            cache:false,
-            dataType:'json',
-            timeout:5000,
-            success:function(response){
-                var a = response.response.data.password;
-                alert(a);
-                if(a==password){
-                    alert("登入成功");
-                    var d = new Date();
-                    d.setTime(d.getTime() + 5601000);
-                    document.cookie = 'user='+email+';'+'expires='+d.toGMTString()+';'+'path=/';
-                }
-                else{alert("登入失敗");}
-
-            },
-            error:function(){
-                alert("伺服器連接失敗");
-            }
-        });
-    }
-});
 </script>
 </html>

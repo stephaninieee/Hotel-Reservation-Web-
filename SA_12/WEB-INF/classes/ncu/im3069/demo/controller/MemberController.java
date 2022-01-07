@@ -96,16 +96,50 @@ public class MemberController extends HttpServlet {
         String email= jsr.getParameter("email");
         System.out.printf("%s???",email);
         /** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
+<<<<<<< HEAD
+        //if (id.isEmpty()) {
+            /** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
+        //    JSONObject query = mh.getAll();
+            
+            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+        //    JSONObject resp = new JSONObject();
+        //    resp.put("status", "200");
+        //    resp.put("message", "所有會員資料取得成功1");
+        //    resp.put("response", query);
+    
+            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+        //    jsr.response(resp, response);
+        //}
+        
+        //else {
+            /** 透過MemberHelper物件的getByID()方法自資料庫取回該名會員之資料，回傳之資料為JSONObject物件 */
+        //    JSONObject query = mh.getByID(id);
+            
+            
+            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+        //    JSONObject resp = new JSONObject();
+        //    resp.put("status", "200");
+        //    resp.put("message", "會員資料取得成功1");
+        //    resp.put("response", query);
+    
+            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+        //    jsr.response(resp, response);
+             
+        //}    
+        if (email.isEmpty()) {
+        	/** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
+=======
        
 	
        
       	if (email.isEmpty()) {
         	/**透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
+>>>>>>> 80ff8a69962aab0d87d5809611d765e6adad2885
         	JSONObject query = mh.getAll();         
         	/** 新建一個JSONObject用於將回傳之資料進行封裝 */ 
         	JSONObject resp = new JSONObject();
         	resp.put("status", "200");
-        	resp.put("message", "所有會員資料取得成功");
+        	resp.put("message", "所有會員資料取得成功2");
         	resp.put("response", query);
 
         	/** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -116,7 +150,7 @@ public class MemberController extends HttpServlet {
         	/** 新建一個JSONObject用於將回傳之資料進行封裝 */
         	JSONObject resp = new JSONObject();            	            	            		
         	resp.put("status", "200");
-        	resp.put("message", "會員資料取得成功");
+        	resp.put("message", "會員資料取得成功2");
         	resp.put("response", data);  
         	/** 透過JsonReader物件回傳到前端（以JSONObject方式） */
         	jsr.response(resp, response);

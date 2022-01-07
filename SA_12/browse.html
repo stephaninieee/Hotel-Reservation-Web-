@@ -1083,9 +1083,7 @@
        
            	// 列出符合篩選的商品
             function searching(){
-
-            	var date1 = $("#datepicker").datepicker();
-            	alert(date1);
+            	
            		//$.ajax({
 
             	
@@ -1155,10 +1153,23 @@
 
             //選擇入住時段
             function dateSelect(data){
-            	var date1 = $("input[name='check_in']").datepicker();
-            	var date2 = $("input[name='check_out']").datepicker();
-            	System.out.println(date1);
-            	return true;
+            	var dateary1 = document.getElementsByName('check_in');
+            	var dateary2 = document.getElementsByName('check_out');
+            	var datetext1 = dateary1[0].val;
+            	var datetext2 = dateary[0].val;
+            	
+            	var date1 = Date.parse(datetext1);
+            	var date2 = Date.parse(datetext2);
+            	
+            	if (date1==null||date2==null){
+            		alert("check in/out can't be null!!");
+            	}else{
+            		if(date1<=date2){            			
+            			return true;
+            		}else{
+            			alert("check out can't be earlier than check in!!");
+            		}
+            	}           	           	
             }
 
             // 價格在預算之間return true

@@ -29,6 +29,8 @@ public class Product {
 	
 	private double lat;
 	
+	private int manager_id;
+	
 	private ProductHelper ph =  ProductHelper.getHelper();
 
     /**
@@ -49,7 +51,7 @@ public class Product {
      * @param price 產品價格
      * @param image 產品圖片
      */
-	public Product(String name, double price, String image, String address,String avgrate, String describe, double lng, double lat) {
+	public Product(String name, double price, String image, String address,String avgrate, String describe, double lng, double lat, int manager_id) {
 		this.name = name;
 		this.price = price;
 		this.image = image;
@@ -58,7 +60,7 @@ public class Product {
 		this.describe = describe;
 		this.lng = lng;
 		this.lat = lat;
-	}
+		this.manager_id= manager_id;	}
 	
 	public Product(String name, double price, String image, String describe) {
 		this.name = name;
@@ -78,7 +80,7 @@ public class Product {
      * @param image 產品圖片
      * @param describe 產品敘述
      */
-	public Product(int id, String name, double price, String image, String address,String avgrate, String describe, double lng, double lat) {
+	public Product(int id, String name, double price, String image, String address,String avgrate, String describe, double lng, double lat, int manager_id) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -88,6 +90,7 @@ public class Product {
 		this.describe = describe;
 		this.lng = lng;
 		this.lat = lat;
+		this.manager_id = manager_id;
 	}
 	
 	public Product(int id, String name, double price, String image, String describe) {
@@ -158,6 +161,10 @@ public class Product {
 	public double getLat() {
 		return this.lat;
 	}
+	
+	public int getManager_id() {
+		return this.manager_id;
+	}
     /**
      * 取得產品資訊
      *
@@ -175,6 +182,7 @@ public class Product {
         jso.put("describe", getDescribe());
         jso.put("lng", getLng());
         jso.put("lat", getLat());
+        jso.put("manager_id", getManager_id());
 
         return jso;
     }

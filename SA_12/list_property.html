@@ -47,7 +47,7 @@
       </nav>
     <div class="container" >
    
-        <form id="form" style=" padding-top:90px; padding-left: 90px; padding-right: 90px; color:#2a2a2e;">
+        <div id="form" style=" padding-top:90px; padding-left: 90px; padding-right: 90px; color:#2a2a2e;">
             <div class="" style="padding-top: 40px; border: 2px; border-color:#dddfe2; padding-left:60px; padding-right: 60px; background-color: #fcfcfc;">
                 
                 <div class="card-page-header row">
@@ -295,7 +295,7 @@
                             <div class="form-group">
                                 <div>
                                     <input style="height:55px; width: 200px;" placeholder="例如：5" type="text" id="star" class="form-control" value>
-                                    <small class="" style="padding-left: 170px;">0~5</small>
+                                    <small class="" style="padding-left: 170px;">1~5</small>
                                 </div>
                             </div>
                     
@@ -304,8 +304,8 @@
                     <h2 style="font-size:20px; font-weight: 700;">地圖位置</h2>
                     <p class="m-b-4">在地圖中找到房子的位置並點擊滑鼠，分別複製貼上經緯度</p>
                     <div class="px-3 py-3 border bg-white">
-                    <input placeholder="例如：120.99411045453763" type="text" style="width: 400px;"id="lng" class="mb-2 form-control" value>
-                    <input placeholder="例如：23.799132456586676" type="text" style="width: 400px;"id="lat" class="mb-3 form-control" value>
+                    <input placeholder="例如：120.99411045453763" type="text" style="width: 400px;"id="lng" class="mb-2 form-control" value="">
+                    <input placeholder="例如：23.799132456586676" type="text" style="width: 400px;"id="lat" class="mb-3 form-control" value="">
                     
                         <div id="map-container" style=" width:100%; height: 400px;">
                             <div id="map">
@@ -317,7 +317,7 @@
                     <button id="submit" style=" height:50px; width: 200px; border:none; background-color: #1174A6; color:#fff"><span class="fw-bold">確認新增</span></button>      
                 </div>      
             </div>
-        </form>        
+        </div>        
     </div>
  </body>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -328,10 +328,56 @@
      
      
   	 $( "#submit" ).click(function() {
-  		submit();
+  		if (check_all()){
+  			submit();
+  			window.location.href = "new_manager.html?manager_id=1";
+  		}
+  		
   	});
     
+	function check_all(){
+		
+		if ($('#name').val() == "" || $('#name').val().length > 18){
+			alert("請檢查名稱欄位!");
+			return false;
+		}
+		if ($('#description').val() == "" || $('#description').val().length > 250){
+			alert("請檢查描述欄位!");
+			return false;
+		}
+		
+		if ($('#address').val() == "" || $('#address').val().length > 40){
+			alert("請檢查地址欄位!");
+			return false;
+		}
+		var patrn = /^(-)?\d+(\.\d+)?$/;
+		if ($('#price').val() == "" || patrn.exec($('#price').val()) == null || parseFloat($('#price').val()) < 0 || parseFloat($('#price').val()) > 12000){
+			alert("價格應為 0~12000 的數字");
+			return false;
+		}
+	
+		if ($('#image').val() == "" ){
+			alert("請檢查圖片欄位!");
+			return false;
+		}
+		var r = /^\+?[1-9][0-9]*$/;
+		if ( r.exec($('#star').val()) == null || $('#star').val() == "" || parseInt($('#star').val()) > 5 || parseInt($('#star').val() < 1)){
+			alert("請在星級評等輸入正確整數數字!");
+			return false;
+		}
+		
 
+		if ($('#lng').val() == "" || patrn.exec($('#lng').val()) == null || parseFloat($('#lng').val()) > 180 || parseFloat($('#lng').val()) < -180){
+			alert("經度欄位介於 -180~180 之間!");
+			return false;
+		}
+		if ($('#lat').val() == "" || patrn.exec($('#lat').val()) == null || parseFloat($('#lat').val()) > 90 || parseFloat($('#lat').val()) < -90){
+			alert("緯度欄位介於 -90~90 之間!");
+			return false;
+		}
+		return true;
+	}
+	
      function submit() {
      	 var name = $('#name').val();
          var description = $('#description').val();
@@ -411,7 +457,7 @@
                      /*$('#flashMessage').html(response.message);
                      $('#flashMessage').show();*/
                      if(response.status == 200){
-                         alert("wowow");
+                        
                      }
                  },
                  error: function () {

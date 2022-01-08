@@ -70,7 +70,8 @@ public class ProductHelper {
                 String describe = rs.getString("describe");
                 double lng = rs.getDouble("lng");
                 double lat = rs.getDouble("lat");
-                
+                int manager_id = rs.getInt("manager_id");
+                System.out.print(manager_id);
                 
                 
                 
@@ -79,7 +80,7 @@ public class ProductHelper {
                 
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                p = new Product(product_id, name, price, image, address, avgrate, describe, lng, lat);
+                p = new Product(product_id, name, price, image, address, avgrate, describe, lng, lat, manager_id);
                 product_tag = p.getData();
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                               
@@ -112,91 +113,7 @@ public class ProductHelper {
         return response;
     }
     
-    public JSONObject getByIdList(String data) {
-      /** 新建一個 Product 物件之 m 變數，用於紀錄每一位查詢回之商品資料 */
-      Product p = null;
-      /** 用於儲存所有檢索回之商品，以JSONArray方式儲存 */
-      JSONArray jsa = new JSONArray();
-      /** 記錄實際執行之SQL指令 */
-      String exexcute_sql = "";
-      /** 紀錄程式開始執行時間 */
-      long start_time = System.nanoTime();
-      /** 紀錄SQL總行數 */
-      int row = 0;
-      /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
-      ResultSet rs = null;
 
-      try {
-          /** 取得資料庫之連線 */
-          conn = DBMgr.getConnection();
-          String[] in_para = DBMgr.stringToArray(data, ",");
-          /** SQL指令 */
-          String sql = "";
-          for (int i=0 ; i < in_para.length ; i++) {
-              sql += (i == 0) ? "in (?" : ", ?";
-              sql += (i == in_para.length-1) ? ")" : "";
-          }
-          
-          /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
-          pres = conn.prepareStatement(sql);
-          for (int i=0 ; i < in_para.length ; i++) {
-            pres.setString(i+1, in_para[i]);
-          }
-          /** 執行查詢之SQL指令並記錄其回傳之資料 */
-          rs = pres.executeQuery();
-
-          /** 紀錄真實執行的SQL指令，並印出 **/
-          exexcute_sql = pres.toString();
-          System.out.println(exexcute_sql);
-          
-          /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
-          while(rs.next()) {
-              /** 每執行一次迴圈表示有一筆資料 */
-              row += 1;
-              
-              /** 將 ResultSet 之資料取出 */
-              int product_id = rs.getInt("id");
-              String name = rs.getString("name");
-              double price = rs.getDouble("price");
-              String image = rs.getString("image");
-              String address = rs.getString("address");
-              String avgrate = rs.getString("avgrate");
-              String describe = rs.getString("describe");
-              double lng = rs.getDouble("lng");
-              double lat = rs.getDouble("lat");
-              
-             
-              /** 將每一筆商品資料產生一名新Product物件 */
-              p = new Product(product_id, name, price, image, address, avgrate, describe, lng, lat);
-              /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
-              jsa.put(p.getData());
-          }
-
-      } catch (SQLException e) {
-          /** 印出JDBC SQL指令錯誤 **/
-          System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-      } catch (Exception e) {
-          /** 若錯誤則印出錯誤訊息 */
-          e.printStackTrace();
-      } finally {
-          /** 關閉連線並釋放所有資料庫相關之資源 **/
-          DBMgr.close(rs, pres, conn);
-      }
-      
-      /** 紀錄程式結束執行時間 */
-      long end_time = System.nanoTime();
-      /** 紀錄程式執行時間 */
-      long duration = (end_time - start_time);
-      
-      /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
-      JSONObject response = new JSONObject();
-      response.put("sql", exexcute_sql);
-      response.put("row", row);
-      response.put("time", duration);
-      response.put("data", jsa);
-
-      return response;
-  }
     
     public JSONObject getById(int id) {
         /** 新建一個 Product 物件之 m 變數，用於紀錄每一位查詢回之商品資料 */
@@ -240,12 +157,13 @@ public class ProductHelper {
                 String describe = rs.getString("describe");
                 double lng = rs.getDouble("lng");
                 double lat = rs.getDouble("lat");
+                int manager_id = rs.getInt("manager_id");
                 
                 JSONObject product_tag = new JSONObject();
                 
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                p = new Product(product_id, name, price, image, address, avgrate, describe, lng, lat);
+                p = new Product(product_id, name, price, image, address, avgrate, describe, lng, lat, manager_id);
                 product_tag = p.getData();
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                               
@@ -411,8 +329,8 @@ public class ProductHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`products`(`name`, `price`, `image`, `address`, `avgrate`, `baby`, `breakfast`, `wifi`, `smoking`, `shower`, `KTV`, `van`, `parking`, `bath`, `swimming`, `beach`, `TV`, `air`, `laundry`, `bar`, `business`, `game`, `SPA`, `describe`, `lng`, `lat`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `missa`.`products`(`name`, `price`, `image`, `address`, `avgrate`, `baby`, `breakfast`, `wifi`, `smoking`, `shower`, `KTV`, `van`, `parking`, `bath`, `swimming`, `beach`, `TV`, `air`, `laundry`, `bar`, `business`, `game`, `SPA`, `describe`, `lng`, `lat`, `manager_id`)"
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             /** 取得所需之參數 */
             String name = jso.getString("name");
@@ -441,6 +359,8 @@ public class ProductHelper {
             String describe = jso.getString("description");
             double lng = jso.getDouble("lng");
             double lat = jso.getDouble("lat");
+            int manager_id = jso.getInt("manager_id");
+            
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -470,6 +390,7 @@ public class ProductHelper {
             pres.setString( 24, describe);
             pres.setDouble( 25, lng);
             pres.setDouble(26, lat);
+            pres.setInt(27, manager_id);
          
             
             /** 執行新增之SQL指令並記錄影響之行數 */

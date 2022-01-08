@@ -34,11 +34,12 @@ public class OrderHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`orders`(`id`, `room_id`, `coupon_id`, `price`, `status`, `check_in`, `check_out`,`create`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?,?)";
+            String sql = "INSERT INTO `missa`.`orders`(`id`,`member_id`, `room_id`, `coupon_id`, `price`, `status`, `check_in`, `check_out`,`create`)"
+                    + " VALUES(?,?, ?, ?, ?, ?, ?, ?,?)";
             
             /** 取得所需之參數 */
             int id1 = order.getId();
+            int member_id = order.getMemberId();
             int room_id = order.getRoomId();
             int coupon_id = order.getCouponId();
             float price = order.getPrice();
@@ -120,6 +121,7 @@ public class OrderHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
+                int member_id = rs.getInt("member_id");
                 int room_id = rs.getInt("room_id");
                 int coupon_id = rs.getInt("coupon_id");
                 float price = rs.getFloat("price");
@@ -129,7 +131,7 @@ public class OrderHelper {
                 Timestamp create = rs.getTimestamp("create");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id,room_id,coupon_id,price,status,check_in,check_out);
+                o = new Order(id,member_id,room_id,coupon_id,price,status,check_in,check_out);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(o.getOrderAllInfo());
             }
@@ -195,6 +197,7 @@ public class OrderHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
+                int member_id = rs.getInt("member_id");
                 int room_id = rs.getInt("room_id");
                 int coupon_id = rs.getInt("coupon_id");
                 float price = rs.getFloat("price");
@@ -204,7 +207,7 @@ public class OrderHelper {
                 Timestamp create = rs.getTimestamp("create_time");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id,room_id,coupon_id,price,status,check_in,check_out);
+                o = new Order(id,member_id,room_id,coupon_id,price,status,check_in,check_out);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 data = o.getOrderAllInfo();
             }

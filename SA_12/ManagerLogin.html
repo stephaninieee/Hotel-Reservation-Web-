@@ -117,47 +117,55 @@
 		    <p>The video overlay pattern is available at <a href="http://html5backgroundvideos.com/pattern-overlays/" target="_blank">http://html5backgroundvideos.com/pattern-overlays/</a></p>
 	  </div>
 </div>	-->
-	
 	<script>			
-		$(document).ready(function() {   
-			var $form = $('#login');
-			$form.click(function() {
-				login();
-			});
-		
-			function login(){					
-				var email = $('#email').val();
-				var password = $('#password').val();
-				var data = {"email": email};
-				var data_object = {           		
-					"email": email,
-					"password": password,
-					"login_mode": 1
-				};
+	$(document).ready(function() {   
 
-				var data_string = JSON.stringify(data_object);	
-				var data_f = JSON.stringify(data);			
-				$.ajax({
-					type:"GET",
-					url:"api/ManagerController.do",
-					data:{"email":$('#email').val()},
-					crossDomain:true,
-					cache:false,
-					dataType:'json',
-					timeout:5000,
-					success:function(response){				
-						var a = response.response.data.password;
-						alert(a);
-						if(a==password){alert("登入成功");}   
-						else{alert("登入失敗");}
-											
-					},
-					error:function(){
-						alert("伺服器連接失敗");
-					}
-				});
-			}
+		var $form = $('#login');
+		
+		$form.click(function() {
+			login();
 		});
+
+		function login(){					
+			
+			var email = $('#email').val();
+			var password = $('#password').val();
+			var data = {"email": email};
+			var data_object = {           		
+				"email": email,
+				"password": password,
+				"login_mode": 1
+			};			
+			var data_string = JSON.stringify(data_object);	
+			var data_f = JSON.stringify(data);			
+			$.ajax({
+				type:"GET",
+				url:"api/ManagerController.do",
+				data:{"email":$('#email').val(),
+					  "password":$('#password').val()},			
+				crossDomain:true,
+				cache:false,
+				dataType:'json',
+				timeout:5000,			
+				success:function(response){				
+					var login_status = response.response.data.status;				
+					alert(login_status);
+					if(login_status=="logined"){
+						alert("登入成功");
+						var d = new Date();
+						d.setTime(d.getTime() + 9*60*1000);
+						document.cookie = 'user1='+email+';'+'expires='+d.toGMTString()+';path=/';
+						console.log(document.cookie);
+					}   
+					else{alert("登入失敗");}
+										
+				},
+				error:function(){
+					alert("伺服器連接失敗");
+				}
+			});
+		}
+	});
 		/*$(document).ready(function(){	
 			$("#login").click(
 				function login(){

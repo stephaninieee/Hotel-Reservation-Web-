@@ -95,8 +95,9 @@ public class MemberController extends HttpServlet {
         String id = jsr.getParameter("id");
         String email= jsr.getParameter("email");
         System.out.printf("%s???",email);
+        String password = jsr.getParameter("password");
         /** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
-<<<<<<< HEAD
+
         //if (id.isEmpty()) {
             /** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
         //    JSONObject query = mh.getAll();
@@ -128,13 +129,13 @@ public class MemberController extends HttpServlet {
         //}    
         if (email.isEmpty()) {
         	/** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
-=======
+
        
 	
        
       	if (email.isEmpty()) {
         	/**透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
->>>>>>> 80ff8a69962aab0d87d5809611d765e6adad2885
+
         	JSONObject query = mh.getAll();         
         	/** 新建一個JSONObject用於將回傳之資料進行封裝 */ 
         	JSONObject resp = new JSONObject();
@@ -146,7 +147,7 @@ public class MemberController extends HttpServlet {
         	jsr.response(resp, response);
     	}
       	else {                     	
-    		JSONObject data = mh.getByEmail(email);
+    		JSONObject data = mh.getByEmail(email,password);
         	/** 新建一個JSONObject用於將回傳之資料進行封裝 */
         	JSONObject resp = new JSONObject();            	            	            		
         	resp.put("status", "200");
@@ -156,7 +157,7 @@ public class MemberController extends HttpServlet {
         	jsr.response(resp, response);
     	
     	}
-        	
+        }	
     }
        
 

@@ -202,39 +202,7 @@ $(document).ready(function() {
 			});
 		}
 	});
-		/*$(document).ready(function(){	
-			$("#login").click(
-				function login(){
-					alert("登入中");
-					var email = $('#email').val();
-					var password = $('#password').val();
-			
-					var data_object = {           		
-						"email": email,
-						"password": password,
-						"login_mode": 1
-					};
-			
-					var data_string = JSON.stringify(data_object);	
-			
-					$.ajax({
-						type:"GET",
-						url:"api/manager.do",
-						data:data_string,
-						crossDomain:true,
-						cache:false,
-						dataType:'json',
-						timeout:5000,
-						success:function(response){
-							alert("登入成功");
-						},
-						error:function(){
-							alert("登入失敗");
-						}
-					});
-				}
-			)
-		);*/
+		
 		
 	</script>
 </html>

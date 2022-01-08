@@ -84,9 +84,8 @@
                   </div>
                  
                   <div class="col-md-5 ">
-                    <div class="bg-white border ps-3 py-3 mb-4" style="width: 411px;">
-                        <div style="height: 225px; width: 375px; background-image: url(https://pix8.agoda.net/hotelImages/103481/0/6e2ceb7dfebf4541acb785a18ac7958e.jpg?ca=7&ce=1&s=1024x768); background-position: center; background-size: cover;">
-                        </div>
+                    <div class="bg-white border ps-3 py-3 mb-4" id="image_panel" style="width: 411px;">
+                       
                         
                     </div>
                     <div class="bg-white border ps-3 py-3 " style="width: 411px;">
@@ -95,7 +94,7 @@
                                 <p class="fw-bold" style="font-size: medium;">名稱</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">Oriental Hotel </p>
+                                <p class="fw-bold" id="name_panel" style="font-size: medium;"> </p>
                             </div>
                             
                             <div class="col-3">
@@ -115,7 +114,7 @@
                                 <p class="fw-bold" style="font-size: medium;">價格</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">$2700 </p>
+                                <p class="fw-bold" id="price_panel" style="font-size: medium;"> </p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">人數</p>
@@ -138,4 +137,61 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var id = url.searchParams.get("id");
+	var last_name = url.searchParams.get("last_name");
+	var first_name = url.searchParams.get("first_name");
+	var email = url.searchParams.get("email");
+	
+	console.log(last_name);
+	
+	
+	function getProductData() {
+		
+		$.ajax({
+	        type: "GET",
+	        url: "api/product.do",
+	        data: "id=" + id,
+	        crossDomain: true,
+	        cache: false,
+	        dataType: 'json',
+	        timeout: 5000,
+	        success: function (response) {
+	            if(response.status == 200){
+	            	$.each(response.response.data, function (){
+	                	
+	                  	$("#image_panel").append(addImage(this));
+	                  	$("#name_panel").append(addName(this));
+	                    $("#price_panel").append(addPrice(this));
+	            	})	            	
+	            }
+	            
+	        },
+	        error: function () {
+	            alert("無法連線到伺服器！");
+	        }
+	  });
+		
+	}
+	
+	function addImage(data){
+		let inner_html = '';
+		inner_html += '<div style="height: 225px; width: 375px; background-image: url('+data.image+'); background-position: center; background-size: cover;">'
+		inner_html += '</div>'
+	    
+		return inner_html;
+	}
+	
+	function addName(data){
+		return data.name;
+	}
+	
+	function addPrice(data){
+		return data.price;
+	}
+
+getProductData();
+</script>
 </html>

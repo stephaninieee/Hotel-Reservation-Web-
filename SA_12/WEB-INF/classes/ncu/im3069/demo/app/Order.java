@@ -12,6 +12,8 @@ public class Order {
     /** id，訂單編號 */
     private int id;   
 
+    private int member_id;
+    
     /** last_name，會員姓 */
     private int room_id;
 
@@ -47,8 +49,9 @@ public class Order {
      * @param address 會員地址
      * @param phone 會員姓名
      */
-    public Order(int id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
+    public Order(int id,int user_id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
         this.id = id;
+        this.member_id=member_id;
         this.room_id = room_id;
         this.coupon_id = coupon_id;
         this.price = price;
@@ -95,6 +98,10 @@ public class Order {
      *
      * @return String 回傳訂單會員的名
      */
+    public int getMemberId() {
+        return this.member_id;
+    }
+    
     public int getRoomId() {
         return this.room_id;
     }
@@ -155,6 +162,7 @@ public class Order {
     public JSONObject getOrderData() {
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
+        jso.put("member_id", getMemberId());
         jso.put("room_id", getRoomId());
         jso.put("coupon_id", getCouponId());
         jso.put("price", getPrice());

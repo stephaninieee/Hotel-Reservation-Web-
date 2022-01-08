@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,16 +32,16 @@
       
     <div class="container px-5" style="padding-top: 150px;">
         <div class="py-4 text-center border" style="padding-right: 400px; padding-left: 400px; background-color: #FcFcFc;">
-            <form>
+            
                 <img class="mb-4" src="https://avatars.githubusercontent.com/u/36957337?v=4" alt="" width="72" height="66">
                 <h1 class="h3 mb-3 fw-normal">TourNest Login</h1>
             
                 <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input type="email" class="form-control" id="email" placeholder="name@example.com">
                 <label for="floatingInput">輸入電子信箱</label>
                 </div>
                 <div class="form-floating mb-5">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="password" class="form-control" id="password" placeholder="Password">
                 <label for="floatingPassword">輸入密碼</label>
                 <p id="alert_panel" style="float:left; font-size:small; color:red;">帳號或密碼錯誤!</p>
                 </div>
@@ -48,7 +49,7 @@
                 
                 <button class="w-100 btn btn-lg btn-secondary" id="login">登入</button>
           
-            </form>
+            
         </div>
     </div>
     
@@ -63,15 +64,19 @@
         <div class="modal-body">
 
         <div class="tex-center">
+<<<<<<< HEAD
+            
+=======
            
+>>>>>>> 191ab1c72e78bf286c0ddf033d77e336d01c263b
                 
             
                 <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input type="email" class="form-control" id="email_m" placeholder="name@example.com">
                 <label for="floatingInput">輸入電子信箱</label>
                 </div>
                 <div class="form-floating mb-5">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="password" class="form-control" id="password_m" placeholder="Password">
                 <label for="floatingPassword">輸入密碼</label>
                 <p id="alert_panel" style="float:left; font-size:small; color:red;">帳號或密碼錯誤!</p>
                 </div>
@@ -81,10 +86,18 @@
                         <button class="w-100 btn   btn-outline-danger">成為房東</button>
                     </div>
                     <div class="col-6">
+<<<<<<< HEAD
+                        <!--  <input type="button" class="btn_login" id="login"  value="登入" />// "  -->
+                        <button class="w-100 btn  btn-secondary" type="submit" id="login_m">登入</button>
+                    </div>
+                </div>
+            
+=======
                         <button class=" btn  btn-secondary " type="submit">登入</button>
                     </div>
                 </div>
          
+>>>>>>> 191ab1c72e78bf286c0ddf033d77e336d01c263b
         </div>
 
   
@@ -96,7 +109,114 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 <script>
 
+<<<<<<< HEAD
+$(document).ready(function() {   
+
+	var $form = $('#login');
+	
+	$form.click(function() {
+		login();
+	});
+
+	function login(){					
+		
+		var email = $('#email').val();
+		var password = $('#password').val();
+		var data = {"email": email,
+					"password":password};
+		var data_object = {           		
+			"email": email,
+			"password": password,
+			"login_mode": 1
+		};
+		
+		var data_string = JSON.stringify(data_object);	
+		var data_f = JSON.stringify(data);			
+		$.ajax({
+			type:"GET",
+			url:"api/MemberController.do",
+			data:{"email":$('#email').val(),
+				  "password":$('#password').val()},			
+			crossDomain:true,
+			cache:false,
+			dataType:'json',
+			timeout:5000,			
+			success:function(response){				
+				var login_status = response.response.data.status;				
+				alert(login_status);
+				if(login_status=="logined"){
+					alert("登入成功");
+					var d = new Date();
+					d.setTime(d.getTime() + 9*60*1000);
+					document.cookie = 'user1='+email+';'+'expires='+d.toGMTString()+';path=/';
+					console.log(document.cookie);
+				}   
+				else{alert("登入失敗");}
+									
+			},
+			error:function(){
+				alert("伺服器連接失敗");
+			}
+		});
+	}
+});
+
+=======
+>>>>>>> 191ab1c72e78bf286c0ddf033d77e336d01c263b
 </script>
+	<script>			
+	$(document).ready(function() {   
+
+		var $form = $('#login_m');
+		
+		$form.click(function() {
+			login();
+		});
+
+		function login(){					
+			
+			var email = $('#email_m').val();
+			var password = $('#password_m').val();
+			var data = {"email": email};
+			var data_object = {           		
+				"email": email,
+				"password": password,
+				"login_mode": 1
+			};			
+			var data_string = JSON.stringify(data_object);	
+			var data_f = JSON.stringify(data);			
+			$.ajax({
+				type:"GET",
+				url:"api/ManagerController.do",
+				data:{"email":$('#email_m').val(),
+					  "password":$('#password_m').val()},			
+				crossDomain:true,
+				cache:false,
+				dataType:'json',
+				timeout:5000,			
+				success:function(response){				
+					var login_status = response.response.data.status;				
+					alert(login_status);
+					if(login_status=="logined"){
+						alert("登入成功");
+						var d = new Date();
+						d.setTime(d.getTime() + 9*60*1000);
+						document.cookie = 'user1='+email+';'+'expires='+d.toGMTString()+';path=/';
+						console.log(document.cookie);
+					}   
+					else{alert("登入失敗");}
+										
+				},
+				error:function(){
+					alert("伺服器連接失敗");
+				}
+			});
+		}
+	});
+		
+		
+	</script>
 </html>

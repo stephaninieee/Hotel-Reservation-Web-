@@ -3,10 +3,12 @@ package ncu.im3069.demo.app;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
+import java.security.MessageDigest;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import java.math.BigInteger;  
+import java.nio.charset.StandardCharsets;   
+import java.security.NoSuchAlgorithmException;
 import ncu.im3069.demo.util.DBMgr;
 
 public class ManagerHelper {
@@ -475,7 +477,7 @@ public class ManagerHelper {
         return response;
     }	
 
-	public JSONObject getByEmail(String email) {
+	public JSONObject getByEmail(String email ,String password) {
 		JSONObject jso = new JSONObject();
 		String exexcute_sql = "";
 		long start_time = System.nanoTime();
@@ -484,7 +486,8 @@ public class ManagerHelper {
 		JSONObject response = new JSONObject();
 		
 		try {
-            /** 取得資料庫之連線 */
+			 
+			/** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
             String sql = "SELECT * FROM `missa`.`managers` WHERE `email` = ? LIMIT 1";
@@ -496,15 +499,26 @@ public class ManagerHelper {
             rs = pres.executeQuery();
 
             /** 紀錄真實執行的SQL指令，並印出 **/
-            exexcute_sql = pres.toString();
-            System.out.println("pussy");
-            System.out.println(exexcute_sql);           
-            System.out.println("pussy2");            
+            exexcute_sql = pres.toString();           
+            System.out.println(exexcute_sql);                      
                        
-            while(rs.next()) {	            	                       	
-            		jso.put("email",email);
-            		jso.put("password",rs.getString("password"));          	
+            while(rs.next()) {	            	                       	           		            		
+            		String str2 = new String(rs.getString("password"));          		
+            		System.out.println(encrypt(password).equals(str2));
+            		if(encrypt(password).equals(str2)==true) {
+            			jso.put("status", "logined");
+            		}
+            		else {
+            			jso.put("status", "fail1");
+            		}
+            			
+            		System.out.printf("1.  %s%n",encrypt(password));
+            		System.out.printf("1.  %s%n",str2);
             }
+            
+            
+            //String s1 = "12345678";  
+            //System.out.println("\n" + s1 + ":" + toHexString(getSHA(s1)));   
             
         } catch (SQLException e) {
             /** 印出JDBC SQL指令錯誤 **/
@@ -525,4 +539,55 @@ public class ManagerHelper {
 		
 		return response;
 	}
+	//public static byte[] getSHA(String input) throws NoSuchAlgorithmException 
+    //{  
+        // Static getInstance method is called with hashing SHA  
+    //    MessageDigest md = MessageDigest.getInstance("SHA-256");  
+  
+        // digest() method called  
+        // to calculate message digest of an input  
+        // and return array of byte 
+    //    return md.digest(input.getBytes(StandardCharsets.UTF_8));  
+    //} 
+    
+    //public static String toHexString(byte[] hash,byte[] hash2) 
+    //{ 
+        // Convert byte array into signum representation  w
+    //    BigInteger number = new BigInteger(1, hash);  
+  
+        // Convert message digest into hex value  
+    //    StringBuilder hexString = new StringBuilder(number.toString(16));  
+  
+        // Pad with leading zeros 
+     //   while (hexString.length() < 32)  
+     //   {  
+     //       hexString.insert(0, '0');  
+     //   }  
+  
+     //   return hexString.toString();  
+    //}
+	public String encrypt(String s){  
+		  MessageDigest sha = null;
+		  
+		  try{
+		   sha = MessageDigest.getInstance("SHA-1");  
+		   sha.update(s.getBytes());  
+		  }catch(Exception e){
+		   e.printStackTrace();
+		   return "";
+		  }
+
+		  return byte2hex(sha.digest());  
+		 
+		 }
+	private static String byte2hex(byte[] b){
+	     String hs="";
+	     String stmp="";
+	     for (int n=0;n<b.length;n++){
+	      stmp=(java.lang.Integer.toHexString(b[n] & 0XFF));
+	      if (stmp.length()==1) hs=hs+"0"+stmp;
+	      else hs=hs+stmp;
+	     }
+	     return hs.toUpperCase();
+	    }
 }

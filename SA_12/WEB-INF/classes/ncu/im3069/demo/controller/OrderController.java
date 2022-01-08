@@ -84,6 +84,7 @@ public class OrderController extends HttpServlet {
 
         /** 取出經解析到 JSONObject 之 Request 參數 */
         int id = jso.getInt("id");      
+        int member_id = jso.getInt("member_id");
         int room_id = jso.getInt("room_id");
         int coupon_id = jso.getInt("coupon_id");
         float price = jso.getFloat("price");
@@ -91,7 +92,7 @@ public class OrderController extends HttpServlet {
         String check_in = jso.getString("check_in");
         String check_out = jso.getString("check_out");
         
-<<<<<<< HEAD
+
         Date checkIndate = null;
         try {
         	checkIndate = new SimpleDateFormat("dd/MM/yyyy").parse(check_in);
@@ -106,25 +107,14 @@ public class OrderController extends HttpServlet {
         } catch (ParseException e) {
             System.out.printf("Parse date string [%1$s] with pattern [%2$s] error.%n", "dd/MM/yyyy", check_out);
             // Parse date string [2019/12/31] with pattern [yyyy-MM-dd] error.
-=======
+        }    
         JSONArray item = jso.getJSONArray("item");
         JSONArray quantity = jso.getJSONArray("quantity");
+      
 
+        
         /** 建立一個新的訂單物件 */
-        Order od = new Order();
-
-        /** 將每一筆訂單細項取得出來 */
-        for(int i=0 ; i < item.length() ; i++) {
-            String product_id = item.getString(i);
-            int amount = quantity.getInt(i);
-
-            /** 透過 ProductHelper 物件之 getById()，取得產品的資料並加進訂單物件裡 */
-            Product pd = ph.getById(Integer.parseInt(product_id));
-            od.addOrderProduct(pd, amount);
->>>>>>> 80ff8a69962aab0d87d5809611d765e6adad2885
-        }
-        /** 建立一個新的訂單物件 */
-        Order od = new Order(id,room_id,coupon_id,price,status,checkIndate,checkOutdate);
+        Order od = new Order(id,member_id,room_id,coupon_id,price,status,checkIndate,checkOutdate);
         
         /** 透過 orderHelper 物件的 create() 方法新建一筆訂單至資料庫 */
         JSONObject result = oh.create(od);

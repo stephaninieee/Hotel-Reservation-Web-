@@ -34,7 +34,9 @@ public class ManagerController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		JsonReader jsr = new JsonReader(request);	        
 		String email = jsr.getParameter("email");
+		String password = jsr.getParameter("password");
 		System.out.printf("%s???",email);
+		System.out.printf("%s??",password);
         	/** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
         	if (email.isEmpty()) {
             	/** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
@@ -49,7 +51,7 @@ public class ManagerController extends HttpServlet {
             	jsr.response(resp, response);
         	}
         	else {                     	
-        		JSONObject data = mnh.getByEmail(email);
+        		JSONObject data = mnh.getByEmail(email,password);
             	/** 新建一個JSONObject用於將回傳之資料進行封裝 */
             	JSONObject resp = new JSONObject();            	            	            		
             	resp.put("status", "200");

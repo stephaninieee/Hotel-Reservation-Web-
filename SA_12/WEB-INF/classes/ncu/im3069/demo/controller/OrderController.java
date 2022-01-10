@@ -95,7 +95,7 @@ public class OrderController extends HttpServlet {
 
         Date checkIndate = null;
         try {
-        	checkIndate = new SimpleDateFormat("dd/MM/yyyy").parse(check_in);
+        	checkIndate = new SimpleDateFormat("yyyy-MM-dd").parse(check_in);
         } catch (ParseException e) {
             System.out.printf("Parse date string [%1$s] with pattern [%2$s] error.%n", "dd/MM/yyyy", check_in);
             // Parse date string [2019/12/31] with pattern [yyyy-MM-dd] error.
@@ -103,13 +103,14 @@ public class OrderController extends HttpServlet {
         
         Date checkOutdate = null;//new SimpleDateFormat("dd/MM/yyyy").parse(check_out);
         try {
-        	checkOutdate = new SimpleDateFormat("dd/MM/yyyy").parse(check_out);
+        	checkOutdate = new SimpleDateFormat("yyyy-MM-dd").parse(check_out);
         } catch (ParseException e) {
             System.out.printf("Parse date string [%1$s] with pattern [%2$s] error.%n", "dd/MM/yyyy", check_out);
             // Parse date string [2019/12/31] with pattern [yyyy-MM-dd] error.
-        }    
-        JSONArray item = jso.getJSONArray("item");
-        JSONArray quantity = jso.getJSONArray("quantity");
+        } 
+           
+        //JSONArray item = jso.getJSONArray("item");
+        //JSONArray quantity = jso.getJSONArray("quantity");
       
 
         

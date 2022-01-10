@@ -3,6 +3,7 @@ package ncu.im3069.demo.app;
 import java.sql.*;
 import java.util.Date;
 import java.util.*;
+import java.text.SimpleDateFormat;
 
 import org.json.*;
 
@@ -38,25 +39,37 @@ public class OrderHelper {
                     + " VALUES(?,?, ?, ?, ?, ?, ?, ?,?)";
             
             /** 取得所需之參數 */
+            System.out.println("ya");
             int id1 = order.getId();
             int member_id = order.getMemberId();
             int room_id = order.getRoomId();
             int coupon_id = order.getCouponId();
             float price = order.getPrice();
             String status = order.getStatus();
+            
             Date check_in = order.getCheckIn();
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+            java.sql.Date checkInDate = new java.sql.Date(check_in.getTime());
+            System.out.println(check_in.getTime());
+            System.out.println(checkInDate);
+            
             Date check_out = order.getCheckOut();
+            java.sql.Date checkOutDate = new java.sql.Date(check_out.getTime());
             Timestamp create = order.getCreate();
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pres.setInt(1, id1);
-            pres.setInt(2, room_id);
-            pres.setInt(3, coupon_id);
-            pres.setFloat(4, price);
-            pres.setString(5, status);
-            pres.setDate(6, (java.sql.Date) check_in);
-            pres.setDate(7, (java.sql.Date) check_out);
-            pres.setTimestamp(8, create);
+            pres.setInt(2, member_id);
+            pres.setInt(3, room_id);
+            pres.setInt(4, coupon_id);
+            pres.setFloat(5, price);
+            pres.setString(6, status);
+            pres.setDate(7, checkInDate);
+            pres.setDate(8, checkOutDate);
+            System.out.println(check_in);
+            
+            
+            pres.setTimestamp(9, create);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             pres.executeUpdate();

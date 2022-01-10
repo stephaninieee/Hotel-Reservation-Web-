@@ -102,13 +102,13 @@
                             </div>
                             
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">2022-04-11</p>
+                                <p class="fw-bold" id="check_in" style="font-size: medium;">2022-04-11</p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">退房日期</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">2022-04-15</p>
+                                <p class="fw-bold" id="check_out" style="font-size: medium;">2022-04-15</p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">價格</p>
@@ -127,7 +127,7 @@
                     </div>
                     
                     <div class="pt-4" style="padding-left: 0px;">
-                        <a href="new_member.html" type="button" class="btn btn-secondary fw-bold" style="width: 170px;">完成預定</a>
+                        <a  onclick="submit()" type="button" class="btn btn-secondary fw-bold" style="width: 170px;">完成預定</a>
                     </div>
                     
                   </div>
@@ -143,7 +143,7 @@
 	var id = url.searchParams.get("id");
 	var last_name = url.searchParams.get("last_name");
 	var first_name = url.searchParams.get("first_name");
-	var email = url.searchParams.get("email");
+	var Email = url.searchParams.get("email");
 	
 	console.log(last_name);
 	
@@ -192,6 +192,62 @@
 		return data.price;
 	}
 
-getProductData();
+	getProductData();
+	
+	function submit() {
+         var name = "1";
+         var email = Email;
+         var password = "測試";
+         var price = $('#price_panel').text()
+         var checkin = $('#check_in').text();
+         var checkout = $('#check_out').text();
+
+         var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+         var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+         if (!email_rule.test(email)) {
+             alert("Email格式不符！");
+         }
+         /*else if(!password_rule.test(password)) {
+             alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+         }*/
+         else {
+             // 將資料組成JSON格式
+             var data_object = {
+            	 "id":2,
+                 "member_id": 1,
+                 "room_id": id,
+                 "status": password,
+                 "coupon_id": 1,
+                 "price":price,
+                 "check_in": checkin,
+                 "check_out": checkout
+             };
+             
+             
+             // 將JSON格式轉換成字串
+             var data_string = JSON.stringify(data_object);
+
+             // 發出POST的AJAX請求
+             $.ajax({
+                     type: "POST",
+                     url: "api/order.do",
+                     data: data_string,
+                     crossDomain: true,
+                     cache: false,
+                     dataType: 'json',
+                     timeout: 5000,
+                     success: function (response) {
+                         
+                         if(response.status == 200){
+                             alert("訂單完成");
+                         }
+                     },
+                     error: function () {
+                         alert("無法連線到伺服器！");
+                     }
+             });
+         }
+     }
 </script>
 </html>

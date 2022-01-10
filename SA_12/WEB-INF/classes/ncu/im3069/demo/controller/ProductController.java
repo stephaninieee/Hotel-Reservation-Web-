@@ -113,18 +113,9 @@ public class ProductController extends HttpServlet {
 	    JsonReader jsr = new JsonReader(request);
 	    JSONObject jso = jsr.getObject();
 	    
-	    /** 取出經解析到JSONObject之Request參數 */
-	    int id = jso.getInt("id");
-	    double price = jso.getDouble("price");
-	    String describe = jso.getString("describe");
-	    String name = jso.getString("name");
-	    String image = jso.getString("image");
-	
-	    /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-	    Product p = new Product(id, name, price, image, describe);
 	    
 	    /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
-	    JSONObject data = p.update();
+	    JSONObject data = ph.update(jso);
 	    
 	    /** 新建一個JSONObject用於將回傳之資料進行封裝 */
 	    JSONObject resp = new JSONObject();

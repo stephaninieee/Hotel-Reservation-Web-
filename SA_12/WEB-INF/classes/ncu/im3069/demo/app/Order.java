@@ -1,6 +1,7 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Date;
@@ -21,7 +22,7 @@ public class Order {
     private int coupon_id;
 
     /** address，會員地址 */
-    private float price;
+    private int price;
 
     /** phone，會員手機 */
     private String status;
@@ -49,8 +50,20 @@ public class Order {
      * @param address 會員地址
      * @param phone 會員姓名
      */
-    public Order(int id,int user_id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
+    public Order(int id,int member_id, int room_id, int coupon_id, int price, String status , Date check_in ,Date check_out,Timestamp create) {
         this.id = id;
+        this.member_id=member_id;
+        this.room_id = room_id;
+        this.coupon_id = coupon_id;
+        this.price = price;
+        this.status = status;
+        this.check_in = check_in;
+        this.check_out = check_out;
+        this.create = create;   
+    }
+    
+    public Order(int member_id, int room_id, int coupon_id, int price, String status , Date check_in ,Date check_out) {
+       
         this.member_id=member_id;
         this.room_id = room_id;
         this.coupon_id = coupon_id;
@@ -60,6 +73,8 @@ public class Order {
         this.check_out = check_out;
         this.create = Timestamp.valueOf(LocalDateTime.now());   
     }
+    
+    
 
     /**
      * 實例化（Instantiates）一個新的（new）Order 物件<br>
@@ -120,7 +135,7 @@ public class Order {
      *
      * @return String 回傳訂單信箱
      */
-    public float getPrice() {
+    public int getPrice() {
         return this.price;
     }
 
@@ -167,8 +182,12 @@ public class Order {
         jso.put("coupon_id", getCouponId());
         jso.put("price", getPrice());
         jso.put("status", getStatus());
-        jso.put("check_in", getCheckIn());
-        jso.put("check_out", getCheckOut());
+        SimpleDateFormat myFmt=new SimpleDateFormat("yyyy-MM-dd");
+    	String for_check_in = myFmt.format(getCheckIn());
+    	String for_check_out = myFmt.format(getCheckOut());
+        jso.put("check_in", for_check_in);
+        jso.put("check_out", for_check_out);
+        jso.put("create", getCreate());
         
 
         return jso;

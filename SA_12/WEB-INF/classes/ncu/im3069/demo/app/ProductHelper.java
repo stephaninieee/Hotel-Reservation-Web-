@@ -205,7 +205,7 @@ public class ProductHelper {
      * @param m 一名會員之Member物件
      * @return the JSONObject 回傳SQL指令執行結果與執行之資料
      */
-    public JSONObject update(Product p) {
+    public JSONObject update(JSONObject jso) {
         /** 紀錄回傳之資料 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
@@ -219,19 +219,68 @@ public class ProductHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `missa`.`products` SET `price` = ? ,`image` = ? , `describe` = ? WHERE `name` = ?";
+            String sql ="Update `missa`.`products` SET `name` = ? , `price`= ? ,`image` = ? , `address` = ? , `avgrate` = ? , `baby` = ? , `breakfast` = ? , `wifi` = ? , `smoking` = ? , `shower` = ? , `KTV` = ? , `van` = ? , `parking` = ? , `bath` = ? , `swimming` = ? , `beach` = ? , `TV` = ? , `air` = ? , `laundry` = ? , `bar` = ? , `business` = ? , `game` = ? , `SPA` = ? , `describe` = ? , `lng` = ? , `lat` = ? , `manager_id` = ? WHERE `id` = ?";
+          
             /** 取得所需之參數 */
-            String name = p.getName();
-            String image = p.getImage();
-            String describe = p.getDescribe();
-            double price = p.getPrice();
+            String name = jso.getString("name");
+            double price = jso.getDouble("price");
+            String image = jso.getString("image");    
+            String address = jso.getString("address"); 
+            int avgrate = Integer.parseInt(jso.getString("star"));
+            boolean baby = jso.getBoolean("baby");
+            boolean breakfast = jso.getBoolean("breakfast");
+            boolean wifi = jso.getBoolean("wifi");
+            boolean smoking = jso.getBoolean("smoking");
+            boolean shower = jso.getBoolean("shower");
+            boolean ktv = jso.getBoolean("ktv");
+            boolean van = jso.getBoolean("van");
+            boolean parking = jso.getBoolean("parking");
+            boolean bath = jso.getBoolean("bath");
+            boolean swimming = jso.getBoolean("swimming");
+            boolean beach = jso.getBoolean("beach");
+            boolean tv = jso.getBoolean("tv");
+            boolean air = jso.getBoolean("air");
+            boolean landuary = jso.getBoolean("landuary");
+            boolean bar = jso.getBoolean("bar");
+            boolean business = jso.getBoolean("business");
+            boolean play = jso.getBoolean("play");
+            boolean spa = jso.getBoolean("spa");
+            String describe = jso.getString("description");
+            double lng = jso.getDouble("lng");
+            double lat = jso.getDouble("lat");
+            int manager_id = jso.getInt("manager_id");
+            int id = jso.getInt("room_id");
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setDouble(1, price);
-            pres.setString(2, image);
-            pres.setString(3, describe);
-            pres.setString(4, name);
+            pres.setString(1, name);
+            pres.setDouble(2, price);
+            pres.setString(3, image);
+            pres.setString( 4, address);
+            pres.setInt( 5, avgrate);
+            pres.setBoolean( 6, baby);
+            pres.setBoolean( 7, breakfast);
+            pres.setBoolean( 8, wifi);
+            pres.setBoolean( 9, smoking);
+            pres.setBoolean( 10, shower);
+            pres.setBoolean( 11, ktv);
+            pres.setBoolean( 12, van);
+            pres.setBoolean( 13, parking);
+            pres.setBoolean( 14, bath);
+            pres.setBoolean( 15, swimming);
+            pres.setBoolean( 16, beach);
+            pres.setBoolean( 17, tv);
+            pres.setBoolean( 18, air);
+            pres.setBoolean( 19, landuary);
+            pres.setBoolean( 20, bar);
+            pres.setBoolean( 21, business);
+            pres.setBoolean( 22, play);
+            pres.setBoolean( 23, spa);
+            pres.setString( 24, describe);
+            pres.setDouble( 25, lng);
+            pres.setDouble(26, lat);
+            pres.setInt(27, manager_id);
+            pres.setInt(28, id);
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
 

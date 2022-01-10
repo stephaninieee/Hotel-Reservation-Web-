@@ -86,28 +86,11 @@
                         <thead class="table-light">
                             <td>id</td><td>訂房人</td><td>房間</td><td>價格</td><td>優惠</td><td>入住日期</td><td>退房日期</td><td>狀態</td><td>建立時間</td><td> </td>
                         </thead>
-                        <tbody>
+                        <tbody id="order_panel">
                           <tr>
                             <td>1</td><td>劉德安</td><td>新竹老爺大酒店</td><td>$5400</td><td>聖誕節1折</td><td>2022-1-01</td><td>2022-1-03</td><td>未付款</td><td>2022-01-01 18:00:03</td><td><a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>
                           </tr>
-                          <tr>
-                            <td>1</td><td>劉德安</td><td>新竹老爺大酒店</td><td>$5400</td><td>聖誕節1折</td><td>2022-1-01</td><td>2022-1-03</td><td>未付款</td><td>2022-01-01 18:00:03</td><td><a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>
-                          </tr>
-                          <tr>
-                            <td>1</td><td>劉德安</td><td>新竹老爺大酒店</td><td>$5400</td><td>聖誕節1折</td><td>2022-1-01</td><td>2022-1-03</td><td>未付款</td><td>2022-01-01 18:00:03</td><td><a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>
-                          </tr>
-                          <tr>
-                            <td>1</td><td>劉德安</td><td>新竹老爺大酒店</td><td>$5400</td><td>聖誕節1折</td><td>2022-1-01</td><td>2022-1-03</td><td>未付款</td><td>2022-01-01 18:00:03</td><td><a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>
-                          </tr>
-                          <tr>
-                            <td>1</td><td>劉德安</td><td>新竹老爺大酒店</td><td>$5400</td><td>聖誕節1折</td><td>2022-1-01</td><td>2022-1-03</td><td>未付款</td><td>2022-01-01 18:00:03</td><td><a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>
-                          </tr>
-                          <tr>
-                            <td>1</td><td>劉德安</td><td>新竹老爺大酒店</td><td>$5400</td><td>聖誕節1折</td><td>2022-1-01</td><td>2022-1-03</td><td>未付款</td><td>2022-01-01 18:00:03</td><td><a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>
-                          </tr>
-                          <tr>
-                            <td>1</td><td>劉德安</td><td>新竹老爺大酒店</td><td>$5400</td><td>聖誕節1折</td><td>2022-1-01</td><td>2022-1-03</td><td>未付款</td><td>2022-01-01 18:00:03</td><td><a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>
-                          </tr>
+                          
                           
                         </tbody>
                     </table>
@@ -156,14 +139,106 @@ function getProperty(){
       });
 }
 
+function getOrder(){
+	$.ajax({
+        type: "GET",
+        url: "api/order.do",
+        crossDomain: true,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+          if (response.status == 200) {
+        	var order_panel = '';
+        	
+        	$.each(response.response.data, function (){
+        		
+        		order_panel += addOrder(this.order_info);
+        		
+        	})
+        	
+        	$("#order_panel").append(order_panel);
+        	
+          }
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+}
+
 getProperty();
+getOrder();
+
 
 function addProperty(data){
 	let inner_html = "";
 	inner_html += "<tr>";
-    inner_html += "<td>"+ data.id + "</td><td>" + data.name + "</td><td>" + data.address + "</td><td>$" + data.price + "</td><td>" + data.avgrate + '</td><td><a type="button" class="btn btn-sm btn-secondary" href="">修改</a>       <a type="button" class="btn btn-sm btn-secondary" href="product_infor.html?id=' + data.id + '">查看</a>       <a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>';
+    inner_html += "<td>"+ data.id + "</td><td>" + data.name + "</td><td>" + data.address + "</td><td>$" + data.price + "</td><td>" + data.avgrate + '</td><td><a type="button" class="btn btn-sm btn-secondary" href="edit_property.html?id='+ data.id + '">修改</a>       <a type="button" class="btn btn-sm btn-secondary" href="product_infor.html?id=' + data.id + '">查看</a>       <a type="button" class="btn btn-sm btn-danger" onclick="deleteProperty(this)" room_id="'+ data.id +'" href="">刪除</a></td>';
     inner_html += "</tr>";
     return inner_html;
+}
+
+function addOrder(data){
+	let inner_html = "";
+	inner_html += "<tr>";
+    inner_html += "<td>"+ data.id +"</td><td>"+ data.member_id + "</td><td>" + data.room_id + "</td><td>$"+data.price+"</td><td>" + data.coupon_id + "</td><td>" + data.check_in + "</td><td>" + data.check_out + "</td><td>" +data.status +"</td><td>" +  data.create  + '<td><a type="button" class="btn btn-sm btn-danger" onclick="deleteOrder(this)" order_id="'+ data.id +'" href="">刪除</a></td>';
+    inner_html += "</tr>";
+    return inner_html;
+}
+
+function deleteProperty(room_id){
+	var id = room_id.getAttribute("room_id");
+	var data_object = {
+       		"id": id,
+        };
+
+            // 將JSON格式轉換成字串
+        var data_string = JSON.stringify(data_object);
+	$.ajax({
+    	type: "DELETE",
+        url: "api/product.do",
+        data: data_string,
+        crossDomain: true,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {      
+            if(response.status == 200){
+            	window.location.href = "new_manager.html";
+            }
+        },
+        error: function () {
+            alert("無法連線到伺服器！");
+        }
+});
+}
+
+function deleteOrder(order_id){
+	var id = order_id.getAttribute("order_id");
+	var data_object = {
+       		"id": id,
+        };
+
+            // 將JSON格式轉換成字串
+        var data_string = JSON.stringify(data_object);
+	$.ajax({
+    	type: "DELETE",
+        url: "api/order.do",
+        data: data_string,
+        crossDomain: true,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {      
+            if(response.status == 200){
+            	window.location.href = "new_manager.html";
+            }
+        },
+        error: function () {
+            alert("無法連線到伺服器！");
+        }
+});
 }
 </script>
 

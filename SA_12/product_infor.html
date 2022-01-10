@@ -97,9 +97,7 @@
                     <div class="pt-5">
                         <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">受歡迎的設施服務</p>
                         <div class="row" id="facility_panel">
-                            <div class="col-4" style="font-size:17px;">
-                                <p ><i class="fa fa-tv" style="color:#343B53"></i>  電視</p>  
-                            </div>
+                            
                             
                             
                            
@@ -337,7 +335,7 @@
 	
 	function addFacility(data){
 		const all_tags = []
-		all_tags[0] = '<i class="fa fa-baby-carriage" style="color:#343B53"></i>  酒吧';
+		all_tags[0] = '<i class="fa fa-baby-carriage" style="color:#343B53"></i>  嬰兒車';
 		all_tags[1] = '<i class="fa fa-utensils" style="color:#343B53"></i>  早餐';
 		all_tags[2] = '<i class="fa fa-wifi" style="color:#343B53"></i>  免費上網';
 		all_tags[3] = '<i class="fa fa-smoking-ban" style="color:#343B53"></i>  禁止吸菸';
@@ -361,6 +359,7 @@
 		for (let i = 0; i < all_tags.length; i++){
 				
 				var s = "tag" + i;
+				
 				if (data[s]){
 					inner_html += '<div class="col-4" style="font-size:17px;">'
 					inner_html += '<p class="">'+ all_tags[i] + '</p>'

@@ -125,8 +125,8 @@
                     </div>
                     <div class="pt-5">
                         <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">聯絡我們</p>
-                        <p><li class="fas fa-phone me-2" style="font-size: large;"></li>0921999999</p>
-                        <p><li class="fas fa-envelope-open me-2" style="font-size: large;"></li>12345678@gmail.com</p>
+                        <p id="phone_panel"></p>
+                        <p id="email_panel"></p>
                     </div>  
                     <div class="pt-4" id="reserve">
                         
@@ -240,7 +240,7 @@
 	        success: function (response) {
 	            if(response.status == 200){
 	            	$.each(response.response.data, function (){
-	                	
+	            		getManager(this);
 	                  	$("#image_panel").append(addImage(this));
 	                  	$("#name_panel").append(addName(this));
 	                  	$("#facility_panel").append(addFacility(this));
@@ -321,9 +321,33 @@
 	 });
 	}
 	
-	
+	function getManager(data){
+		$.ajax({
+			type:"GET",
+			url:"api/ManagerController.do",			
+			crossDomain:true,
+			cache:false,
+			dataType:'json',
+			timeout:5000,			
+			success:function(response){				
+				$.each(response.response.data, function (){
+					
+					if(this.id == data.manager_id){
+						$("#phone_panel").append('<li class="fas fa-phone me-2" style="font-size: large;"></li>'+ this.phone)
+						$("#email_panel").append('<li class="fas fa-envelope-open me-2" style="font-size: large;"></li>'+ this.email)
+					}
+					
+				})
+									
+			},
+			error:function(){
+				alert("伺服器連接失敗");
+			}
+		});
+	}
 	getProductData();
 	getComment();
+	
 	
 	function addImage(data){
 		let inner_html = '';

@@ -32,7 +32,8 @@ public class ManagerController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		JsonReader jsr = new JsonReader(request);	        
+		JsonReader jsr = new JsonReader(request);	
+		
 		String email = jsr.getParameter("email");
 		String password = jsr.getParameter("password");
 		System.out.printf("%s???",email);

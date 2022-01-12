@@ -49,9 +49,21 @@ public class Order {
      * @param address 會員地址
      * @param phone 會員姓名
      */
-    public Order(int id,int user_id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
+    public Order(int user_id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
+        
+        this.member_id = user_id;
+        this.room_id = room_id;
+        this.coupon_id = coupon_id;
+        this.price = price;
+        this.status = status;
+        this.check_in = check_in;
+        this.check_out = check_out;
+        this.create = Timestamp.valueOf(LocalDateTime.now());   
+    }
+    
+public Order(int id,int user_id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
         this.id = id;
-        this.member_id=member_id;
+        this.member_id = user_id;
         this.room_id = room_id;
         this.coupon_id = coupon_id;
         this.price = price;

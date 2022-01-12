@@ -83,7 +83,7 @@ public class OrderController extends HttpServlet {
         JSONObject jso = jsr.getObject();
 
         /** 取出經解析到 JSONObject 之 Request 參數 */
-        int id = jso.getInt("id");      
+        //int id = jso.getInt("id");      
         int member_id = jso.getInt("member_id");
         int room_id = jso.getInt("room_id");
         int coupon_id = jso.getInt("coupon_id");
@@ -115,7 +115,7 @@ public class OrderController extends HttpServlet {
 
         
         /** 建立一個新的訂單物件 */
-        Order od = new Order(id,member_id,room_id,coupon_id,price,status,checkIndate,checkOutdate);
+        Order od = new Order(member_id,room_id,coupon_id,price,status,checkIndate,checkOutdate);
         
         /** 透過 orderHelper 物件的 create() 方法新建一筆訂單至資料庫 */
         JSONObject result = oh.create(od);

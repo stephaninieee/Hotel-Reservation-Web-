@@ -102,13 +102,13 @@
                             </div>
                             
                             <div class="col-9">
-                                <p class="fw-bold" id="check_in" style="font-size: medium;">2022-04-11</p>
+                                <p class="fw-bold" id="check_in" style="font-size: medium;"></p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">退房日期</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" id="check_out" style="font-size: medium;">2022-04-15</p>
+                                <p class="fw-bold" id="check_out" style="font-size: medium;"></p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">價格</p>
@@ -144,6 +144,8 @@
 	var last_name = url.searchParams.get("last_name");
 	var first_name = url.searchParams.get("first_name");
 	var Email = url.searchParams.get("email");
+	var check_in = url.searchParams.get("checkin");
+	var check_out = url.searchParams.get("checkout");
 	
 	console.log(last_name);
 	
@@ -165,6 +167,8 @@
 	                  	$("#image_panel").append(addImage(this));
 	                  	$("#name_panel").append(addName(this));
 	                    $("#price_panel").append(addPrice(this));
+	                    $("#check_in").append(check_in);
+	                    $("#check_out").append(check_out);
 	            	})	            	
 	            }
 	            
@@ -191,6 +195,8 @@
 	function addPrice(data){
 		return data.price;
 	}
+	
+	
 
 	getProductData();
 	
@@ -199,8 +205,8 @@
          var email = Email;
          var password = "測試";
          var price = $('#price_panel').text()
-         var checkin = $('#check_in').text();
-         var checkout = $('#check_out').text();
+         var checkin = check_in
+         var checkout = check_out
 
          var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
          var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -214,10 +220,10 @@
          else {
              // 將資料組成JSON格式
              var data_object = {
-                 "member_id": 3,
-                 "room_id": id,
+                 "member_name": 3,
+                 "room_name": id,
                  "status": password,
-                 "coupon_id": 1,
+                 "coupon_name": 1,
                  "price":price,
                  "check_in": checkin,
                  "check_out": checkout

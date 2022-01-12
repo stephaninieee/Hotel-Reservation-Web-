@@ -42,13 +42,13 @@
                     <div class="ps-5">
                         <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">個人資料</p>
                                           
-                        <p><li class="fas fa-phone me-2" style="font-size: large;"></li>0921999999</p>
-                        <p><li class="fas fa-envelope-open me-2" style="font-size: large;"></li>12345678@gmail.com</p>
+                        <p id="phone_panel"></p>
+                        <p id="email_panel"></p>
                         
                         <hr>
                         <div class="row">
                             <div class="col-10">
-                                <p style="font-size: large;">Peter gold</p>
+                                <p style="font-size: large;" id="manager_name_panel"></p>
                             </div>
                             <div class="col-2">
                                 <a type="button" class="btn btn-secondary btn-sm" href="">修改</a>
@@ -87,9 +87,7 @@
                             <td>id</td><td>訂房人</td><td>房間</td><td>價格</td><td>優惠</td><td>入住日期</td><td>退房日期</td><td>狀態</td><td>建立時間</td><td> </td>
                         </thead>
                         <tbody id="order_panel">
-                          <tr>
-                            <td>1</td><td>劉德安</td><td>新竹老爺大酒店</td><td>$5400</td><td>聖誕節1折</td><td>2022-1-01</td><td>2022-1-03</td><td>未付款</td><td>2022-01-01 18:00:03</td><td><a type="button" class="btn btn-sm btn-danger" href="">刪除</a></td>
-                          </tr>
+                          
                           
                           
                         </tbody>
@@ -108,7 +106,41 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-var manager_id = 2
+var manager_id = 1
+function getManager(){
+	$.ajax({
+        type: "GET",
+        url: "api/ManagerController.do",
+        crossDomain: true,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+          if (response.status == 200) {
+        	
+        	
+        	$.each(response.response.data, function (){
+        		if(this.id == manager_id){
+        			$("#phone_panel").append('<li class="fas fa-phone me-2" style="font-size: large;"></li>' + this.phone)
+        			$("#email_panel").append('<li class="fas fa-envelope-open me-2" style="font-size: large;"></li>' + this.email)
+        			$("#manager_name_panel").append(this.name)
+        			
+        		}
+        		
+        		
+        		
+        	})
+        	
+        	
+        	
+          }
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+}
+getManager();
 function getProperty(){
 	$.ajax({
         type: "GET",
@@ -152,8 +184,10 @@ function getOrder(){
         	var order_panel = '';
         	
         	$.each(response.response.data, function (){
+        		if(this.order_info.manager_id == manager_id){
+        			order_panel += addOrder(this.order_info);
+        		}
         		
-        		order_panel += addOrder(this.order_info);
         		
         	})
         	
@@ -182,7 +216,7 @@ function addProperty(data){
 function addOrder(data){
 	let inner_html = "";
 	inner_html += "<tr>";
-    inner_html += "<td>"+ data.id +"</td><td>"+ data.member_id + "</td><td>" + data.room_id + "</td><td>$"+data.price+"</td><td>" + data.coupon_id + "</td><td>" + data.check_in + "</td><td>" + data.check_out + "</td><td>" +data.status +"</td><td>" +  data.create  + '<td><a type="button" class="btn btn-sm btn-danger" onclick="deleteOrder(this)" order_id="'+ data.id +'" href="">刪除</a></td>';
+    inner_html += "<td>"+ data.id +"</td><td>"+ data.member_name + "</td><td>" + data.room_name + "</td><td>$"+data.price+"</td><td>" + data.coupon_name + "</td><td>" + data.check_in + "</td><td>" + data.check_out + "</td><td>" +data.status +"</td><td>" +  data.create  + '<td><a type="button" class="btn btn-sm btn-danger" onclick="deleteOrder(this)" order_id="'+ data.id +'" href="">刪除</a></td>';
     inner_html += "</tr>";
     return inner_html;
 }

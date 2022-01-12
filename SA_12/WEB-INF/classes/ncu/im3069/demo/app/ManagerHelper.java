@@ -502,7 +502,19 @@ public class ManagerHelper {
             exexcute_sql = pres.toString();           
             System.out.println(exexcute_sql);                      
                        
-            while(rs.next()) {	            	                       	           		            		
+            while(rs.next()) {	  
+	            	int Manager_id = rs.getInt("id");
+	                String name = rs.getString("name");
+	               
+	               
+	                String phone = rs.getString("phone");
+	                int login_times = rs.getInt("login_times"); 
+	                
+	                
+	                /** 將每一筆會員資料產生一名新Member物件 */
+	                Manager m = new Manager(Manager_id, email, password, name,phone, login_times);
+	                /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
+	                jso.put("manager", m.getData());
             		String str2 = new String(rs.getString("password"));          		
             		System.out.println(encrypt(password).equals(str2));
             		if(encrypt(password).equals(str2)==true) {

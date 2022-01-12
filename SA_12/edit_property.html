@@ -325,8 +325,9 @@
  var url_string = window.location.href;
  var url = new URL(url_string);
  var id = url.searchParams.get("id");
- var manager_id = 2;
  
+ var manager_id = sessionStorage.getItem("manager_id");
+ alert(manager_id)
 
 	
  $(document).ready(function() {
@@ -338,7 +339,7 @@
   	 $( "#submit" ).click(function() {
   		if (check_all()){
   			submit();
-  			window.location.href = "new_manager.html?manager_id=1";
+  			window.location.href = "new_manager.html?";
   		}
   		
   	});

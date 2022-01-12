@@ -101,15 +101,13 @@
 										
 										
                                         <li><button class="navfont"><i class="fa fa-instagram" style="font-size: 20px;"></i></button></li>
-										<li class="smooth-menu"><a href="#discount">限時優惠 </a></li>
-										<li><a href="list_property.html">刊登家中空房</a></li>
-										<li><a href="new_member_register.html">加入會員</a></li>
 										
 										
-										<li>
-											<a type="button"  href="new_login.html" class="btn" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255);    border-width: 1px;
-								                border-style: solid; font-weight:500;
-								                border-color: rgb(0, 216, 255);border-radius: 5px;height: 40px;" >登入</a>
+										<li id="manager_logout_panel"></li>
+										
+										
+										<li id="manager_logout_panel2">
+											
 										</li><!--/.project-btn--> 
 									</ul>
 								</div><!-- /.navbar-collapse -->
@@ -1081,6 +1079,24 @@
 		<script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 
         <script>
+        
+        var manager_id = sessionStorage.getItem("manager_id");
+    	if(manager_id == null){
+    		$("#manager_logout_panel").append('<a href="new_member_register.html">加入會員</a>')
+    		$("#manager_logout_panel2").append('<a type="button"  href="new_login.html" class="btn" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255);    border-width: 1px;border-style: solid; font-weight:500;border-color: rgb(0, 216, 255);border-radius: 5px;height: 40px;" >登入</a>')
+    	}else{
+    		$("#manager_logout_panel").append('<a href="" id="logout">房東登出</a>')
+    		$("#manager_logout_panel2").append('<a type="button"  href="new_manager.html" class="btn" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255);    border-width: 1px;border-style: solid; font-weight:500;border-color: rgb(0, 216, 255);border-radius: 5px;height: 40px;" >管理住宿</a>')
+    	}
+    	
+    	$( "#logout" ).click(function() {
+    		sessionStorage.removeItem("manager_id"); 
+    		sessionStorage.removeItem("manager_name"); 
+    		sessionStorage.removeItem("manager_phone"); 
+    		sessionStorage.removeItem("manager_email"); 
+    		location.href = "browse.html";
+    	})
+        
        
            	// 列出符合篩選的商品
             function searching(){

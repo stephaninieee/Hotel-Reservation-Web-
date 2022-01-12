@@ -84,9 +84,8 @@
                   </div>
                  
                   <div class="col-md-5 ">
-                    <div class="bg-white border ps-3 py-3 mb-4" style="width: 411px;">
-                        <div style="height: 225px; width: 375px; background-image: url(https://pix8.agoda.net/hotelImages/103481/0/6e2ceb7dfebf4541acb785a18ac7958e.jpg?ca=7&ce=1&s=1024x768); background-position: center; background-size: cover;">
-                        </div>
+                    <div class="bg-white border ps-3 py-3 mb-4" id="image_panel" style="width: 411px;">
+                       
                         
                     </div>
                     <div class="bg-white border ps-3 py-3 " style="width: 411px;">
@@ -95,7 +94,7 @@
                                 <p class="fw-bold" style="font-size: medium;">名稱</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">Oriental Hotel </p>
+                                <p class="fw-bold" id="name_panel" style="font-size: medium;"> </p>
                             </div>
                             
                             <div class="col-3">
@@ -103,19 +102,19 @@
                             </div>
                             
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">2022-04-11</p>
+                                <p class="fw-bold" id="check_in" style="font-size: medium;"></p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">退房日期</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">2022-04-15</p>
+                                <p class="fw-bold" id="check_out" style="font-size: medium;"></p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">價格</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">$2700 </p>
+                                <p class="fw-bold" id="price_panel" style="font-size: medium;"> </p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">人數</p>
@@ -128,7 +127,7 @@
                     </div>
                     
                     <div class="pt-4" style="padding-left: 0px;">
-                        <a href="new_member.html" type="button" class="btn btn-secondary fw-bold" style="width: 170px;">完成預定</a>
+                        <a  onclick="submit()" type="button" class="btn btn-secondary fw-bold" style="width: 170px;">完成預定</a>
                     </div>
                     
                   </div>
@@ -138,4 +137,122 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var id = url.searchParams.get("id");
+	var last_name = url.searchParams.get("last_name");
+	var first_name = url.searchParams.get("first_name");
+	var Email = url.searchParams.get("email");
+	var check_in = url.searchParams.get("checkin");
+	var check_out = url.searchParams.get("checkout");
+	
+	console.log(last_name);
+	
+	
+	function getProductData() {
+		
+		$.ajax({
+	        type: "GET",
+	        url: "api/product.do",
+	        data: "id=" + id,
+	        crossDomain: true,
+	        cache: false,
+	        dataType: 'json',
+	        timeout: 5000,
+	        success: function (response) {
+	            if(response.status == 200){
+	            	$.each(response.response.data, function (){
+	                	
+	                  	$("#image_panel").append(addImage(this));
+	                  	$("#name_panel").append(addName(this));
+	                    $("#price_panel").append(addPrice(this));
+	                    $("#check_in").append(check_in);
+	                    $("#check_out").append(check_out);
+	            	})	            	
+	            }
+	            
+	        },
+	        error: function () {
+	            alert("無法連線到伺服器！");
+	        }
+	  });
+		
+	}
+	
+	function addImage(data){
+		let inner_html = '';
+		inner_html += '<div style="height: 225px; width: 375px; background-image: url('+data.image+'); background-position: center; background-size: cover;">'
+		inner_html += '</div>'
+	    
+		return inner_html;
+	}
+	
+	function addName(data){
+		return data.name;
+	}
+	
+	function addPrice(data){
+		return data.price;
+	}
+	
+	
+
+	getProductData();
+	
+	function submit() {
+         var name = "1";
+         var email = Email;
+         var password = "測試";
+         var price = $('#price_panel').text()
+         var checkin = check_in
+         var checkout = check_out
+
+         var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+         var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+         if (!email_rule.test(email)) {
+             alert("Email格式不符！");
+         }
+         /*else if(!password_rule.test(password)) {
+             alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+         }*/
+         else {
+             // 將資料組成JSON格式
+             var data_object = {
+                 "member_name": 3,
+                 "room_name": id,
+                 "status": password,
+                 "coupon_name": 1,
+                 "price":price,
+                 "check_in": checkin,
+                 "check_out": checkout
+             };
+             
+             
+             // 將JSON格式轉換成字串
+             var data_string = JSON.stringify(data_object);
+
+             // 發出POST的AJAX請求
+             $.ajax({
+                     type: "POST",
+                     url: "api/order.do",
+                     data: data_string,
+                     crossDomain: true,
+                     cache: false,
+                     dataType: 'json',
+                     timeout: 5000,
+                     success: function (response) {
+                         
+                         if(response.status == 200){
+                             alert("訂單完成");
+                         }
+                     },
+                     error: function () {
+                         alert("無法連線到伺服器！");
+                     }
+             });
+         }
+     }
+</script>
 </html>

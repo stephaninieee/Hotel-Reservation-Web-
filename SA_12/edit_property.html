@@ -314,7 +314,7 @@
                     </div>
                 </div>
                 <div class="pb-5" style="padding-left: 400px;">
-                    <button id="submit" style=" height:50px; width: 200px; border:none; background-color: #1174A6; color:#fff"><span class="fw-bold">確認新增</span></button>      
+                    <button id="submit" style=" height:50px; width: 200px; border:none; background-color: #1174A6; color:#fff"><span class="fw-bold">確認修改</span></button>      
                 </div>      
             </div>
         </div>        
@@ -322,11 +322,18 @@
  </body>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script>
+ var url_string = window.location.href;
+ var url = new URL(url_string);
+ var id = url.searchParams.get("id");
  var manager_id = 2;
+ 
+
+	
  $(document).ready(function() {
      // 處理表單點擊事件
      
      
+     getProductData();
      
   	 $( "#submit" ).click(function() {
   		if (check_all()){
@@ -335,6 +342,58 @@
   		}
   		
   	});
+  	 
+  	 function getProductData() {
+ 		
+ 		$.ajax({
+ 	        type: "GET",
+ 	        url: "api/product.do",
+ 	        data: "id=" + id,
+ 	        crossDomain: true,
+ 	        cache: false,
+ 	        dataType: 'json',
+ 	        timeout: 5000,
+ 	        success: function (response) {
+ 	            if(response.status == 200){
+ 	            	$.each(response.response.data, function (){
+ 	                	
+ 	            		$('#name').val(this.name);
+ 	               		$('#description').val(this.describe);
+ 	               		$('#address').val(this.address);
+ 	               		$('#baby').prop('checked', this.tag0);
+ 	               		$('#breakfast').prop('checked', this.tag1);
+ 	               	 	$('#wifi').prop('checked', this.tag2);
+ 	               		$('#smoking').prop('checked', this.tag3);
+ 	               		$('#shower').prop('checked', this.tag4);
+ 	                	$('#ktv').prop('checked', this.tag5);
+ 	               		$('#van').prop('checked', this.tag6);
+	 	               	$('#parking').prop('checked', this.tag7);
+	 	             	$('#bath').prop('checked', this.tag8);
+	 	               	$('#swimming').prop('checked', this.tag9);
+	 	                $('#beach').prop('checked', this.tag10);
+	 	              	$('#tv').prop('checked', this.tag11);
+	 	              	$('#air').prop('checked', this.tag12);
+	 	               	$('#landuary').prop('checked', this.tag13);
+	 	              	$('#bar').prop('checked', this.tag14);
+	 	             	$('#business').prop('checked', this.tag15);
+	 	                $('#play').prop('checked', this.tag16);
+	 	               	$('#spa').prop('checked', this.tag17);
+	 	               	$('#price').val(this.price);
+	 	               	$('#image').val(this.image);
+	 	       			$('#star').val(this.avgrate);
+	 	             	$('#lng').val(this.lng);
+	 	              	$('#lat').val(this.lat);
+ 	                       	
+ 	            	})	            	
+ 	            }
+ 	            
+ 	        },
+ 	        error: function () {
+ 	            alert("無法連線到伺服器！");
+ 	        }
+ 	  });
+ 		
+ 	}
     
 	function check_all(){
 		
@@ -439,6 +498,7 @@
          	"lng": lng,
          	"lat": lat,
          	"manager_id": manager_id,
+         	"room_id": id,
             
          };
 
@@ -448,7 +508,7 @@
          // 發出POST的AJAX請求
          $.ajax({
          	  
-                 type: "POST",
+                 type: "PUT",
                  url: "api/product.do",
                  data: data_string,
                  crossDomain: true,

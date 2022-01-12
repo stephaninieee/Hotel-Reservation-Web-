@@ -179,7 +179,7 @@
                                                             <h2>check in</h2>
                                                             <div class="travel-check-icon">
                                                                 <form action="#">
-                                                                    <input type="text" name="check_in" class="form-control" data-toggle="datepicker" placeholder="12 -01 - 2017 ">
+                                                                    <input type="text" id="checkin" name="check_in" class="form-control" data-toggle="datepicker" placeholder="12 -01 - 2017 ">
                                                                     
                                                                 </form>
                                                                 
@@ -192,7 +192,7 @@
                                                             <h2>check out</h2>
                                                             <div class="travel-check-icon">
                                                                 <form action="#">
-                                                                    <input type="text" name="check_out" class="form-control" data-toggle="datepicker" placeholder="22 -01 - 2017 ">
+                                                                    <input type="text" id="checkout" name="check_out" class="form-control" data-toggle="datepicker" placeholder="22 -01 - 2017 ">
                                                                 </form>
                                                             </div><!-- /.travel-check-icon -->
                                                         </div><!--/.single-tab-select-box-->
@@ -220,7 +220,7 @@
                                                         <div class="single-tab-select-box">
                                                             <h2>members</h2>
                                                             <div class="travel-select-icon">
-                                                                <select class="form-control ">
+                                                                <select id="member" class="form-control ">
     
                                                                       <option value="default">1</option><!-- /.option-->
     
@@ -1086,7 +1086,7 @@
             function searching(){
             	
            		//$.ajax({
-
+				
             	
             	$.ajax({ 
                     type: "GET",
@@ -1102,8 +1102,8 @@
                     	
                     	$.each(response.response.data, function (){
 
-                    		console.log(location_input(this));
-                    		if(filter(this) && location_input(this)&& dateSelect(this)){
+                    
+                    		if(filter(this) && location_input(this)&& dateSelect(this)){ 
 
                     		}
                     		if(filter(this) && location_input(this) && budget_check(this)){
@@ -1154,23 +1154,56 @@
 
             //選擇入住時段
             function dateSelect(data){
+            	var return_status = '';
             	var dateary1 = document.getElementsByName('check_in');
             	var dateary2 = document.getElementsByName('check_out');
-            	var datetext1 = dateary1[0].val;
-            	var datetext2 = dateary[0].val;
+            	var datetext1 = new String(dateary1[0].val);
+            	var datetext2 = new String(dateary2[0].val);            	           	
             	
-            	var date1 = Date.parse(datetext1);
-            	var date2 = Date.parse(datetext2);
+            	var dateay1 = datetext1.split("/");
+            	var dateay2 = datetext2.split("/");
             	
-            	if (date1==null||date2==null){
+            	var date_st1 = new Date(dateay1[2],dateay1[1],dateay1[0]);
+            	var date_st2 = new Date(dateay2[2],dateay2[1],dateay2[0]);
+            	
+            	if (datetext1==null||datetext2==null){
             		alert("check in/out can't be null!!");
             	}else{
-            		if(date1<=date2){            			
-            			return true;
-            		}else{
-            			alert("check out can't be earlier than check in!!");
-            		}
-            	}           	           	
+            		$.ajax({ 
+                    type: "GET",
+                    url: "api/order.do",
+                    data:{"name":data.name},
+                    crossDomain: true,
+                    cache: false,
+                    dataType: 'json',
+                    timeout: 5000,
+                    success: function (response) {                   	                   	
+                    	if (response.status == 200) {
+                    	var product_panel = '';
+                    	$("#product_panel").empty();
+                    	
+                    	$.each(response.response.data.order_info, function (){
+                    		System.out.println("test");
+                    		if(date_st1.valueOf()<this.check_in.valueOf()&&date_st2.valueOf()<=this.check_in.valueOf()){
+                    			return_status = true;
+                    		}
+                    		else if(date_st1.valueOf()>=this.check_out.valueOf()&&date_st2.valueOf()>this.check_out.valueOf()){
+                    			return_status = true;
+                    		}
+                    		else{
+                    			return_status = false;
+                    		}
+                    	})                    	
+                                    	
+                      }
+                    },
+                    error: function () {
+                      alert("無法連線到伺服器！");
+                    }
+                  });            		
+            	} 
+            	return return_status;
+            	
             }
 
             // 價格在預算之間return true

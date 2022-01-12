@@ -1,6 +1,7 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Date;
@@ -12,16 +13,16 @@ public class Order {
     /** id，訂單編號 */
     private int id;   
 
-    private int member_id;
+    private String member_name;
     
     /** last_name，會員姓 */
-    private int room_id;
+    private String room_name;
 
     /** email，會員電子郵件信箱 */
-    private int coupon_id;
+    private String coupon_name;
 
     /** address，會員地址 */
-    private float price;
+    private int price;
 
     /** phone，會員手機 */
     private String status;
@@ -34,6 +35,7 @@ public class Order {
     
     /** create，訂單創建時間 */
     private Timestamp create;
+    private int manager_id;
     
 
     /** oph，OrderItemHelper 之物件與 Order 相關之資料庫方法（Sigleton） */
@@ -49,17 +51,34 @@ public class Order {
      * @param address 會員地址
      * @param phone 會員姓名
      */
-    public Order(int id,int user_id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
+
+    public Order(int id,String member_name, String room_name, String coupon_name, int price, String status , Date check_in ,Date check_out,Timestamp create,int manager_id) {
         this.id = id;
-        this.member_id=member_id;
-        this.room_id = room_id;
-        this.coupon_id = coupon_id;
+        this.member_name=member_name;
+        this.room_name = room_name;
+        this.coupon_name = coupon_name;
         this.price = price;
         this.status = status;
         this.check_in = check_in;
         this.check_out = check_out;
-        this.create = Timestamp.valueOf(LocalDateTime.now());   
+        this.create = create;   
+        this.manager_id = manager_id;
     }
+    
+    public Order(String member_name, String room_name, String coupon_name, int price, String status , Date check_in ,Date check_out,int manager_id) {
+       
+        this.member_name=member_name;
+        this.room_name = room_name;
+        this.coupon_name = coupon_name;
+        this.price = price;
+        this.status = status;
+        this.check_in = check_in;
+        this.check_out = check_out;
+        this.create = Timestamp.valueOf(LocalDateTime.now());  
+        this.manager_id = manager_id;
+    }
+    
+    
 
     /**
      * 實例化（Instantiates）一個新的（new）Order 物件<br>
@@ -98,12 +117,12 @@ public class Order {
      *
      * @return String 回傳訂單會員的名
      */
-    public int getMemberId() {
-        return this.member_id;
+    public String getMemberName() {
+        return this.member_name;
     }
     
-    public int getRoomId() {
-        return this.room_id;
+    public String getRoomName() {
+        return this.room_name;
     }
 
     /**
@@ -111,8 +130,8 @@ public class Order {
      *
      * @return String 回傳訂單會員的姓
      */
-    public int getCouponId() {
-        return this.coupon_id;
+    public String getCouponName() {
+        return this.coupon_name;
     }
 
     /**
@@ -120,7 +139,7 @@ public class Order {
      *
      * @return String 回傳訂單信箱
      */
-    public float getPrice() {
+    public int getPrice() {
         return this.price;
     }
 
@@ -154,6 +173,10 @@ public class Order {
     public Timestamp getCreate() {
     	return this.create;
     }
+    
+    public int getManager_id() {
+    	return this.manager_id;
+    }
     /**
      * 取得訂單基本資料
      *
@@ -162,13 +185,18 @@ public class Order {
     public JSONObject getOrderData() {
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
-        jso.put("member_id", getMemberId());
-        jso.put("room_id", getRoomId());
-        jso.put("coupon_id", getCouponId());
+        jso.put("member_name", getMemberName());
+        jso.put("room_name", getRoomName());
+        jso.put("coupon_name", getCouponName());
         jso.put("price", getPrice());
         jso.put("status", getStatus());
-        jso.put("check_in", getCheckIn());
-        jso.put("check_out", getCheckOut());
+        SimpleDateFormat myFmt=new SimpleDateFormat("yyyy-MM-dd");
+    	String for_check_in = myFmt.format(getCheckIn());
+    	String for_check_out = myFmt.format(getCheckOut());
+        jso.put("check_in", for_check_in);
+        jso.put("check_out", for_check_out);
+        jso.put("create", getCreate());
+        jso.put("manager_id", getManager_id());
         
 
         return jso;

@@ -45,7 +45,7 @@
                         <p class="m-b-4">您的姓名將顯示在管理員的頁面，訪客並不會知道喔!</p>
                             <div class="form-group">
                                 <div>
-                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                    <input placeholder="" type="text" id="name" class="form-control" value>
                                 </div>
                             </div>
                        
@@ -56,7 +56,7 @@
                         <p class="m-b-4">輸入自己最常使用的信箱，以免錯過我們重要的信息喔!</p>
                             <div class="form-group">
                                 <div>
-                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                    <input placeholder="" type="text" id="email" class="form-control" value>
                                 </div>
                             </div>
                        
@@ -67,7 +67,7 @@
                         <p class="m-b-4">記好自己的密碼，千萬別忘記囉!</p>
                             <div class="form-group">
                                 <div>
-                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                    <input placeholder="" type="text" id="password" class="form-control" value>
                                 </div>
                             </div>
                        
@@ -77,7 +77,7 @@
                     
                             <div class="form-group">
                                 <div>
-                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                    <input placeholder="" type="text" id="password_c" class="form-control" value>
                                 </div>
                             </div>
                        
@@ -88,12 +88,12 @@
                         <p class="m-b-4">你的電話將顯示在訂房的頁面，讓訪客方便聯絡你喔!</p>
                             <div class="form-group">
                                 <div>
-                                    <input placeholder="" type="text" id="propertyName" class="form-control" value>
+                                    <input placeholder="" type="text" id="phone" class="form-control" value>
                                 </div>
                             </div>
                        
                 </div>
-                <a type="button" href="new_manager.html" class="mb-5 btn btn-secondary">成為房東</a>
+                <a type="button" href="new_manager.html" class="mb-5 btn btn-secondary" id="confirm">成為房東</a>
             </div>
         </form> 
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -150,4 +150,77 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+
+
+$(document).ready(function() {   
+
+	var $form = $('#confirm');
+	
+	$form.click(function() {
+		submit();
+	});
+
+	function submit() {
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var password = $('#password').val();
+		var password = $('#password_c').val();
+		var phone = $("#phone").val();
+        
+        var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+        var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+		var phone_rule = /^09[0-9]{8}$/;
+        
+		if (!email_rule.test(email)) {
+            alert("Email格式不符！");
+        }
+        //else if(password!=password_c){
+        //	alert("請輸入相同密碼");
+        //}
+        else if(!password_rule.test(password)) {
+            alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+        }
+        else if(!phone_rule.test(phone)){
+        	alert("電話號碼格式錯誤!");
+        }
+        else {
+            // 將資料組成JSON格式
+            var data_object = {
+                "name": name,
+                "email": email,
+                "password": password,
+                "phone": phone
+            };
+
+            // 將JSON格式轉換成字串
+            var data_string = JSON.stringify(data_object);
+
+            // 發出POST的AJAX請求
+            $.ajax({
+                    type: "POST",
+                    url: "api/ManagerController.do",
+                    data: data_string,
+                    crossDomain: true,
+                    cache: false,
+                    dataType: 'json',
+                    timeout: 5000,
+                    success: function (response) {
+                        $('#flashMessage').html(response.message);
+                        $('#flashMessage').show();
+                        if(response.status == 200){
+                            updateSQLTable(response.response);
+                        }
+                    },
+                    error: function () {
+                        alert("無法連線到伺服器！");
+                    }
+            });
+        }
+    }
+});
+
+
+
+</script>
 </html>

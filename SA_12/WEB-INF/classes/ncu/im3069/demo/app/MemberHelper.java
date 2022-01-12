@@ -327,7 +327,8 @@ public class MemberHelper {
             /** 取得所需之參數 */
             String name = m.getName();
             String email = m.getEmail();
-            String password = m.getPassword();
+            String password =encrypt(m.getPassword()) ;
+            System.out.println(password);
             String phone=m.getPhone();
             int login_times = m.getLoginTimes();
             

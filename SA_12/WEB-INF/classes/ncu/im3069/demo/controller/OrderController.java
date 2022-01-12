@@ -45,7 +45,7 @@ public class OrderController extends HttpServlet {
 
         /** 取出經解析到 JsonReader 之 Request 參數 */
         String id = jsr.getParameter("id");
-
+        String name = jsr.getParameter("name");
         /** 新建一個 JSONObject 用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
 
@@ -56,6 +56,9 @@ public class OrderController extends HttpServlet {
           resp.put("status", "200");
           resp.put("message", "單筆訂單資料取得成功");
           resp.put("response", query);
+        }
+        else if(!name.isEmpty()) {
+          JSONObject query = oh.getByName(name);
         }
         else {
         	

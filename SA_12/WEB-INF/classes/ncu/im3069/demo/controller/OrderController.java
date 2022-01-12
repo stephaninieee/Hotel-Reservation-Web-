@@ -84,10 +84,11 @@ public class OrderController extends HttpServlet {
         JSONObject jso = jsr.getObject();
 
         /** 取出經解析到 JSONObject 之 Request 參數 */
-         
+
         String member_name = jso.getString("member_name");
         String room_name = jso.getString("room_name");
         String coupon_name = jso.getString("coupon_name");
+
         int price = jso.getInt("price");
         String status = jso.getString("status"); 
         String check_in = jso.getString("check_in");

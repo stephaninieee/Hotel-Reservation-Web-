@@ -36,8 +36,18 @@ public class OrderHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`orders`(`member_id`, `room_id`, `coupon_id`, `price`, `status`, `check_in`, `check_out`,`create`)"
+            String sql = "INSERT INTO `missa`.`orders`(`member_name`, `room_name`, `coupon_name`, `price`, `status`, `check_in`, `check_out`,`create`,`manager_id`)"
+            		
                     + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            
+           
+            
+            String status = order.getStatus();            
+            Date check_in = order.getCheckIn();
+            Date check_in8 = addHoursToJavaUtilDate(check_in,8);
+
+                  
             
             /** 取得所需之參數 */
 
@@ -45,29 +55,33 @@ public class OrderHelper {
             String room_name = order.getRoomName();
             String coupon_name = order.getCouponName();
             int price = order.getPrice();
-            String status = order.getStatus();
-            
-            Date check_in = order.getCheckIn();
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-            java.sql.Date checkInDate = new java.sql.Date(check_in.getTime());
-            
             
             Date check_out = order.getCheckOut();
-            java.sql.Date checkOutDate = new java.sql.Date(check_out.getTime());
+            Date check_out8 = addHoursToJavaUtilDate(check_out,8);           
+            java.sql.Date checkInDate = new java.sql.Date(check_in8.getTime());
+            java.sql.Date checkOutDate = new java.sql.Date(check_out8.getTime());
             Timestamp create = order.getCreate();
             int manager_id = order.getManager_id();
+            
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-           
             pres.setString(1, member_name);
             pres.setString(2, room_name);
             pres.setString(3, coupon_name);
             pres.setInt(4, price);
+
+
             pres.setString(5, status);
-            pres.setDate(6,checkInDate);
+
+            pres.setDate(6, checkInDate);
             pres.setDate(7, checkOutDate);
+            
+            
+            
             pres.setTimestamp(8, create);
+            
+
             pres.setInt(9, manager_id);
 
             
@@ -139,7 +153,7 @@ public class OrderHelper {
                 String room_name = rs.getString("room_name");
                 String coupon_name = rs.getString("coupon_name");
                 int price = rs.getInt("price");
-               
+                System.out.print(price);
                 String status = rs.getString("status");
                
                 Date check_in = (Date)rs.getTimestamp("check_in");
@@ -311,5 +325,12 @@ public class OrderHelper {
         response.put("time", duration);
 
         return response;
+    }
+    
+    public Date addHoursToJavaUtilDate(Date date, int hours) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, hours);
+        return calendar.getTime();
     }
 }

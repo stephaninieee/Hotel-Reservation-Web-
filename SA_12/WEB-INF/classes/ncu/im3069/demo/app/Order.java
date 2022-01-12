@@ -51,6 +51,7 @@ public class Order {
      * @param address 會員地址
      * @param phone 會員姓名
      */
+
     public Order(int id,String member_name, String room_name, String coupon_name, int price, String status , Date check_in ,Date check_out,Timestamp create,int manager_id) {
         this.id = id;
         this.member_name=member_name;

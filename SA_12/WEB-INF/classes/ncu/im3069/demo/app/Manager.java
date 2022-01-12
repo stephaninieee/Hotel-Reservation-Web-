@@ -71,6 +71,7 @@ public class Manager {
         jso.put("name", getName());
         jso.put("email", getEmail());
         jso.put("password", getPassword());
+        jso.put("phone", getPhone());
         jso.put("login_times", getLogin_times());        
         
         return jso;

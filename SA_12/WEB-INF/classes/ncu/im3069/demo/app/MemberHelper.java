@@ -107,6 +107,7 @@ public class MemberHelper {
                 m = new Member(member_id, name,email, password, phone, login_times);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
+                
             }
 
         } catch (SQLException e) {
@@ -176,6 +177,7 @@ public class MemberHelper {
                 m = new Member(member_id,name, email, password, phone, login_times);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
+                
             }
             
         } catch (SQLException e) {

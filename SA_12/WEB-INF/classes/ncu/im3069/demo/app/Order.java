@@ -13,13 +13,13 @@ public class Order {
     /** id，訂單編號 */
     private int id;   
 
-    private int member_id;
+    private String member_name;
     
     /** last_name，會員姓 */
-    private int room_id;
+    private String room_name;
 
     /** email，會員電子郵件信箱 */
-    private int coupon_id;
+    private String coupon_name;
 
     /** address，會員地址 */
     private int price;
@@ -35,6 +35,7 @@ public class Order {
     
     /** create，訂單創建時間 */
     private Timestamp create;
+    private int manager_id;
     
 
     /** oph，OrderItemHelper 之物件與 Order 相關之資料庫方法（Sigleton） */
@@ -50,44 +51,31 @@ public class Order {
      * @param address 會員地址
      * @param phone 會員姓名
      */
-<<<<<<< HEAD
-    public Order(int user_id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
-        
-        this.member_id = user_id;
-        this.room_id = room_id;
-        this.coupon_id = coupon_id;
-        this.price = price;
-        this.status = status;
-        this.check_in = check_in;
-        this.check_out = check_out;
-        this.create = Timestamp.valueOf(LocalDateTime.now());   
-    }
-    
-public Order(int id,int user_id, int room_id, int coupon_id, float price, String status , Date check_in ,Date check_out) {
-=======
-    public Order(int id,int member_id, int room_id, int coupon_id, int price, String status , Date check_in ,Date check_out,Timestamp create) {
->>>>>>> f2b8bfaef7b589a02069424c9f02dceb4a3c3239
+
+    public Order(int id,String member_name, String room_name, String coupon_name, int price, String status , Date check_in ,Date check_out,Timestamp create,int manager_id) {
         this.id = id;
-        this.member_id = user_id;
-        this.room_id = room_id;
-        this.coupon_id = coupon_id;
+        this.member_name=member_name;
+        this.room_name = room_name;
+        this.coupon_name = coupon_name;
         this.price = price;
         this.status = status;
         this.check_in = check_in;
         this.check_out = check_out;
         this.create = create;   
+        this.manager_id = manager_id;
     }
     
-    public Order(int member_id, int room_id, int coupon_id, int price, String status , Date check_in ,Date check_out) {
+    public Order(String member_name, String room_name, String coupon_name, int price, String status , Date check_in ,Date check_out,int manager_id) {
        
-        this.member_id=member_id;
-        this.room_id = room_id;
-        this.coupon_id = coupon_id;
+        this.member_name=member_name;
+        this.room_name = room_name;
+        this.coupon_name = coupon_name;
         this.price = price;
         this.status = status;
         this.check_in = check_in;
         this.check_out = check_out;
-        this.create = Timestamp.valueOf(LocalDateTime.now());   
+        this.create = Timestamp.valueOf(LocalDateTime.now());  
+        this.manager_id = manager_id;
     }
     
     
@@ -129,12 +117,12 @@ public Order(int id,int user_id, int room_id, int coupon_id, float price, String
      *
      * @return String 回傳訂單會員的名
      */
-    public int getMemberId() {
-        return this.member_id;
+    public String getMemberName() {
+        return this.member_name;
     }
     
-    public int getRoomId() {
-        return this.room_id;
+    public String getRoomName() {
+        return this.room_name;
     }
 
     /**
@@ -142,8 +130,8 @@ public Order(int id,int user_id, int room_id, int coupon_id, float price, String
      *
      * @return String 回傳訂單會員的姓
      */
-    public int getCouponId() {
-        return this.coupon_id;
+    public String getCouponName() {
+        return this.coupon_name;
     }
 
     /**
@@ -185,6 +173,10 @@ public Order(int id,int user_id, int room_id, int coupon_id, float price, String
     public Timestamp getCreate() {
     	return this.create;
     }
+    
+    public int getManager_id() {
+    	return this.manager_id;
+    }
     /**
      * 取得訂單基本資料
      *
@@ -193,9 +185,9 @@ public Order(int id,int user_id, int room_id, int coupon_id, float price, String
     public JSONObject getOrderData() {
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
-        jso.put("member_id", getMemberId());
-        jso.put("room_id", getRoomId());
-        jso.put("coupon_id", getCouponId());
+        jso.put("member_name", getMemberName());
+        jso.put("room_name", getRoomName());
+        jso.put("coupon_name", getCouponName());
         jso.put("price", getPrice());
         jso.put("status", getStatus());
         SimpleDateFormat myFmt=new SimpleDateFormat("yyyy-MM-dd");
@@ -204,6 +196,7 @@ public Order(int id,int user_id, int room_id, int coupon_id, float price, String
         jso.put("check_in", for_check_in);
         jso.put("check_out", for_check_out);
         jso.put("create", getCreate());
+        jso.put("manager_id", getManager_id());
         
 
         return jso;

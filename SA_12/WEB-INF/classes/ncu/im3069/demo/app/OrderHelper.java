@@ -1,6 +1,7 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
 import java.text.SimpleDateFormat;
@@ -36,6 +37,7 @@ public class OrderHelper {
             conn = DBMgr.getConnection();
             /** SQL指令 */
             String sql = "INSERT INTO `missa`.`orders`(`member_id`, `room_id`, `coupon_id`, `price`, `status`, `check_in`, `check_out`,`create`)"
+<<<<<<< HEAD
                     + " VALUES(?, ?, ?, ?, ?, ?, ?,?)";
             
             /** 取得所需之參數 */
@@ -48,6 +50,23 @@ public class OrderHelper {
             String status = order.getStatus();            
             Date check_in = order.getCheckIn();
             Date check_in8 = addHoursToJavaUtilDate(check_in,8);
+=======
+                    + " VALUES(?,?, ?, ?, ?, ?, ?, ?,?)";
+            
+            /** 取得所需之參數 */
+
+            int member_id = order.getMemberId();
+            int room_id = order.getRoomId();
+            int coupon_id = order.getCouponId();
+            int price = order.getPrice();
+            String status = order.getStatus();
+            
+            Date check_in = order.getCheckIn();
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+            java.sql.Date checkInDate = new java.sql.Date(check_in.getTime());
+            
+            
+>>>>>>> f2b8bfaef7b589a02069424c9f02dceb4a3c3239
             Date check_out = order.getCheckOut();
             Date check_out8 = addHoursToJavaUtilDate(check_out,8);           
             java.sql.Date checkInDate = new java.sql.Date(check_in8.getTime());
@@ -55,12 +74,18 @@ public class OrderHelper {
             Timestamp create = order.getCreate();
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+<<<<<<< HEAD
             
+=======
+
+           
+>>>>>>> f2b8bfaef7b589a02069424c9f02dceb4a3c3239
             pres.setInt(1, member_id);
             pres.setInt(2, room_id);
             pres.setInt(3, coupon_id);
             pres.setFloat(4, price);
             pres.setString(5, status);
+<<<<<<< HEAD
             pres.setDate(6, checkInDate);
             pres.setDate(7, checkOutDate);
             
@@ -68,6 +93,14 @@ public class OrderHelper {
             
             pres.setTimestamp(8, create);
             
+=======
+            pres.setDate(6,checkInDate);
+            pres.setDate(7, checkOutDate);
+            pres.setTimestamp(8, create);
+
+            
+            
+>>>>>>> f2b8bfaef7b589a02069424c9f02dceb4a3c3239
             /** 執行新增之SQL指令並記錄影響之行數 */
             pres.executeUpdate();
             
@@ -134,15 +167,21 @@ public class OrderHelper {
                 int member_id = rs.getInt("member_id");
                 int room_id = rs.getInt("room_id");
                 int coupon_id = rs.getInt("coupon_id");
-                float price = rs.getFloat("price");
+                int price = rs.getInt("price");
+               
                 String status = rs.getString("status");
+               
                 Date check_in = (Date)rs.getTimestamp("check_in");
+                
                 Date check_out =(Date)rs.getTimestamp("check_out");
+                
+                
                 Timestamp create = rs.getTimestamp("create");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id,member_id,room_id,coupon_id,price,status,check_in,check_out);
+                o = new Order(id,member_id,room_id,coupon_id,price,status,check_in,check_out,create);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
+                System.out.print(o.getOrderAllInfo());
                 jsa.put(o.getOrderAllInfo());
             }
 
@@ -210,14 +249,14 @@ public class OrderHelper {
                 int member_id = rs.getInt("member_id");
                 int room_id = rs.getInt("room_id");
                 int coupon_id = rs.getInt("coupon_id");
-                float price = rs.getFloat("price");
+                int price = rs.getInt("price");
                 String status = rs.getString("status");
                 Date check_in = (Date)rs.getTimestamp("check_in");
                 Date check_out =(Date)rs.getTimestamp("check_out");
                 Timestamp create = rs.getTimestamp("create_time");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id,member_id,room_id,coupon_id,price,status,check_in,check_out);
+                o = new Order(id,member_id,room_id,coupon_id,price,status,check_in,check_out,create);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 data = o.getOrderAllInfo();
             }

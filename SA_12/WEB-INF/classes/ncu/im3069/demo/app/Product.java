@@ -188,18 +188,5 @@ public class Product {
     }
 	
 	
-    public JSONObject update() {
-        /** 新建一個JSONObject用以儲存更新後之資料 */
-        JSONObject data = new JSONObject();
-        
-        
-        /** 檢查該名會員是否已經在資料庫 */
-        if(this.id != 0) {
-           
-            /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
-            data = ph.update(this);
-        }
-        
-        return data;
-    }
+   
 }

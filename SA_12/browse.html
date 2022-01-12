@@ -1086,7 +1086,7 @@
             function searching(){
             	
            		//$.ajax({
-
+				
             	
             	$.ajax({ 
                     type: "GET",
@@ -1102,7 +1102,7 @@
                     	
                     	$.each(response.response.data, function (){
 
-                    		console.log(location_input(this));
+                    
                     		if(filter(this) && location_input(this)&& dateSelect(this)){
 
                     		}
@@ -1157,7 +1157,7 @@
             	var dateary1 = document.getElementsByName('check_in');
             	var dateary2 = document.getElementsByName('check_out');
             	var datetext1 = dateary1[0].val;
-            	var datetext2 = dateary[0].val;
+            	var datetext2 = dateary2[0].val;
             	
             	var date1 = Date.parse(datetext1);
             	var date2 = Date.parse(datetext2);

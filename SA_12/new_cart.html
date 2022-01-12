@@ -100,9 +100,8 @@
                   </div>
                  
                   <div class="col-md-5 ">
-                    <div class="bg-white border ps-3 py-3 mb-4" style="width: 411px;">
-                        <div style="height: 225px; width: 375px; background-image: url(https://pix8.agoda.net/hotelImages/103481/0/6e2ceb7dfebf4541acb785a18ac7958e.jpg?ca=7&ce=1&s=1024x768); background-position: center; background-size: cover;">
-                        </div>
+                    <div class="bg-white border ps-3 py-3 mb-4" id="image_panel" style="width: 411px;">
+                        
                         
                     </div>
                     <div class="bg-white border ps-3 py-3 " style="width: 411px;">
@@ -111,7 +110,7 @@
                                 <p class="fw-bold" style="font-size: medium;">名稱</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">Oriental Hotel </p>
+                                <p class="fw-bold" id="name_panel" style="font-size: medium;"> </p>
                             </div>
                             
                             <div class="col-3">
@@ -131,7 +130,7 @@
                                 <p class="fw-bold" style="font-size: medium;">價格</p>
                             </div>
                             <div class="col-9">
-                                <p class="fw-bold" style="font-size: medium;">$2700 </p>
+                                <p class="fw-bold" id="price_panel" style="font-size: medium;"> </p>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">人數</p>
@@ -143,8 +142,8 @@
                         
                     </div>
                     
-                    <div class="pt-4" style="padding-left: 0px;">
-                        <a href="new_card.html" type="button" class="btn btn-secondary fw-bold" style="width: 170px;">下一步</a>
+                    <div class="pt-4" id="next" style="padding-left: 0px;">
+                        
                     </div>
                     
                   </div>
@@ -154,4 +153,140 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var id = url.searchParams.get("id");
+	
+	
+	
+	function getProductData() {
+		
+		$.ajax({
+	        type: "GET",
+	        url: "api/product.do",
+	        data: "id=" + id,
+	        crossDomain: true,
+	        cache: false,
+	        dataType: 'json',
+	        timeout: 5000,
+	        success: function (response) {
+	            if(response.status == 200){
+	            	$.each(response.response.data, function (){
+	                	
+	                  	$("#image_panel").append(addImage(this));
+	                  	$("#name_panel").append(addName(this));
+	                    $("#price_panel").append(addPrice(this));
+						$("#next").append(addButton(this));
+	                  
+	                  	
+	            	})	            	
+	            }
+	            
+	        },
+	        error: function () {
+	            alert("無法連線到伺服器！");
+	        }
+	  });
+		
+	}
+
+	function addImage(data){
+		let inner_html = '';
+		inner_html += '<div style="height: 225px; width: 375px; background-image: url('+data.image+'); background-position: center; background-size: cover;">'
+		inner_html += '</div>'
+        
+		return inner_html;
+	}
+	
+	function addName(data){
+		return data.name;
+	}
+	
+	function addPrice(data){
+		return data.price;
+	}
+	
+	function addButton(data){
+		let inner_html = '';
+		inner_html += '<a onclick="nextpage()" id="nextpage" type="button" class="btn btn-secondary fw-bold" style="width: 170px;">下一步</a>'
+		return inner_html;
+	}
+	
+	getProductData();
+	console.log($("#next").html());
+	
+	//下一步
+	function nextpage(){
+		let inner_html = '';
+		inner_html += 'new_card.html?id='+id+'&last_name='+$("#last_name").val()+'&first_name='+$("#first_name").val()+'&email='+$("#email").val()
+		window.location.href= 'new_card.html?id='+id+'&last_name='+$("#last_name").val()+'&first_name='+$("#first_name").val()+'&email='+$("#email").val();
+	};
+	
+	//確認優惠碼
+	$("#coupon_check").click(function () {
+	    	
+	    	var data = {
+	    			"coupon": $("#coupon").val(),
+	    	}
+	    	if(data["coupon"] == ""){alert("請填寫優惠碼!");}
+	    	else {
+	    		coupon_check();
+	    	}
+	    	
+	    });
+    
+    function coupon_check() {
+        $.ajax({
+          type: "GET",
+          url: "api/CouponController.do",
+          crossDomain: true,
+          cache: false,
+          data: "coupon=" + $("#coupon").val(),
+          dataType: 'json',
+          timeout: 5000,
+          success: function (response) {
+            if (response.status == 200) {
+            	if(response.response.data!=""){ 
+	          	  
+				  
+	          	  console.log(response.response.data);
+	          	  $.each(response.response.data,function (index,value){
+	          		  var now=new Date();
+	          		  var start = new Date(value.start_time);
+	          		  var end = new Date(value.end_time);
+	          		  if(start<=now && now<=end){
+	          			  console.log("ya");
+	          			  console.log(now);
+	          			  
+		          		  //calcSummaryInformation();
+			          	  calDiscount(value.discount);
+			          	  alert("成功使用優惠碼");
+	          		  }
+	          		  else{
+	          			  alert("優惠碼已過期");
+	          		  }
+	          	  });
+            	}
+            	else{
+            		alert("優惠碼無效");
+            	}
+            }
+          },
+          error: function () {
+            alert("無法連線到伺服器！");
+          }
+        });
+      }
+    function calDiscount(discount){
+    	
+    	var temp_price = 1000;
+
+    	//$("#summary").html(total_price.toFixed(2));
+    	total = parseFloat(temp_price)*discount;
+    	$("#price_panel").empty();
+    	$("#price_panel").append(total);
+    }
+</script>
 </html>

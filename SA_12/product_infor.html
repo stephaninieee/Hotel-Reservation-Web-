@@ -128,8 +128,8 @@
                         <p><li class="fas fa-phone me-2" style="font-size: large;"></li>0921999999</p>
                         <p><li class="fas fa-envelope-open me-2" style="font-size: large;"></li>12345678@gmail.com</p>
                     </div>  
-                    <div class="pt-4">
-                        <a type="button" href="new_cart.html" class="btn btn-outline-secondary">我要訂房</a>
+                    <div class="pt-4" id="reserve">
+                        
                     </div>  
                     <div class="pt-5">
                         
@@ -251,6 +251,8 @@
 	                  	$("#address_panel").append(addAddress(this));
 	                  	$("#star_panel").append(addStar(this));
 	                  	$("#star_text_panel").append(addStarText(this));
+	                  	
+	                  	$("#reserve").append(addButton(this));
 	                  
 	                  	
 	            	})	            	
@@ -452,6 +454,12 @@
 		inner_html += '</p>'
 		inner_html += '<hr>'
 		inner_html += '</div>'
+		return inner_html;
+	}
+	
+	function addButton(data){
+		let inner_html = '';
+		inner_html += '<a type="button" href="new_cart.html?id='+data["id"]+'" class="btn btn-outline-secondary">我要訂房</a>'
 		return inner_html;
 	}
 	

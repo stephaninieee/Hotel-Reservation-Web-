@@ -166,7 +166,7 @@ public class ManagerHelper {
             /** 取得所需之參數 */
             String name = m.getName();
             String email = m.getEmail();
-            String password = m.getPassword();
+            String password = encrypt(m.getPassword());
             String phone = m.getPhone();
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -302,13 +302,14 @@ public class ManagerHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`managers`(`name`, `email`, `password`, `modified`, `created`, `login_times` )"
-                    + " VALUES(?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `missa`.`managers`(`name`, `email`, `password`, `phone`, `modified`, `created`, `login_times`,`root` )"
+                    + " VALUES(?,?, ?, ?, ?, ?, ?,?)";
             
             /** 取得所需之參數 */
             String name = m.getName();
             String email = m.getEmail();
-            String password = m.getPassword();
+            String password = encrypt(m.getPassword());
+            String phone = m.getPhone();
             int login_times = m.getLogin_times();
             
             
@@ -317,10 +318,11 @@ public class ManagerHelper {
             pres.setString(1, name);
             pres.setString(2, email);
             pres.setString(3, password);
-            pres.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setString(4,phone);
             pres.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            pres.setInt(6, login_times);
-            
+            pres.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setInt(7, login_times);
+            pres.setInt(8, 0);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();

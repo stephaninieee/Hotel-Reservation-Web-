@@ -322,7 +322,7 @@
  </body>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script>
- var manager_id = 2;
+ var manager_id = sessionStorage.getItem("manager_id");
  $(document).ready(function() {
      // 處理表單點擊事件
      
@@ -331,7 +331,7 @@
   	 $( "#submit" ).click(function() {
   		if (check_all()){
   			submit();
-  			window.location.href = "new_manager.html?manager_id=1";
+  			window.location.href = "new_manager.html?";
   		}
   		
   	});

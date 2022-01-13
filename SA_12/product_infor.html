@@ -143,45 +143,42 @@
                     <div>
                         <p style="line-height: 5px;">5--超讚</p>
                         <div class="progress mb-3" style="height: 15px;">
-                            <div id="bar_1"class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 55%;  background-color: #343b53;"></div>
+                            <div id="bar_1"class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;  background-color: #343b53;"></div>
                           </div>
                           <p style="line-height: 5px;">4--非常好</p>
                           <div class="progress mb-3" style="height: 15px;">
-                            <div id="bar_2" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="bar_2" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                           <p style="line-height: 5px;">3--普通</p>
                           <div class="progress mb-3" style="height: 15px;">
-                            <div id="bar_3" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="bar_3" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 0%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                           <p style="line-height: 5px;">2--不太好</p>
                           <div class="progress mb-3" style="height: 15px;">
-                            <div id="bar_4" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 30%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="bar_4" class="progress-bar" role="progressbar" style="background-color: #343b53; width: 0%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                           <p style="line-height: 5px;">1--很糟糕</p>
                           <div class="progress mb-3" style="height: 15px;">
-                            <div id="bar_5" class="progress-bar" role="progressbar" style=" background-color: #343b53; width: 10%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="bar_5" class="progress-bar" role="progressbar" style=" background-color: #343b53; width: 0%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                     </div>
                 </div>
                 
                 <div class="col-7 pt-3" id="comment_panel">
-                    <div class="ps-5">
-                        <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">4/5 非常好</p>
-                        <p>接客、お部屋の掃除などは満足しております。ほぼ満室だったと思いますが、他のお客さんの声や音など全くしなかったので夜も快適に過ごせました。 ただ一つ残念だったのが朝食が遅めだったこともありますが、まだ食事をしているのにどんどん片付けが進んでしまい最後のデザートが全然食べれませんでした。 最後のお客が退席するまで片付けないでほしかったです。 朝食はとても美味しかったです！</p>
-                        <p><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li></p>
-                        <hr>
-                    </div>
-                    <div class="ps-5">
-                        <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">4/5 非常好</p>
-                        <p>接客、お部屋の掃除などは満足しております。ほぼ満室だったと思いますが、他のお客さんの声や音など全くしなかったので夜も快適に過ごせました。 ただ一つ残念だったのが朝食が遅めだったこともありますが、まだ食事をしているのにどんどん片付けが進んでしまい最後のデザートが全然食べれませんでした。 最後のお客が退席するまで片付けないでほしかったです。 朝食はとても美味しかったです！</p>
-                        <p><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li><li class="fa fa-star"></li></p>
-                        <hr>
-                    </div>
                     
                     
-                </div>
-            </div>
-        </div> 
+                 
+            	</div>
+            	<div class="col-4">
+            		
+				</div>
+				
+				
+				<div class="col-7 mt-3" style="padding-left: 45px;" id="give_comment_panel">
+				
+				
+				
+        	</div> 
 
         
     </div>
@@ -222,13 +219,78 @@
 	var id = url.searchParams.get("id");
 	
 	var member_name = sessionStorage.getItem("member_name");
+	var member_id = sessionStorage.getItem("member_id");
 	if(member_name == null){
 		$("#nav_panel").append('<a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="new_member_register.html">加入會員</a>')
 		$("#nav_panel2").append(' <a  type="button" class="btn" href="new_login.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); font-size: 14px; height: 40px;" >登入</a>')
 	}else{
 		$("#nav_panel").append('<a id="logout" class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="">登出</a>')
 		$("#nav_panel2").append(' <a  type="button" class="btn" href="new_member.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); font-size: 14px; height: 40px;" >'+ member_name+ '</a>')
-		
+		$("#give_comment_panel").append(addUserComment())
+	}
+	
+	function addUserComment(){
+		let inner_html = ""
+		 
+		inner_html += '<div class="form-floating">'
+		inner_html += '<select class="form-select" id="floatingSelect" aria-label="Floating label select example">'
+		    
+		inner_html +='<option value="1" selected>1</option>'
+		inner_html +=  '<option value="2">2</option>'
+		inner_html += '<option value="3">3</option>'
+		inner_html +='<option value="4">4</option>'
+		inner_html += '<option value="5">5</option>'
+		inner_html += '</select>'
+		inner_html += '<label for="floatingSelect">請選擇星等</label>'
+		  
+		inner_html +='</div>'
+	
+	
+		inner_html +='<div class="form-floating">'
+		inner_html +='<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>'
+		inner_html +='<label for="floatingTextarea2">Comments</label>'
+		inner_html +='</div>'
+		inner_html +='<div class="my-3" style="float:right;">'
+		inner_html +='<a type="button" onclick="newComment()" class="btn btn-secondary" >寫評論</a>'
+		inner_html +='</div>'
+		return inner_html
+	}
+	
+	function newComment(){
+		var star = $("#floatingSelect").val()
+		alert(star)
+		var comment = $("#floatingTextarea2").val()
+		 var data_object = {
+        	
+        	"Room_id": id,
+            "Member_id": member_id,
+            "star": star,
+            "comment": comment
+        };
+
+        // 將JSON格式轉換成字串
+        var data_string = JSON.stringify(data_object);
+
+        // 發出POST的AJAX請求
+        $.ajax({
+                type: "POST",
+                url: "api/CommentController.do",
+                data: data_string,
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                   
+                    if(response.status == 200){
+                       alert("成功")
+                       location.href = "product_infor.html?id="+id;
+                    }
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                }
+        });
 	}
 	
 	$( "#logout" ).click(function() {
@@ -297,7 +359,15 @@
 	           	var avg_star = '';
 	           	var star_number = [0, 0, 0, 0, 0];
 	           	
+	           	if(response.response.row == 0){
+	           		$("#avgrate_panel_1").append('旅客尚未給住宿評分。')
+	           		$("#avgrate_panel_2").append('<span style="font-size: 36px; color:#343B53;">沒有評論</span>')
+	           	}else{
 	           	$.each(response.response.data, function (){
+	         
+	           			
+	           	
+	           		
 	           		comment_panel += addComment(this); 
 	           		all_stars += this.star;
 	           		switch(this.star) {
@@ -330,7 +400,7 @@
 	           	$("#bar_3").width(star_number[2]/response.response.row*100 + '%');
 	           	$("#bar_2").width(star_number[3]/response.response.row*100 + '%');
 	           	$("#bar_1").width(star_number[4]/response.response.row*100 + '%');
-	         },
+	         }},
 	         error: function () {
 	             alert("無法連線到伺服器！");
 	         }

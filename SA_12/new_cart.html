@@ -266,8 +266,11 @@
     	else if (data['email']!= data['emailconfirm']){
     		alert("email確認錯誤");
     	}
-    	else if(data['checkin']>=data['checkout']){
+    	else if(data['checkin']>data['checkout']){
     		alert("入住日期不得於退房日期之後");
+    	}
+    	else if(data['checkin']==data['checkout']){
+    		alert("入住日期不得與退房日期相同");
     	}
     	else return true;
 

@@ -298,7 +298,7 @@ public class OrderHelper {
             pres.setString(1, name);
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
-
+            
             /** 紀錄真實執行的SQL指令，並印出 **/
             exexcute_sql = pres.toString();
             System.out.println(exexcute_sql);
@@ -315,13 +315,13 @@ public class OrderHelper {
                 String coupon_name = rs.getString("coupon_name");
                 int price = rs.getInt("price");
                 String status = rs.getString("status");
-                Date check_in = (Date)rs.getTimestamp("check_in");
-                Date check_out =(Date)rs.getTimestamp("check_out");
-                Timestamp create = rs.getTimestamp("create_time");
+                Date check_in = rs.getDate("check_in");
+                Date check_out =rs.getDate("check_out");
+                Timestamp create = rs.getTimestamp("create");
                 int managerId = rs.getInt("manager_id");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(Integer.parseInt(name),member_name,room_name,coupon_name,price,status,check_in,check_out,create,managerId);
+                o = new Order(member_name,room_name,coupon_name,price,status,check_in,check_out,managerId);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 data = o.getOrderAllInfo();
             }

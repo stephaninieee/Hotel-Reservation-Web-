@@ -50,7 +50,7 @@ public class ProductHelper {
             pres = conn.prepareStatement(sql);
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
-
+           
             /** 紀錄真實執行的SQL指令，並印出 **/
             exexcute_sql = pres.toString();
             System.out.println(exexcute_sql);

@@ -59,6 +59,9 @@ public class OrderController extends HttpServlet {
         }
         else if(!name.isEmpty()) {
           JSONObject query = oh.getByName(name);
+          resp.put("status", "200");
+          resp.put("message", "單筆訂單資料取得成功");
+          resp.put("response", query);
         }
         else {
         	
@@ -100,17 +103,17 @@ public class OrderController extends HttpServlet {
 
         Date checkIndate = null;
         try {
-        	checkIndate = new SimpleDateFormat("MM/dd/yyyy").parse(check_in);
+        	checkIndate = new SimpleDateFormat("mm/dd/yyyy").parse(check_in);
         } catch (ParseException e) {
-            System.out.printf("Parse date string [%1$s] with pattern [%2$s] error.%n", "dd/MM/yyyy", check_in);
+            System.out.printf("Parse date string [%1$s] with pattern [%2$s] error.%n", "mm/dd/yyyy", check_in);
             // Parse date string [2019/12/31] with pattern [yyyy-MM-dd] error.
         }        
         
         Date checkOutdate = null;//new SimpleDateFormat("dd/MM/yyyy").parse(check_out);
         try {
-        	checkOutdate = new SimpleDateFormat("MM/dd/yyyy").parse(check_out);
+        	checkOutdate = new SimpleDateFormat("mm/dd/yyyy").parse(check_out);
         } catch (ParseException e) {
-            System.out.printf("Parse date string [%1$s] with pattern [%2$s] error.%n", "dd/MM/yyyy", check_out);
+            System.out.printf("Parse date string [%1$s] with pattern [%2$s] error.%n", "mm/dd/yyyy", check_out);
             // Parse date string [2019/12/31] with pattern [yyyy-MM-dd] error.
         } 
            

@@ -256,6 +256,8 @@
 	function vaildData(data) {
     	var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     	var phone_rule = /^09\d{2}-\d{3}-\d{3}$/;
+    	var checkintime = new Date(data['checkin']);
+		var checkouttime = new Date(data['checkout']);
     	
 		if(data["last_name"]+data["first_name"] != member_name) alert("請輸入跟會員一樣的名稱!");
 		else if (data["first_name"] == "" || data["last_name"] == "" || data['email'] == "" || data['emailconfirm'] == "" )  alert("必填寫欄位不得有空值！");
@@ -263,6 +265,9 @@
     	else if (data['email'] != "" && !email_rule.test(data['email'])) alert("Email格式不符！");
     	else if (data['email']!= data['emailconfirm']){
     		alert("email確認錯誤");
+    	}
+    	else if(data['checkin']>=data['checkout']){
+    		alert("入住日期不得於退房日期之後");
     	}
     	else return true;
 

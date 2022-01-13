@@ -93,7 +93,7 @@
                             </div>
                        
                 </div>
-                <a type="button" href="new_manager.html" class="mb-5 btn btn-secondary" id="confirm">成為房東</a>
+                <a type="button" class="mb-5 btn btn-secondary" id="confirm">成為房東</a>
             </div>
         </form> 
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -206,11 +206,12 @@ $(document).ready(function() {
                     dataType: 'json',
                     timeout: 5000,
                     success: function (response) {
-                        $('#flashMessage').html(response.message);
-                        $('#flashMessage').show();
-                        if(response.status == 200){
-                            updateSQLTable(response.response);
-                        }
+                        
+                       
+                       	alert("註冊成功")
+                       	alert(name)
+                       	getManager(name)
+                       	
                     },
                     error: function () {
                         alert("無法連線到伺服器！");
@@ -220,7 +221,36 @@ $(document).ready(function() {
     }
 });
 
-
+function getManager(name){
+	$.ajax({
+        type: "GET",
+        url: "api/ManagerController.do",
+        crossDomain: true,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+        
+          if (response.status == 200) {
+        	
+        	
+        	$.each(response.response.data, function (){
+        		if(this.name == name){
+	        		sessionStorage.setItem("manager_id",this.id);    
+					sessionStorage.setItem("manager_name",this.name); 
+					sessionStorage.setItem("manager_phone",this.phone); 
+					sessionStorage.setItem("manager_email",this.email); 
+					location.href = "new_manager.html";
+			        
+        		}
+        	})     	
+          }
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+}
 
 </script>
 </html>

@@ -218,16 +218,20 @@
 	var url = new URL(url_string);
 	var id = url.searchParams.get("id");
 	var manager_id = url.searchParams.get("manager_id");
+	var manager_id_browse = sessionStorage.getItem("manager_id");
 	
 	var member_name = sessionStorage.getItem("member_name");
 	var member_id = sessionStorage.getItem("member_id");
-	if(member_name == null){
-		$("#nav_panel").append('<a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="new_member_register.html">加入會員</a>')
-		$("#nav_panel2").append(' <a  type="button" class="btn" href="new_login.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); font-size: 14px; height: 40px;" >登入</a>')
-	}else{
-		$("#nav_panel").append('<a id="logout" class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="">登出</a>')
-		$("#nav_panel2").append(' <a  type="button" class="btn" href="new_member.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); font-size: 14px; height: 40px;" >'+ member_name+ '</a>')
-		$("#give_comment_panel").append(addUserComment())
+	
+	if(manager_id_browse == null){
+		if(member_name == null){
+			$("#nav_panel").append('<a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="new_member_register.html">加入會員</a>')
+			$("#nav_panel2").append(' <a  type="button" class="btn" href="new_login.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); font-size: 14px; height: 40px;" >登入</a>')
+		}else{
+			$("#nav_panel").append('<a id="logout" class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="">登出</a>')
+			$("#nav_panel2").append(' <a  type="button" class="btn" href="new_member.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); font-size: 14px; height: 40px;" >'+ member_name+ '</a>')
+			$("#give_comment_panel").append(addUserComment())
+		}
 	}
 	
 	function addUserComment(){

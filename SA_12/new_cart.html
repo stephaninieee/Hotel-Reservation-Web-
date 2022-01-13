@@ -112,14 +112,14 @@
                             
                             <div class="col-9">
                                 <!-- <p class="fw-bold" style="font-size: medium;">2022-04-11</p> -->
-                                <input type="text" id="datepicker1">
+                                <input type="text" id="datepicker1" readonly='true'>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">退房日期</p>
                             </div>
                             <div class="col-9">
                                 <!-- <p class="fw-bold" style="font-size: medium;">2022-04-15</p> -->
-                                <input type="text" id="datepicker2">
+                                <input type="text" id="datepicker2" readonly='true'>
                             </div>
                             <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">價格</p>
@@ -127,12 +127,12 @@
                             <div class="col-9">
                                 <p class="fw-bold" id="price_panel" style="font-size: medium;"> </p>
                             </div>
-                            <div class="col-3">
+                            <!--  <div class="col-3">
                                 <p class="fw-bold" style="font-size: medium;">人數</p>
                             </div>
                             <div class="col-9">
                                 <p class="fw-bold" style="font-size: medium;">4人</p>
-                            </div>
+                            </div>-->
                         </div>
                         
                     </div>
@@ -153,6 +153,8 @@
 	var url_string = window.location.href;
 	var url = new URL(url_string);
 	var id = url.searchParams.get("id");
+	var manager_id = url.searchParams.get("manager_id");
+	var room_name = url.searchParams.get("room_name");
 	
 	
 	
@@ -175,7 +177,8 @@
 	                    $("#price_panel").append(addPrice(this));
 						$("#next").append(addButton(this));
 	                  
-	                  	
+						sessionStorage.setItem("price",addPrice(this));
+						sessionStorage.setItem("discount_price",addPrice(this));
 	            	})	            	
 	            }
 	            
@@ -214,10 +217,57 @@
 	
 	//下一步
 	function nextpage(){
-		let inner_html = '';
+		/*let inner_html = '';
 		inner_html += 'new_card.html?id='+id+'&last_name='+$("#last_name").val()+'&first_name='+$("#first_name").val()+'&email='+$("#email").val()
-		window.location.href= 'new_card.html?id='+id+'&last_name='+$("#last_name").val()+'&first_name='+$("#first_name").val()+'&email='+$("#email").val()+'&checkin='+$("#datepicker1").val()+'&checkout='+$("#datepicker2").val();
+		window.location.href= 'new_card.html?id='+id+'&manager_id='+manager_id+'&room_name='+room_name+'&last_name='+$("#last_name").val()+'&first_name='+$("#first_name").val()+'&email='+$("#email").val()+'&checkin='+$("#datepicker1").val()+'&checkout='+$("#datepicker2").val();*/
+		var data = {
+    			"first_name": $("#first_name").val(),
+    			"last_name": $("#last_name").val(),
+    			"email": $("#email").val(),
+    			"emailconfirm": $("#emailconfirm").val(),
+    			"checkin": $("#datepicker1").val(),
+    			"checkout": $("#datepicker2").val()
+    		}
+	
+		pass_vaild = vaildData(data);
+    	if (pass_vaild) {
+    		//var data_string = JSON.stringify(data);
+    		
+    		sessionStorage.setItem("last_name",$("#last_name").val());
+    		sessionStorage.setItem("first_name",$("#first_name").val());
+    		sessionStorage.setItem("email",$("#email").val());
+    		sessionStorage.setItem("coupon",$("#coupon").val());
+    		sessionStorage.setItem("checkin",$("#datepicker1").val());
+    		sessionStorage.setItem("checkout",$("#datepicker2").val());
+    		
+		
+			if ($('input[name="pay"]:checked').val()=='onlinepay'){
+				location.href = 'new_onlinepay.html?id='+id+'&manager_id='+manager_id+'&room_name='+room_name;
+			}
+			else if($('input[name="pay"]:checked').val()=='scenepay'){
+				location.href = 'new_scenepay.html?id='+id+'&manager_id='+manager_id+'&room_name='+room_name;
+			}
+			else{
+				alert("請選擇付款方式");
+			}
+    	}                
 	};
+	
+	function vaildData(data) {
+    	var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    	var phone_rule = /^09\d{2}-\d{3}-\d{3}$/;
+    	
+
+    	if (data["first_name"] == "" || data["last_name"] == "" || data['email'] == "" || data['emailconfirm'] == "" )  alert("必填寫欄位不得有空值！");
+    	else if( data['checkin'] == "" || data['checkout'] == "") alert("請選擇入住及退房日期");
+    	else if (data['email'] != "" && !email_rule.test(data['email'])) alert("Email格式不符！");
+    	else if (data['email']!= data['emailconfirm']){
+    		alert("email確認錯誤");
+    	}
+    	else return true;
+
+    	return false;
+    }
 	
 	//確認優惠碼
 	$("#coupon_check").click(function () {
@@ -254,6 +304,7 @@
 	          		  if(start<=now && now<=end){
 	          			  
 			          	  calDiscount(value.discount);
+			          	  
 			          	  alert("成功使用優惠碼");
 	          		  }
 	          		  else{
@@ -273,18 +324,23 @@
       }
     function calDiscount(discount){
     	
-    	var temp_price = 1000;
+    	var temp_price = sessionStorage.getItem("price");;
 
     	//$("#summary").html(total_price.toFixed(2));
     	total = parseFloat(temp_price)*discount;
     	$("#price_panel").empty();
-    	$("#price_panel").append(total);
+    	$("#price_panel").append(total.toFixed(2));
+    	sessionStorage.setItem("discount_price",total);
+    	//$("#coupon_check").attr("disabled", true);
+    	//$("#coupon").attr("disabled", true);
     }
     
     $( function() {
         $( "#datepicker1" ).datepicker();
         $( "#datepicker2" ).datepicker();
       } );
+    
+    
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>

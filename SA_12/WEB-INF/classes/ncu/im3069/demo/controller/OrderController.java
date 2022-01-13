@@ -92,7 +92,7 @@ public class OrderController extends HttpServlet {
         String room_name = jso.getString("room_name");
         String coupon_name = jso.getString("coupon_name");
 
-        int price = jso.getInt("price");
+        float price = jso.getFloat("price");
         String status = jso.getString("status"); 
         String check_in = jso.getString("check_in");
         String check_out = jso.getString("check_out");

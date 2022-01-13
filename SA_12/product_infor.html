@@ -217,6 +217,7 @@
 	var url_string = window.location.href;
 	var url = new URL(url_string);
 	var id = url.searchParams.get("id");
+	var manager_id = url.searchParams.get("manager_id");
 	
 	var member_name = sessionStorage.getItem("member_name");
 	var member_id = sessionStorage.getItem("member_id");
@@ -569,7 +570,7 @@
 	
 	function addButton(data){
 		let inner_html = '';
-		inner_html += '<a type="button" href="new_cart.html?id='+data["id"]+'" class="btn btn-outline-secondary">我要訂房</a>'
+		inner_html += '<a type="button" href="new_cart.html?id='+data["id"]+'&manager_id='+data["manager_id"]+'&room_name='+data["name"]+'" class="btn btn-outline-secondary">我要訂房</a>'
 		return inner_html;
 	}
 	

@@ -111,7 +111,7 @@ $(document).ready(function() {
 	if(manager_id == null){
 		$("#manager_login_panel").append('<button type="button" style="color:#FFFFFF; font-size: 16.5px; " class="btn " data-bs-toggle="modal" data-bs-target="#staticBackdrop">刊登家中空房</button>')
 	}else{
-		$("#manager_login_panel").append('<button type="button" id="logout" class="btn" style="color:#FFFFFF; font-size: 16.5px; ">登出</button>')
+		location.href = "browse.html";
 	}
 	
 	$( "#logout" ).click(function() {
@@ -156,10 +156,13 @@ $(document).ready(function() {
 				alert(login_status);
 				if(login_status=="logined"){
 					alert("登入成功");
-					var d = new Date();
-					d.setTime(d.getTime() + 9*60*1000);
-					document.cookie = 'user1='+email+';'+'expires='+d.toGMTString()+';path=/';
-					console.log(document.cookie);
+					alert(response.response.data.member.name)
+					sessionStorage.setItem("member_id",response.response.data.member.id);    
+					sessionStorage.setItem("member_name",response.response.data.member.name); 
+					sessionStorage.setItem("member_phone",response.response.data.member.phone); 
+					sessionStorage.setItem("member_email",response.response.data.member.email); 
+			        location.href = "browse.html";
+					
 				}   
 				else{alert("登入失敗");}
 									
@@ -214,10 +217,7 @@ $(document).ready(function() {
 						sessionStorage.setItem("manager_email",response.response.data.manager.email); 
 				        location.href = "new_manager.html";
 						
-						/*var d = new Date();
-						d.setTime(d.getTime() + 9*60*1000);
-						document.cookie = 'user1='+email+';'+'expires='+d.toGMTString()+';path=/';
-						console.log(document.cookie);*/
+					
 					}   
 					else{alert("登入失敗");}
 										

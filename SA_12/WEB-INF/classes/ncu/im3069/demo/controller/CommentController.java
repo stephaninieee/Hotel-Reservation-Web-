@@ -66,7 +66,7 @@ public class CommentController extends HttpServlet {
         String star = jso.getString("star");
         String comment = jso.getString("comment");
         
-        
+        System.out.print(star);
         /** 建立一個新的會員物件 */
         Comment c = new Comment(Integer.parseInt(Room_id), Integer.parseInt(Member_id), Integer.parseInt(star), comment);
         

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>付款</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body style="background-color: #f8f5f4;">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgba(77,78,84,1);">
+        <div class="container" style="height:62px; width: 1170px; margin-right: auto;margin-left: auto;"> 
+          <a class="navbar-brand" href="browse.html" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
+
+
+            <ul class="navbar-nav    ms-auto">
+             
+            </ul>
+        
+
+        </div>
+      </nav>
+
+      <div class="container px-5" style="color: #2a2a2e;">
+          <div class=""  style="background-color: #fcfcfc; padding-top: 110px;">
+              <div class="row ps-5 gx-5">
+                  <div class="col-md-7 ">
+                    <div class="">
+                        <h4 class="mb-3 fw-bold">付款資訊</h4>
+                        <hr class="mb-4">
+                      
+          
+                      
+          
+                      <div class="mb-4">
+                        <label for="address" class="mb-1">信用卡卡號<span style="color:red; font-weight: 900;">  *</span></label>
+                        <input type="text" class="form-control" id="cardnumber" maxlength="19" placeholder="" required="">
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4 mb-2">
+                          <label for="lastName">有效月<span style="color:red; font-weight: 900;">  *</span></label>
+                          <input type="text" class="form-control" id="month" maxlength="2" placeholder="輸入有效月" value="" required="">
+                        </div>
+          
+                        <div class="col-md-4 mb-4">
+                          <label for="firstName">有效年<span style="color:red; font-weight: 900;">  *</span></label>
+                          <input type="text" class="form-control" id="year" maxlength="2" placeholder="輸入有效年" value="" required="">
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label for="firstName">末三碼<span style="color:red; font-weight: 900;">  *</span></label>
+                            <input type="text" class="form-control" id="csv" maxlength="3" placeholder="輸入末三碼" value="" required="">
+                          </div>
+                      </div>
+                      
+                      <h4 class="mt-3 mb-3 fw-bold">相關的重要資訊</h4>
+                        <hr class="mb-4">
+                      
+                      <div>
+                          <p>1. 如於入住前兩天取消訂單，您必須支付相當於預訂總金額 20% 的住宿費用。</p>
+                          <p>2. 如預定後未入住，您必須支付相當於預訂總金額 100% 的住宿費用。</p>
+                          <p>3. 此飯店要求房客必須年滿 18 歲才能辦理入住登記手續。</p>
+                          <p>4. 即使抵達時間延遲，仍可以保證入住。</p>
+                          <p>5. 所顯示的價格「不包含」任何適用的住宿服務費、選擇性服務雜費 (如迷你酒吧點心或電話費)，或是一般性附加費用。住宿業者會在退房時收取這些費用與附加費用。</p>
+                      </div>
+                      </form>
+                      
+                        
+                      
+                      
+          
+                     
+          
+                    </div>
+                  </div>
+                 
+                  <div class="col-md-5 ">
+                    <div class="bg-white border ps-3 py-3 mb-4" id="image_panel" style="width: 411px;">
+                       
+                        
+                    </div>
+                    <div class="bg-white border ps-3 py-3 " style="width: 411px;">
+                        <div class="row">
+                            <div class="col-3">
+                                <p class="fw-bold" style="font-size: medium;">名稱</p>
+                            </div>
+                            <div class="col-9">
+                                <p class="fw-bold" id="name_panel" style="font-size: medium;"> </p>
+                            </div>
+                            
+                            <div class="col-3">
+                                <p class="fw-bold" style="font-size: medium;">入住日期</p>
+                            </div>
+                            
+                            <div class="col-9">
+                                <p class="fw-bold" id="check_in" style="font-size: medium;"></p>
+                            </div>
+                            <div class="col-3">
+                                <p class="fw-bold" style="font-size: medium;">退房日期</p>
+                            </div>
+                            <div class="col-9">
+                                <p class="fw-bold" id="check_out" style="font-size: medium;"></p>
+                            </div>
+                            <div class="col-3">
+                                <p class="fw-bold" style="font-size: medium;">訂金(3成)</p>
+                            </div>
+                            <div class="col-9">
+                                <p class="fw-bold" id="price_panel" style="font-size: medium;"> </p>
+                            </div>
+                            <!--  <div class="col-3">
+                                <p class="fw-bold" style="font-size: medium;">人數</p>
+                            </div>
+                            <div class="col-9">
+                                <p class="fw-bold" style="font-size: medium;">4人</p>
+                            </div>-->
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="pt-4" style="padding-left: 0px;">
+                        <a  onclick="submit()" type="button" class="btn btn-secondary fw-bold" style="width: 170px;">完成預定</a>
+                    </div>
+                    
+                  </div>
+              </div>
+          </div>
+      </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var id = url.searchParams.get("id");
+	var manager_id = url.searchParams.get("manager_id");
+	var room_name = url.searchParams.get("room_name");
+
+	
+	
+	function getProductData() {
+		
+		$.ajax({
+	        type: "GET",
+	        url: "api/product.do",
+	        data: "id=" + id,
+	        crossDomain: true,
+	        cache: false,
+	        dataType: 'json',
+	        timeout: 5000,
+	        success: function (response) {
+	            if(response.status == 200){
+	            	$.each(response.response.data, function (){
+	                	
+	                  	$("#image_panel").append(addImage(this));
+	                  	$("#name_panel").append(addName(this));
+	                    $("#price_panel").append(calTotal());
+	                    $("#check_in").append(sessionStorage.getItem("checkin"));
+	                    $("#check_out").append(sessionStorage.getItem("checkout"));
+	            	})	            	
+	            }
+	            
+	        },
+	        error: function () {
+	            alert("無法連線到伺服器！");
+	        }
+	  });
+		
+	}
+	
+	function addImage(data){
+		let inner_html = '';
+		inner_html += '<div style="height: 225px; width: 375px; background-image: url('+data.image+'); background-position: center; background-size: cover;">'
+		inner_html += '</div>'
+	    
+		return inner_html;
+	}
+	
+	function addName(data){
+		return data.name;
+	}
+	
+	function addPrice(data){
+		return data.price;
+	}
+	
+	
+
+	getProductData();
+	
+	function submit() {
+         var name = sessionStorage.getItem("last_name")+sessionStorage.getItem("first_name");
+         var email = sessionStorage.getItem("email");
+         var coupon = sessionStorage.getItem("coupon");
+         var price = calRemain();
+         var checkin = sessionStorage.getItem("checkin")
+         var checkout = sessionStorage.getItem("checkout")
+
+         var data_pay = {
+                 "card_no":$("#cardnumber").val().replace(/\s/g, ''),
+                 "card_month":$("#month").val(),
+                 "card_year":$("#year").val(),
+                 "csv":$("#csv").val()
+             };
+
+         if (!vaild_payData(data_pay)) {
+             //alert("Email格式不符！");
+         }
+         else {
+             // 將資料組成JSON格式
+             var data_object = {
+                 "member_name": name,
+                 "room_name": room_name,
+                 "coupon_name": coupon,
+                 "price":price,
+                 "status": "已繳訂金",
+                 "check_in": checkin,
+                 "check_out": checkout,
+                 "manager_id":manager_id
+             };
+             
+             
+             // 將JSON格式轉換成字串
+             var data_string = JSON.stringify(data_object);
+
+             // 發出POST的AJAX請求
+             $.ajax({
+                     type: "POST",
+                     url: "api/order.do",
+                     data: data_string,
+                     crossDomain: true,
+                     cache: false,
+                     dataType: 'json',
+                     timeout: 5000,
+                     success: function (response) {
+                         
+                         if(response.status == 200){
+                             alert("訂單完成");
+                         }
+                     },
+                     error: function () {
+                         alert("無法連線到伺服器！");
+                     }
+             });
+             location.href = "new_member.html";
+         }
+     }
+	
+	$('#cardnumber').keyup(function() {
+        var val = $(this).val();
+        val = val.replace(/(\d{4})(?=\d)/g, "$1 ");
+        $(this).val( val );
+    });
+	
+	function vaild_payData(pay_data) {
+    	
+    	//var card_no_rule = /^\d{16}$/;
+    	var card_no_rule = /^([1-9]{1})(\d{15}|\d{16}|\d{18})$/;
+    	var card_month_rule = /^\d{1,2}$/;
+    	var card_year_rule = /^\d{2}$/;
+    	var csv_rule = /^\d{3}$/;
+    	
+    	
+    	if (pay_data["card_no"] == "" || pay_data["card_month"] == "" || pay_data['card_year'] == "" || pay_data['csv'] == "")  alert("必填寫欄位不得有空值！");
+    	else if (pay_data["card_no"] != "" && !card_no_rule.test(pay_data["card_no"])) alert("卡號格式不符！");
+    	else if (pay_data['card_month'] != "" && pay_data["card_month"]>12 ) alert("月格式不符！");
+    	else if (pay_data['card_year'] != "" && !card_year_rule.test(pay_data['card_year'])) alert("年格式不符！");
+    	else if (!csv_rule.test(pay_data['csv'])) alert("安全碼格式不符！");
+    	else {
+    		return true;}
+
+    	return false;
+    }
+	
+	function calTotal(){
+		var price = sessionStorage.getItem("discount_price");
+		var checkintime = new Date(sessionStorage.getItem("checkin"));
+		var checkouttime = new Date(sessionStorage.getItem("checkout"));
+		var diff = checkouttime.getTime()-checkintime.getTime();
+		total = parseInt(parseFloat(price)*diff/(1000*3600*24)*0.3);
+		
+		return total;
+	}
+	
+	function calRemain(){
+		var price = sessionStorage.getItem("discount_price");
+		var checkintime = new Date(sessionStorage.getItem("checkin"));
+		var checkouttime = new Date(sessionStorage.getItem("checkout"));
+		var diff = checkouttime.getTime()-checkintime.getTime();
+		total = parseFloat(price)*diff/(1000*3600*24)*0.7;
+		
+		return total;
+	}
+</script>
+</html>

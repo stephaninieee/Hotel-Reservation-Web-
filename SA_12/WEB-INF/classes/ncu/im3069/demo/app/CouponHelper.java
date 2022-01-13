@@ -70,8 +70,10 @@ private CouponHelper() {
                 int coupon_id = rs.getInt("id");
                 String name = rs.getString("name");
                 double discount = rs.getDouble("discount");
-                String coupon_start_time = String.valueOf(rs.getTimestamp("start_time"));
-                String end_times = String.valueOf(rs.getTimestamp("end_time"));
+                
+            	
+                String coupon_start_time = rs.getString("start_time");
+                String end_times = rs.getString("end_time");
               
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
@@ -222,8 +224,8 @@ private CouponHelper() {
                 int coupon_id = rs.getInt("id");
                 String coupon_name = rs.getString("name");
                 double discount = rs.getDouble("discount");
-                String coupon_start_time = String.valueOf(rs.getTimestamp("start_time"));
-                String end_times = String.valueOf(rs.getTimestamp("end_time"));
+                String coupon_start_time = rs.getString("start_time");
+                String end_times = rs.getString("end_time");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
                 c = new Coupon(coupon_id, name, discount, coupon_start_time, end_times);

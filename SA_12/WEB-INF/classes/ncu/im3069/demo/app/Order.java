@@ -22,7 +22,7 @@ public class Order {
     private String coupon_name;
 
     /** address，會員地址 */
-    private int price;
+    private float price;
 
     /** phone，會員手機 */
     private String status;
@@ -65,7 +65,7 @@ public class Order {
         this.manager_id = manager_id;
     }
     
-    public Order(String member_name, String room_name, String coupon_name, int price, String status , Date check_in ,Date check_out,int manager_id) {
+    public Order(String member_name, String room_name, String coupon_name, float price, String status , Date check_in ,Date check_out,int manager_id) {
        
         this.member_name=member_name;
         this.room_name = room_name;
@@ -139,7 +139,7 @@ public class Order {
      *
      * @return String 回傳訂單信箱
      */
-    public int getPrice() {
+    public float getPrice() {
         return this.price;
     }
 

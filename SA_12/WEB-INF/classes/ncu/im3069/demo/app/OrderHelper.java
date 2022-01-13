@@ -54,7 +54,7 @@ public class OrderHelper {
             String member_name = order.getMemberName();
             String room_name = order.getRoomName();
             String coupon_name = order.getCouponName();
-            int price = order.getPrice();
+            float price = order.getPrice();
             
             Date check_out = order.getCheckOut();
             Date check_out8 = addHoursToJavaUtilDate(check_out,8);           
@@ -69,7 +69,7 @@ public class OrderHelper {
             pres.setString(1, member_name);
             pres.setString(2, room_name);
             pres.setString(3, coupon_name);
-            pres.setInt(4, price);
+            pres.setFloat(4, price);
 
 
             pres.setString(5, status);

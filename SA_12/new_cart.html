@@ -122,7 +122,7 @@
                                 <input type="text" id="datepicker2" readonly='true'>
                             </div>
                             <div class="col-3">
-                                <p class="fw-bold" style="font-size: medium;">價格</p>
+                                <p class="fw-bold" style="font-size: medium;">價格/天</p>
                             </div>
                             <div class="col-9">
                                 <p class="fw-bold" id="price_panel" style="font-size: medium;"> </p>
@@ -329,7 +329,7 @@
     	//$("#summary").html(total_price.toFixed(2));
     	total = parseFloat(temp_price)*discount;
     	$("#price_panel").empty();
-    	$("#price_panel").append(total.toFixed(2));
+    	$("#price_panel").append(total.toFixed(0));
     	sessionStorage.setItem("discount_price",total);
     	//$("#coupon_check").attr("disabled", true);
     	//$("#coupon").attr("disabled", true);

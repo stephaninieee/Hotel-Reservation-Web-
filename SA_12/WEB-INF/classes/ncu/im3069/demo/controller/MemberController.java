@@ -127,8 +127,7 @@ public class MemberController extends HttpServlet {
         //    jsr.response(resp, response);
              
         //}    
-        if (email.isEmpty()) {
-        	/** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
+        
 
        
 	
@@ -157,7 +156,7 @@ public class MemberController extends HttpServlet {
         	jsr.response(resp, response);
     	
     	}
-        }	
+        	
     }
        
 

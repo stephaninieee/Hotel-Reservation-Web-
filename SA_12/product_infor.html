@@ -27,20 +27,16 @@
 <body style="background-color: #f8f5f4;">
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgba(77,78,84,1);">
         <div class="container" style="height:62px; width: 1170px; margin-right: auto;margin-left: auto;"> 
-          <a class="navbar-brand" href="#" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
+          <a class="navbar-brand" href="browse.html" style="color:#FFFFFF; font-weight: 600; font-size: 24px;">Tour<span style="color:rgb(0, 216, 255);">Nest</span></a>
 
 
             <ul class="navbar-nav    ms-auto">
-              <li class="nav-item" style="padding-right:15px;">
-                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px; " href="list_property.html">刊登家中空房</a>
+              
+              <li class="nav-item" style="padding-right:20px;" id="nav_panel">
+                
               </li>
-              <li class="nav-item" style="padding-right:20px;" >
-                <a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="new_member_register.html">加入會員</a>
-              </li>
-              <li class="nav-item" style="padding-right:15px;">
-                <a  type="button" class="btn" href="new_login.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); 
-               font-size: 14px;
-                height: 40px;" >登入</a>
+              <li class="nav-item" style="padding-right:15px;" id="nav_panel2">
+               
               </li>
             </ul>
         
@@ -125,8 +121,8 @@
                     </div>
                     <div class="pt-5">
                         <p style="color: #141D38;font-size: 1.25rem; font-weight: 900; line-height: 1.5rem;">聯絡我們</p>
-                        <p><li class="fas fa-phone me-2" style="font-size: large;"></li>0921999999</p>
-                        <p><li class="fas fa-envelope-open me-2" style="font-size: large;"></li>12345678@gmail.com</p>
+                        <p id="phone_panel"></p>
+                        <p id="email_panel"></p>
                     </div>  
                     <div class="pt-4" id="reserve">
                         
@@ -226,7 +222,23 @@
 	var id = url.searchParams.get("id");
 	var manager_id = url.searchParams.get("manager_id");
 	
+	var member_name = sessionStorage.getItem("member_name");
+	if(member_name == null){
+		$("#nav_panel").append('<a class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="new_member_register.html">加入會員</a>')
+		$("#nav_panel2").append(' <a  type="button" class="btn" href="new_login.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); font-size: 14px; height: 40px;" >登入</a>')
+	}else{
+		$("#nav_panel").append('<a id="logout" class="nav-link" style="color:#FFFFFF; font-size: 16.5px;" href="">登出</a>')
+		$("#nav_panel2").append(' <a  type="button" class="btn" href="new_member.html" style="color:#FFFFFF; width: 120px;background: rgb(0, 216, 255); font-size: 14px; height: 40px;" >'+ member_name+ '</a>')
+		
+	}
 	
+	$( "#logout" ).click(function() {
+		sessionStorage.removeItem("member_id"); 
+		sessionStorage.removeItem("member_name"); 
+		sessionStorage.removeItem("member_phone"); 
+		sessionStorage.removeItem("member_email"); 
+		location.href = "browse.html";
+	})
 	
 	function getProductData() {
 		
@@ -241,7 +253,7 @@
 	        success: function (response) {
 	            if(response.status == 200){
 	            	$.each(response.response.data, function (){
-	                	
+	            		getManager(this);
 	                  	$("#image_panel").append(addImage(this));
 	                  	$("#name_panel").append(addName(this));
 	                  	$("#facility_panel").append(addFacility(this));
@@ -252,8 +264,12 @@
 	                  	$("#address_panel").append(addAddress(this));
 	                  	$("#star_panel").append(addStar(this));
 	                  	$("#star_text_panel").append(addStarText(this));
+	                  	if(member_name != null){
+	                  		$("#reserve").append(addButton(this));
+	                  	}else{
+	                  		$("#reserve").append('<a type="button" class="btn btn-outline-secondary disabled">訂房前請登入</a>')
+	                  	}
 	                  	
-	                  	$("#reserve").append(addButton(this));
 	                  
 	                  	
 	            	})	            	
@@ -322,9 +338,33 @@
 	 });
 	}
 	
-	
+	function getManager(data){
+		$.ajax({
+			type:"GET",
+			url:"api/ManagerController.do",			
+			crossDomain:true,
+			cache:false,
+			dataType:'json',
+			timeout:5000,			
+			success:function(response){				
+				$.each(response.response.data, function (){
+					
+					if(this.id == data.manager_id){
+						$("#phone_panel").append('<li class="fas fa-phone me-2" style="font-size: large;"></li>'+ this.phone)
+						$("#email_panel").append('<li class="fas fa-envelope-open me-2" style="font-size: large;"></li>'+ this.email)
+					}
+					
+				})
+									
+			},
+			error:function(){
+				alert("伺服器連接失敗");
+			}
+		});
+	}
 	getProductData();
 	getComment();
+	
 	
 	function addImage(data){
 		let inner_html = '';

@@ -111,7 +111,7 @@
                                 <p class="fw-bold" id="check_out" style="font-size: medium;"></p>
                             </div>
                             <div class="col-3">
-                                <p class="fw-bold" style="font-size: medium;">價格</p>
+                                <p class="fw-bold" style="font-size: medium;">總價格</p>
                             </div>
                             <div class="col-9">
                                 <p class="fw-bold" id="price_panel" style="font-size: medium;"> </p>
@@ -162,9 +162,9 @@
 	                	
 	                  	$("#image_panel").append(addImage(this));
 	                  	$("#name_panel").append(addName(this));
-	                    $("#price_panel").append(sessionStorage.getItem("discount_price"));
 	                    $("#check_in").append(sessionStorage.getItem("checkin"));
 	                    $("#check_out").append(sessionStorage.getItem("checkout"));
+	                    $("#price_panel").append(calTotal());
 	            	})	            	
 	            }
 	            
@@ -222,7 +222,7 @@
                  "room_name": room_name,
                  "coupon_name": coupon,
                  "price":price,
-                 "status": "未付款",
+                 "status": "已付款",
                  "check_in": checkin,
                  "check_out": checkout,
                  "manager_id":manager_id
@@ -279,5 +279,15 @@
 
     	return false;
     }
+	
+	function calTotal(){
+		var price = sessionStorage.getItem("discount_price");
+		var checkintime = new Date(sessionStorage.getItem("checkin"));
+		var checkouttime = new Date(sessionStorage.getItem("checkout"));
+		var diff = checkouttime.getTime()-checkintime.getTime();
+		total = parseFloat(price)*diff/(1000*3600*24);
+		
+		return total;
+	}
 </script>
 </html>

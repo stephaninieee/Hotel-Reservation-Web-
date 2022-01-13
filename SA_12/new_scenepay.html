@@ -101,7 +101,7 @@
                                 <p class="fw-bold" id="check_out" style="font-size: medium;"></p>
                             </div>
                             <div class="col-3">
-                                <p class="fw-bold" style="font-size: medium;">訂金</p>
+                                <p class="fw-bold" style="font-size: medium;">訂金(3成)</p>
                             </div>
                             <div class="col-9">
                                 <p class="fw-bold" id="price_panel" style="font-size: medium;"> </p>
@@ -152,7 +152,7 @@
 	                	
 	                  	$("#image_panel").append(addImage(this));
 	                  	$("#name_panel").append(addName(this));
-	                    $("#price_panel").append(500);
+	                    $("#price_panel").append(calTotal());
 	                    $("#check_in").append(sessionStorage.getItem("checkin"));
 	                    $("#check_out").append(sessionStorage.getItem("checkout"));
 	            	})	            	
@@ -190,7 +190,7 @@
          var name = sessionStorage.getItem("last_name")+sessionStorage.getItem("first_name");
          var email = sessionStorage.getItem("email");
          var coupon = sessionStorage.getItem("coupon");
-         var price = $('#price_panel').text()
+         var price = calRemain();
          var checkin = sessionStorage.getItem("checkin")
          var checkout = sessionStorage.getItem("checkout")
 
@@ -211,7 +211,7 @@
                  "room_name": room_name,
                  "coupon_name": coupon,
                  "price":price,
-                 "status": "未付款",
+                 "status": "已繳訂金",
                  "check_in": checkin,
                  "check_out": checkout,
                  "manager_id":manager_id
@@ -268,5 +268,25 @@
 
     	return false;
     }
+	
+	function calTotal(){
+		var price = sessionStorage.getItem("discount_price");
+		var checkintime = new Date(sessionStorage.getItem("checkin"));
+		var checkouttime = new Date(sessionStorage.getItem("checkout"));
+		var diff = checkouttime.getTime()-checkintime.getTime();
+		total = parseFloat(price)*diff/(1000*3600*24)*0.3;
+		
+		return total;
+	}
+	
+	function calRemain(){
+		var price = sessionStorage.getItem("discount_price");
+		var checkintime = new Date(sessionStorage.getItem("checkin"));
+		var checkouttime = new Date(sessionStorage.getItem("checkout"));
+		var diff = checkouttime.getTime()-checkintime.getTime();
+		total = parseFloat(price)*diff/(1000*3600*24)*0.7;
+		
+		return total;
+	}
 </script>
 </html>

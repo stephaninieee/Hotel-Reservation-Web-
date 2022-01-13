@@ -195,7 +195,7 @@
                                                         <div class="travel-budget">
                                                             <div class="row">
                                                                 <div class="col-md-3 col-sm-4">
-                                                                    <h3>budget : </h3>
+                                                                    <h3 style="font-weight:900;">價格 : </h3>
                                                                 </div><!--/.col-->
                                                                 <div class="co-md-9 col-sm-8">
                                                                     <div class="travel-filter">
@@ -578,12 +578,10 @@
                     	
                     	$.each(response.response.data, function (){
 
-                    
-                    		if(filter(this) && location_input(this)&& dateSelect(this)){ 
-
-                    		}
-                    		if(filter(this) && location_input(this) && budget_check(this)){
-
+                    		
+                    		
+                    		if(filter(this) && location_input(this) && budget_check(this) && dateCheck(this)){
+				
                     			product_panel += addProduct(this);
                     		}
                     		
@@ -628,59 +626,70 @@
             }
             
 
-            //選擇入住時段
-            function dateSelect(data){
+            
+            function dateCheck(data){
             	var return_status = '';
-            	var dateary1 = document.getElementsByName('check_in');
-            	var dateary2 = document.getElementsByName('check_out');
-            	var datetext1 = new String(dateary1[0].val);
-            	var datetext2 = new String(dateary2[0].val);            	           	
+            	var dateary1 = $("#checkin").val()
+            	var for_date1 = dateary1.split("/")
+            	var year1 = for_date1[2]
+            	for_date1[2] = for_date1[1] 
+            	for_date1[1] = for_date1[0]
+            	for_date1[0] = year1
+            	var new_date1 =new Date(for_date1[0]+"-"+for_date1[1]+"-"+for_date1[2])
+            	//alert(new_date1)
             	
-            	var dateay1 = datetext1.split("/");
-            	var dateay2 = datetext2.split("/");
-            	
-            	var date_st1 = new Date(dateay1[2],dateay1[1],dateay1[0]);
-            	var date_st2 = new Date(dateay2[2],dateay2[1],dateay2[0]);
-            	
-            	if (datetext1==null||datetext2==null){
-            		alert("check in/out can't be null!!");
-            	}else{
-            		$.ajax({ 
+            	var dateary2 = $("#checkout").val()
+            	var for_date2 = dateary2.split("/")
+            	var year2 = for_date2[2]
+            	for_date2[2] = for_date2[1] 
+            	for_date2[1] = for_date2[0]
+            	for_date2[0] = year2
+            	var new_date2 =new Date(for_date2[0]+"-"+for_date2[1]+"-"+for_date2[2])
+            	//alert(new_date2)
+            	var status ;
+            	$.ajax({ 
                     type: "GET",
                     url: "api/order.do",
-                    data:{"name":data.name},
                     crossDomain: true,
                     cache: false,
                     dataType: 'json',
+                    async : false,
                     timeout: 5000,
                     success: function (response) {                   	                   	
                     	if (response.status == 200) {
-                    	var product_panel = '';
-                    	$("#product_panel").empty();
-                    	
-                    	$.each(response.response.data.order_info, function (){
-                    		System.out.println("test");
-                    		if(date_st1.valueOf()<this.check_in.valueOf()&&date_st2.valueOf()<=this.check_in.valueOf()){
-                    			return_status = true;
-                    		}
-                    		else if(date_st1.valueOf()>=this.check_out.valueOf()&&date_st2.valueOf()>this.check_out.valueOf()){
-                    			return_status = true;
-                    		}
-                    		else{
-                    			return_status = false;
+                    		var sta = 0
+                    		
+                    	$.each(response.response.data, function (){
+                    		if(data.name == this.order_info.room_name){
+                    			
+                    			
+	                    		var order_checkin = new Date(this.order_info.check_in)
+	                    		var order_checkout = new Date(this.order_info.check_out)
+	                    		
+	                    		if(new_date1 > order_checkout || (new_date1 < order_checkin && new_date2 < order_checkin)){
+	                    			
+	                    		}else {
+	                    			 sta = 1;
+	                    		}
+	                    		
                     		}
                     	})                    	
-                                    	
+                    	
+                    	if(sta == 0){
+                    		status = true
+                    	}else status = false          	
                       }
                     },
                     error: function () {
                       alert("無法連線到伺服器！");
                     }
-                  });            		
-            	} 
-            	return return_status;
+                  });     
+            	
+            	
+				return status
             	
             }
+            
 
             // 價格在預算之間return true
             function budget_check(data){
@@ -813,6 +822,7 @@
             	
             	return inner_html;	
             }
+            
            
         </script>
 

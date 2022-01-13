@@ -48,9 +48,7 @@
                             <div class="col-10">
                                 <p style="font-size: large;" id="member_name_panel"></p>
                             </div>
-                            <div class="col-2">
-                                <a type="button" class="btn btn-secondary btn-sm" href="">修改</a>
-                            </div>
+                            
                         </div>
                     </div>
                     
@@ -65,7 +63,7 @@
                     <p class="" style="font-size: 18px; font-weight: 900;">所有訂單</p>
                     <table class="table">
                         <thead class="table-light">
-                           <td>id</td><td>訂房人</td><td>房間</td><td>價格</td><td>優惠</td><td>入住日期</td><td>退房日期</td><td>狀態</td><td>建立時間</td>
+                           <td>訂房人</td><td>房間</td><td>價格</td><td>優惠</td><td>入住日期</td><td>退房日期</td><td>狀態</td><td>建立時間</td>
                         </thead>
                         <tbody id="order_panel">
                          
@@ -143,7 +141,7 @@ getOrder();
 function addOrder(data){
 	let inner_html = "";
 	inner_html += "<tr>";
-    inner_html += "<td>"+ data.id +"</td><td>"+ data.member_name + "</td><td>" + data.room_name + "</td><td>$"+data.price+"</td><td>" + data.coupon_name + "</td><td>" + data.check_in + "</td><td>" + data.check_out + "</td><td>" +data.status +"</td><td>" +  data.create  + '</td>';
+    inner_html += "<td>"+ data.member_name + "</td><td>" + data.room_name + "</td><td>$"+data.price+"</td><td>" + data.coupon_name + "</td><td>" + data.check_in + "</td><td>" + data.check_out + "</td><td>" +data.status +"</td><td>" +  data.create  + '</td>';
     inner_html += "</tr>";
     return inner_html;
 }

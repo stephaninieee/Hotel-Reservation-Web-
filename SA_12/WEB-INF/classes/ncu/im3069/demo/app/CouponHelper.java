@@ -70,6 +70,8 @@ private CouponHelper() {
                 int coupon_id = rs.getInt("id");
                 String name = rs.getString("name");
                 double discount = rs.getDouble("discount");
+                
+            	
                 String coupon_start_time = String.valueOf(rs.getTimestamp("start_time"));
                 String end_times = String.valueOf(rs.getTimestamp("end_time"));
               

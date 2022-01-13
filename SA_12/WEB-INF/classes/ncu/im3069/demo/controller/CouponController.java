@@ -59,7 +59,7 @@ public class CouponController extends HttpServlet {
           JSONObject query = ch.getAll();
 
           resp.put("status", "200");
-          resp.put("message", "所有商品資料取得成功");
+          resp.put("message", "所有優惠資料取得成功");
           resp.put("response", query);
         }
 

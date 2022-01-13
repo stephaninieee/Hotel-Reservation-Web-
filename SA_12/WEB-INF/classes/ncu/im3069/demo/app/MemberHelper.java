@@ -517,7 +517,17 @@ public class MemberHelper {
             System.out.println(exexcute_sql);           
             System.out.println("pussy2");            
                        
-            while(rs.next()) {	            	                       	
+            while(rs.next()) {	
+            	int Member_id = rs.getInt("id");
+                String name = rs.getString("name");
+               
+               
+                String phone = rs.getString("phone");
+                int login_times = rs.getInt("login_times"); 
+                
+                Manager m = new Manager(Member_id, email, password, name,phone, login_times);
+                /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
+                jso.put("member", m.getData());
             	String str2 = new String(rs.getString("password"));          		
         		System.out.println(encrypt(password).equals(str2));
         		if(encrypt(password).equals(str2)==true) {

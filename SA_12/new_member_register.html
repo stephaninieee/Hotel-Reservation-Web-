@@ -73,7 +73,7 @@
                         <p class="m-b-4">記好自己的密碼，千萬別忘記囉!</p>
                             <div class="form-group">
                                 <div>
-                                    <input placeholder="" type="text" id="password" class="form-control" value>
+                                    <input placeholder="" type="password" id="password" class="form-control" value>
                                 </div>
                             </div>
                        
@@ -83,7 +83,7 @@
                     
                             <div class="form-group">
                                 <div>
-                                    <input placeholder="" type="text" id="password_c" class="form-control" value>
+                                    <input placeholder="" type="password" id="password_c" class="form-control" value>
                                 </div>
                             </div>
                        
@@ -163,6 +163,7 @@ $(document).ready(function() {
 	var $form = $('#confirm');
 	
 	$form.click(function() {
+	
 		submit();
 	});
 
@@ -190,6 +191,7 @@ $(document).ready(function() {
         	alert("電話號碼格式錯誤!");
         }
         else {
+        	
             // 將資料組成JSON格式
             var data_object = {
                 "name": name,
@@ -211,11 +213,9 @@ $(document).ready(function() {
                     dataType: 'json',
                     timeout: 5000,
                     success: function (response) {
-                        $('#flashMessage').html(response.message);
-                        $('#flashMessage').show();
-                        if(response.status == 200){
-                            updateSQLTable(response.response);
-                        }
+                    	alert("註冊成功")
+                    	getMember(name)
+                    	
                     },
                     error: function () {
                         alert("無法連線到伺服器！");
@@ -225,7 +225,34 @@ $(document).ready(function() {
     }
 });
 
-
+function getMember(name){
+	$.ajax({
+        type: "GET",
+        url: "api/MemberController.do",
+        crossDomain: true,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+          if (response.status == 200) {
+        	
+        	
+        	$.each(response.response.data, function (){
+        		if(this.name == name){
+	        		sessionStorage.setItem("member_id",this.id);    
+					sessionStorage.setItem("member_name",this.name); 
+					sessionStorage.setItem("member_phone",this.phone); 
+					sessionStorage.setItem("member_email",this.email); 
+			        location.href = "new_member.html";
+        		}
+        	})     	
+          }
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+}
 
 </script>
 </html>

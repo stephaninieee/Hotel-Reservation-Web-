@@ -155,7 +155,7 @@
 	var id = url.searchParams.get("id");
 	var manager_id = url.searchParams.get("manager_id");
 	var room_name = url.searchParams.get("room_name");
-	
+	var member_name = sessionStorage.getItem("member_name");
 	
 	
 	function getProductData() {
@@ -257,8 +257,8 @@
     	var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     	var phone_rule = /^09\d{2}-\d{3}-\d{3}$/;
     	
-
-    	if (data["first_name"] == "" || data["last_name"] == "" || data['email'] == "" || data['emailconfirm'] == "" )  alert("必填寫欄位不得有空值！");
+		if(data["last_name"]+data["first_name"] != member_name) alert("請輸入跟會員一樣的名稱!");
+		else if (data["first_name"] == "" || data["last_name"] == "" || data['email'] == "" || data['emailconfirm'] == "" )  alert("必填寫欄位不得有空值！");
     	else if( data['checkin'] == "" || data['checkout'] == "") alert("請選擇入住及退房日期");
     	else if (data['email'] != "" && !email_rule.test(data['email'])) alert("Email格式不符！");
     	else if (data['email']!= data['emailconfirm']){

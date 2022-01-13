@@ -1,6 +1,7 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -66,7 +67,7 @@ public class Order {
     }
     
     public Order(String member_name, String room_name, String coupon_name, int price, String status , Date check_in ,Date check_out,int manager_id) {
-       
+        
         this.member_name=member_name;
         this.room_name = room_name;
         this.coupon_name = coupon_name;
@@ -183,19 +184,15 @@ public class Order {
      * @return JSONObject 取得訂單基本資料
      */
     public JSONObject getOrderData() {
-        JSONObject jso = new JSONObject();
-        jso.put("id", getId());
+        JSONObject jso = new JSONObject();        
         jso.put("member_name", getMemberName());
         jso.put("room_name", getRoomName());
         jso.put("coupon_name", getCouponName());
         jso.put("price", getPrice());
-        jso.put("status", getStatus());
-        SimpleDateFormat myFmt=new SimpleDateFormat("yyyy-MM-dd");
-    	String for_check_in = myFmt.format(getCheckIn());
-    	String for_check_out = myFmt.format(getCheckOut());
-        jso.put("check_in", for_check_in);
-        jso.put("check_out", for_check_out);
-        jso.put("create", getCreate());
+        jso.put("status", getStatus());    
+        jso.put("check_in", String.valueOf(getCheckIn()));
+        jso.put("check_out", String.valueOf(getCheckOut()));
+        jso.put("create",String.valueOf(getCreate()));
         jso.put("manager_id", getManager_id());
         
 

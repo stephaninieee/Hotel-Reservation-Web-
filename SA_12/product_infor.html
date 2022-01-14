@@ -263,8 +263,11 @@
 	
 	function newComment(){
 		var star = $("#floatingSelect").val()
-		alert(star)
+		
 		var comment = $("#floatingTextarea2").val()
+		if(comment == "" || comment.length > 255){
+			alert("評論不能空白或超過255字元")
+		}else{
 		 var data_object = {
         	
         	"Room_id": id,
@@ -275,7 +278,7 @@
 
         // 將JSON格式轉換成字串
         var data_string = JSON.stringify(data_object);
-
+		
         // 發出POST的AJAX請求
         $.ajax({
                 type: "POST",
@@ -296,6 +299,7 @@
                     alert("無法連線到伺服器！");
                 }
         });
+	}
 	}
 	
 	$( "#logout" ).click(function() {

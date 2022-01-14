@@ -194,8 +194,8 @@
                                                     <div class="col-sm-5">
                                                         <div class="travel-budget">
                                                             <div class="row">
-                                                                <div class="col-md-3 col-sm-4">--
-                                                                    <h3>budget : </h3>
+                                                                <div class="col-md-3 col-sm-4">
+                                                                    <h3 style="font-weight:900;">價格 : </h3>
                                                                 </div><!--/.col-->
                                                                 <div class="co-md-9 col-sm-8">
                                                                     <div class="travel-filter">
@@ -548,23 +548,44 @@
     		sessionStorage.removeItem("manager_phone"); 
     		sessionStorage.removeItem("manager_email"); 
     		location.href = "browse.html";
-
-    	});
+    	})
     	$( "#logoutMember" ).click(function() {
     		sessionStorage.removeItem("member_id"); 
     		sessionStorage.removeItem("member_name"); 
     		sessionStorage.removeItem("member_phone"); 
     		sessionStorage.removeItem("member_email"); 
     		location.href = "browse.html";
-    	});
-
+    	})
         
        
            	// 列出符合篩選的商品
             function searching(){
             	
-           		//$.ajax({
-				
+	    	
+				var dateary1 = $("#checkin").val()
+            	var for_date1 = dateary1.split("/")
+            	var year1 = for_date1[2]
+            	for_date1[2] = for_date1[1] 
+            	for_date1[1] = for_date1[0]
+            	for_date1[0] = year1
+            	var new_date1 =new Date(for_date1[0]+"-"+for_date1[1]+"-"+for_date1[2])
+            	//alert(new_date1)
+            	
+            	var dateary2 = $("#checkout").val()
+            	var for_date2 = dateary2.split("/")
+            	var year2 = for_date2[2]
+            	for_date2[2] = for_date2[1] 
+            	for_date2[1] = for_date2[0]
+            	for_date2[0] = year2
+            	var new_date2 =new Date(for_date2[0]+"-"+for_date2[1]+"-"+for_date2[2])
+            	//alert(new_date2)
+            	
+            	if(dateary1 == "" || dateary2 == ""){
+            		alert("日期欄位不可空白!")
+            	}
+            	else if(new_date1 > new_date2){
+            		alert("入住日期不可在退房日期前!")
+            	}else{
             	
             	$.ajax({ 
                     type: "GET",
@@ -577,11 +598,13 @@
                     	if (response.status == 200) {
                     	var product_panel = '';
                     	$("#product_panel").empty();
-                    	console.log("test1");
+                    	
                     	$.each(response.response.data, function (){
-                    		console.log(this.name);                           	
-                    		if(filter(this) && location_input(this) && budget_check(this)&& dateSelect(this)){// 
 
+                    		
+                    		
+                    		if(filter(this) && location_input(this) && budget_check(this) && dateCheck(this)){
+				
                     			product_panel += addProduct(this);
                     		}
                     		
@@ -595,11 +618,11 @@
                       alert("無法連線到伺服器！");
                     }
                   });
+            	}
             }
             
             //商品符合篩選條件return true
             function filter(data){
-            	console.log("filter");
             	var vals = [];
         		$('input:checkbox:checked').each(function(index, item){
         			vals.push($(this).val());
@@ -619,7 +642,6 @@
             
             //地點有使用者輸入的string return true
             function location_input(data){
-            	console.log("location");
             	var input_s = $("#location_input").val();
             	if(data["address"].includes(input_s) || data["name"].includes(input_s)){
             		return true;
@@ -628,57 +650,77 @@
             }
             
 
-            //選擇入住時段
-            function dateSelect(data){
-            	var date_status = 0;
-            	console.log("dateselect");
-            	var check_in_date =new Date( $("#checkin").val());
-            	var check_out_date = new Date($("#checkout").val());            	            	
+            
+            function dateCheck(data){
+            	var return_status = '';
+            	var dateary1 = $("#checkin").val()
+            	var for_date1 = dateary1.split("/")
+            	var year1 = for_date1[2]
+            	for_date1[2] = for_date1[1] 
+            	for_date1[1] = for_date1[0]
+            	for_date1[0] = year1
+            	var new_date1 =new Date(for_date1[0]+"-"+for_date1[1]+"-"+for_date1[2])
+            	//alert(new_date1)
+            	
+            	var dateary2 = $("#checkout").val()
+            	var for_date2 = dateary2.split("/")
+            	var year2 = for_date2[2]
+            	for_date2[2] = for_date2[1] 
+            	for_date2[1] = for_date2[0]
+            	for_date2[0] = year2
+            	var new_date2 =new Date(for_date2[0]+"-"+for_date2[1]+"-"+for_date2[2])
+            	//alert(new_date2)
+            	var status ;
             	$.ajax({ 
                     type: "GET",
-                    url: "api/order.do",                    
+                    url: "api/order.do",
                     crossDomain: true,
                     cache: false,
                     dataType: 'json',
+                    async : false,
                     timeout: 5000,
                     success: function (response) {                   	                   	
                     	if (response.status == 200) {
-                    	var product_panel = '';
-                    	$("#product_panel").empty();
+                    		var sta = 0
+                    		
                     	$.each(response.response.data, function (){
-            		 		    console.log(data.name);
-            		 		    console.log(this.order_info.room_name);
-                    			if(this.order_info.room_name==data.name){
-                    		 		var check_in = new Date(this.order_info.check_in);                   		 	
-                        			var check_out = new Date(this.order_info.check_out);                       			
-                        			
-                        			if(check_in_date<check_in&&check_out_date<check_in){
-                        				console.log("1");                        				
-                        			}
-                        			else if(check_in_date>check_out&&check_out_date>check_out){
-                        				console.log("2");
-                        			}
-                        			else{
-                        				console.log("3");                        				                       				
-                        				
-                        			}
-                    		 	}                    		
+
+                    		if(data.name == this.order_info.room_name){
+                    			
+                    			
+	                    		var order_checkin = new Date(this.order_info.check_in)
+	                    		var order_checkout = new Date(this.order_info.check_out)
+	                    		
+	                    		if(new_date1 > order_checkout || (new_date1 < order_checkin && new_date2 < order_checkin)){
+	                    			
+	                    		}else {
+	                    			 sta = 1;
+	                    		}
+	                    		
+                    		}
+
                     	})                    	
-                                    	
+                    	
+                    	if(sta == 0){
+                    		status = true
+                    	}else status = false          	
                       }
                     },
                     error: function () {
                       alert("無法連線到伺服器！");
                     }
-                  });
-            	console.log("finished");
-            	console.log(date_status); 
-            	return date_status;
+
+                  });     
+            	
+            	
+				return status
+            	
+
             }
+            
 
             // 價格在預算之間return true
             function budget_check(data){
-            	console.log("budget");
             	let budget_input = $("#amount").val();
              	var budget = budget_input.split(" ");
              	var low = parseInt(budget[0].replace("$", ""));
@@ -808,6 +850,7 @@
             	
             	return inner_html;	
             }
+            
            
         </script>
 

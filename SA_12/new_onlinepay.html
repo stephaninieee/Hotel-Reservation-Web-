@@ -278,7 +278,7 @@
 		var checkintime = new Date(sessionStorage.getItem("checkin"));
 		var checkouttime = new Date(sessionStorage.getItem("checkout"));
 		var diff = checkouttime.getTime()-checkintime.getTime();
-		total = parseFloat(price)*diff/(1000*3600*24);
+		total = parseInt(parseFloat(price)*diff/(1000*3600*24));
 		
 		return total;
 	}

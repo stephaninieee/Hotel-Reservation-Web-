@@ -153,7 +153,7 @@ public class OrderHelper {
                 String room_name = rs.getString("room_name");
                 String coupon_name = rs.getString("coupon_name");
                 int price = rs.getInt("price");
-                System.out.print(price);
+                
                 String status = rs.getString("status");
                
                 Date check_in = (Date)rs.getTimestamp("check_in");

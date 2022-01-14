@@ -228,28 +228,30 @@
     			"checkin": $("#datepicker1").val(),
     			"checkout": $("#datepicker2").val()
     		}
-	
-		pass_vaild = vaildData(data);
-    	if (pass_vaild) {
-    		//var data_string = JSON.stringify(data);
-    		
-    		sessionStorage.setItem("last_name",$("#last_name").val());
-    		sessionStorage.setItem("first_name",$("#first_name").val());
-    		sessionStorage.setItem("email",$("#email").val());
-    		sessionStorage.setItem("coupon",$("#coupon").val());
-    		sessionStorage.setItem("checkin",$("#datepicker1").val());
-    		sessionStorage.setItem("checkout",$("#datepicker2").val());
-    		
 		
-			if ($('input[name="pay"]:checked').val()=='onlinepay'){
-				location.href = 'new_onlinepay.html?id='+id+'&manager_id='+manager_id+'&room_name='+room_name;
-			}
-			else if($('input[name="pay"]:checked').val()=='scenepay'){
-				location.href = 'new_scenepay.html?id='+id+'&manager_id='+manager_id+'&room_name='+room_name;
-			}
-			else{
-				alert("請選擇付款方式");
-			}
+		
+    	if (vaildData(data)) {
+	    		//var data_string = JSON.stringify(data);
+	    		if(dateCheck()){
+	    		
+	    		sessionStorage.setItem("last_name",$("#last_name").val());
+	    		sessionStorage.setItem("first_name",$("#first_name").val());
+	    		sessionStorage.setItem("email",$("#email").val());
+	    		sessionStorage.setItem("coupon",$("#coupon").val());
+	    		sessionStorage.setItem("checkin",$("#datepicker1").val());
+	    		sessionStorage.setItem("checkout",$("#datepicker2").val());
+	    		
+			
+				if ($('input[name="pay"]:checked').val()=='onlinepay'){
+					location.href = 'new_onlinepay.html?id='+id+'&manager_id='+manager_id+'&room_name='+room_name;
+				}
+				else if($('input[name="pay"]:checked').val()=='scenepay'){
+					location.href = 'new_scenepay.html?id='+id+'&manager_id='+manager_id+'&room_name='+room_name;
+				}
+				else{
+					alert("請選擇付款方式");
+				}
+    		}
     	}                
 	};
 	
@@ -258,6 +260,7 @@
     	var phone_rule = /^09\d{2}-\d{3}-\d{3}$/;
     	var checkintime = new Date(data['checkin']);
 		var checkouttime = new Date(data['checkout']);
+		var now = new Date();
     	
 		if(data["last_name"]+data["first_name"] != member_name) alert("請輸入跟會員一樣的名稱!");
 		else if (data["first_name"] == "" || data["last_name"] == "" || data['email'] == "" || data['emailconfirm'] == "" )  alert("必填寫欄位不得有空值！");
@@ -266,15 +269,86 @@
     	else if (data['email']!= data['emailconfirm']){
     		alert("email確認錯誤");
     	}
+    	else if(checkintime <=now || checkouttime <=now ){
+    		alert("不好意思，你可能要搭時光機才能預約到那美好的日子");
+    	}
     	else if(data['checkin']>data['checkout']){
     		alert("入住日期不得於退房日期之後");
     	}
     	else if(data['checkin']==data['checkout']){
     		alert("入住日期不得與退房日期相同");
     	}
+		
     	else return true;
 
     	return false;
+    }
+	
+	function dateCheck(){
+    	var return_status = '';
+    	/*var dateary1 = $("#checkin").val()
+    	var for_date1 = dateary1.split("/")
+    	var year1 = for_date1[2]
+    	for_date1[2] = for_date1[1] 
+    	for_date1[1] = for_date1[0]
+    	for_date1[0] = year1*/
+    	var new_date1 =new Date($("#datepicker1").val())
+    	//alert(new_date1)
+    	
+    	/*var dateary2 = $("#checkout").val()
+    	var for_date2 = dateary2.split("/")
+    	var year2 = for_date2[2]
+    	for_date2[2] = for_date2[1] 
+    	for_date2[1] = for_date2[0]
+    	for_date2[0] = year2*/
+    	var new_date2 =new Date($("#datepicker2").val())
+    	//alert(new_date2)
+    	var status ;
+    	$.ajax({ 
+            type: "GET",
+            url: "api/order.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            async : false,
+            timeout: 5000,
+            success: function (response) {                   	                   	
+            	if (response.status == 200) {
+            		var sta = 0
+            		
+            	$.each(response.response.data, function (){
+            		if(room_name == this.order_info.room_name){
+            			
+            			
+                		var order_checkin = new Date(this.order_info.check_in)
+                		var order_checkout = new Date(this.order_info.check_out)
+                		
+                		if(new_date1 > order_checkout || (new_date1 < order_checkin && new_date2 < order_checkin)){
+                			
+                		}else {
+                			 sta = 1;
+                		}
+                		
+            		}
+            	})                    	
+            	
+            	if(sta == 0){
+            		status = true
+            	}
+            	else {
+            		alert("輸入日期已有預約");
+            		status = false          	
+            	}
+              }
+            },
+            error: function () {
+              alert("無法連線到伺服器！");
+            }
+          });     
+    	
+    	
+		return status
+    	
     }
 	
 	//確認優惠碼

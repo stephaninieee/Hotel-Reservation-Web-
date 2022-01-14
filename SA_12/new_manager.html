@@ -67,7 +67,7 @@
                     <p class="" style="font-size: 18px; font-weight: 900;">刊登中的房屋</p>
                     <table class="table mb-5">
                         <thead class="table-light">
-                            <td>id</td><td>住宿名稱</td><td>地址</td><td>價格</td><td>星級</td><td> </td>
+                            <td>住宿名稱</td><td>地址</td><td>價格</td><td>星級</td><td> </td>
                         </thead>
                         <tbody id="property_panel">
                           
@@ -85,7 +85,7 @@
                     <p class="" style="font-size: 18px; font-weight: 900;">所有訂單</p>
                     <table class="table">
                         <thead class="table-light">
-                            <td>id</td><td>訂房人</td><td>房間</td><td>價格</td><td>優惠</td><td>入住日期</td><td>退房日期</td><td>狀態</td><td>建立時間</td><td> </td>
+                            <td>訂房人</td><td>房間</td><td>價格</td><td>優惠</td><td>入住日期</td><td>退房日期</td><td>狀態</td><td>建立時間</td><td> </td>
                         </thead>
                         <tbody id="order_panel">
                           
@@ -197,7 +197,7 @@ getOrder();
 function addProperty(data){
 	let inner_html = "";
 	inner_html += "<tr>";
-    inner_html += "<td>"+ data.id + "</td><td>" + data.name + "</td><td>" + data.address + "</td><td>$" + data.price + "</td><td>" + data.avgrate + '</td><td><a type="button" class="btn btn-sm btn-secondary" href="edit_property.html?id='+ data.id + '">修改</a>       <a type="button" class="btn btn-sm btn-secondary" href="product_infor.html?id=' + data.id + '">查看</a>       <a type="button" class="btn btn-sm btn-danger" onclick="deleteProperty(this)" room_id="'+ data.id +'" href="">刪除</a></td>';
+    inner_html += "<td>" + data.name + "</td><td>" + data.address + "</td><td>$" + data.price + "</td><td>" + data.avgrate + '</td><td><a type="button" class="btn btn-sm btn-secondary" href="edit_property.html?id='+ data.id + '">修改</a>       <a type="button" class="btn btn-sm btn-secondary" href="product_infor.html?id=' + data.id + '">查看</a>       <a type="button" class="btn btn-sm btn-danger" onclick="deleteProperty(this)" room_id="'+ data.id +'" href="">刪除</a></td>';
     inner_html += "</tr>";
     return inner_html;
 }
@@ -205,7 +205,9 @@ function addProperty(data){
 function addOrder(data){
 	let inner_html = "";
 	inner_html += "<tr>";
+
     inner_html += "<td>"+ data.id +"</td><td>"+ data.member_name + "</td><td>" + data.room_name + "</td><td>$"+data.price+"</td><td>" + data.coupon_name + "</td><td>" + data.check_in.split(" ")[0] + "</td><td>" + data.check_out.split(" ")[0] + "</td><td>" +data.status +"</td><td>" +  data.create  + '<td><a type="button" class="btn btn-sm btn-danger" onclick="deleteOrder(this)" order_id="'+ data.id +'" href="">刪除</a></td>';
+
     inner_html += "</tr>";
     return inner_html;
 }

@@ -579,11 +579,8 @@
                     	$("#product_panel").empty();
                     	console.log("test1");
                     	$.each(response.response.data, function (){
-                    		console.log(this.name);
-                           	var a = dateSelect(this);
-                           	console.log("test?");
-                           	console.log(a);
-                    		if(filter(this) && location_input(this) && budget_check(this)&& dateSelect(this) ){//
+                    		console.log(this.name);                           	
+                    		if(filter(this) && location_input(this) && budget_check(this)&& dateSelect(this)){// 
 
                     			product_panel += addProduct(this);
                     		}
@@ -662,8 +659,8 @@
                         				console.log("2");
                         			}
                         			else{
-                        				console.log("3");                        				
-                        				date_status +=1 ;
+                        				console.log("3");                        				                       				
+                        				
                         			}
                     		 	}                    		
                     	})                    	
@@ -675,13 +672,8 @@
                     }
                   });
             	console.log("finished");
-            	if(date_status==0){
-            		console.log("true");
-            		return true;
-            	}else{
-            		console.log("false");
-            		return false;
-            	}
+            	console.log(date_status); 
+            	return date_status;
             }
 
             // 價格在預算之間return true

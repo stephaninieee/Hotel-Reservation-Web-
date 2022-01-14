@@ -186,7 +186,8 @@ public class Order {
      * @return JSONObject 取得訂單基本資料
      */
     public JSONObject getOrderData() {
-        JSONObject jso = new JSONObject();        
+        JSONObject jso = new JSONObject();  
+        jso.put("id", getId());
         jso.put("member_name", getMemberName());
         jso.put("room_name", getRoomName());
         jso.put("coupon_name", getCouponName());

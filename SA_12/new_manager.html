@@ -205,7 +205,7 @@ function addProperty(data){
 function addOrder(data){
 	let inner_html = "";
 	inner_html += "<tr>";
-    inner_html += "<td>"+ data.id +"</td><td>"+ data.member_name + "</td><td>" + data.room_name + "</td><td>$"+data.price+"</td><td>" + data.coupon_name + "</td><td>" + data.check_in + "</td><td>" + data.check_out + "</td><td>" +data.status +"</td><td>" +  data.create  + '<td><a type="button" class="btn btn-sm btn-danger" onclick="deleteOrder(this)" order_id="'+ data.id +'" href="">刪除</a></td>';
+    inner_html += "<td>"+ data.id +"</td><td>"+ data.member_name + "</td><td>" + data.room_name + "</td><td>$"+data.price+"</td><td>" + data.coupon_name + "</td><td>" + data.check_in.split(" ")[0] + "</td><td>" + data.check_out.split(" ")[0] + "</td><td>" +data.status +"</td><td>" +  data.create  + '<td><a type="button" class="btn btn-sm btn-danger" onclick="deleteOrder(this)" order_id="'+ data.id +'" href="">刪除</a></td>';
     inner_html += "</tr>";
     return inner_html;
 }

@@ -418,11 +418,19 @@
     	//$("#coupon").attr("disabled", true);
     }
     
-    $( function() {
+    /*$( function() {
         $( "#datepicker1" ).datepicker();
         $( "#datepicker2" ).datepicker();
-      } );
+      } );*/
     
+    $(function() { 
+        $('#datepicker1').datepicker({ 
+         minDate:new Date() 
+         }); 
+        $('#datepicker2').datepicker({ 
+            minDate:new Date() 
+          });
+    }); 
     
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>

@@ -47,8 +47,7 @@ public class OrderHelper {
             Date check_in = order.getCheckIn();
             Date check_in8 = addHoursToJavaUtilDate(check_in,8);
 
-                  
-            
+
             /** 取得所需之參數 */
 
             String member_name = order.getMemberName();
